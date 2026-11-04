@@ -1,0 +1,6 @@
+pmOnFail: ignore
+nodeLinker: hoisted
+
+minimumReleaseAgeExclude:
+  - '@next/*'
+  - next

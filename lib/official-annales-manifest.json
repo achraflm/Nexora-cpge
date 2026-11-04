@@ -1,0 +1,4610 @@
+[
+  {
+    "concours": "ccinp",
+    "year": 2014,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2014_Maths_1_Enonce.pdf",
+      "pages": 8,
+      "size": 126174
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2014/MP-Math1%20(1).pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2014,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2014_Maths_2_Enonce.pdf",
+      "pages": 8,
+      "size": 130071
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2014/MP-Math2.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2014,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2014_Physique_1_Enonce.pdf",
+      "pages": 16,
+      "size": 1563209
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2014/MP-Phys1.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2014,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2014_Physique_2_Enonce.pdf",
+      "pages": 16,
+      "size": 1501656
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2014/MP-Phys2.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2014,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/ccinp/mp/chimie/CCINP_MP_2014_Chimie_Enonce.pdf",
+      "pages": 8,
+      "size": 145330
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2014/MP-Chimie.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2014,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2014_SII_Enonce.pdf",
+      "pages": 19,
+      "size": 2332789
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2014/MP-SI.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2014,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2014_Informatique_Enonce.pdf",
+      "pages": 24,
+      "size": 252284
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2014/MP-Info.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2015,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2015_Maths_1_Enonce.pdf",
+      "pages": 4,
+      "size": 292826
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2015/MP-Math1.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2015,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2015_Maths_2_Enonce.pdf",
+      "pages": 8,
+      "size": 206491
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2015/MP-Math2.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2015,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2015_Physique_1_Enonce.pdf",
+      "pages": 20,
+      "size": 1794786
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2015/MP-Phys.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2015,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2015_Physique_2_Enonce.pdf",
+      "pages": 16,
+      "size": 583378
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2015/MP-Phys_Chim.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2015,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2015_SII_Enonce.pdf",
+      "pages": 22,
+      "size": 2687079
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2015/MP-SI.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2015,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2015_Informatique_Enonce.pdf",
+      "pages": 16,
+      "size": 366957
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2015/MP-Info.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2016,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2016_Maths_1_Enonce.pdf",
+      "pages": 4,
+      "size": 154148
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2016/MP-Math1%20(1).pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2016,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2016_Maths_2_Enonce.pdf",
+      "pages": 8,
+      "size": 181908
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2016/MP-Math2.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2016,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2016_Physique_1_Enonce.pdf",
+      "pages": 8,
+      "size": 463398
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2016/MP-Phys.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2016,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2016_Physique_2_Enonce.pdf",
+      "pages": 18,
+      "size": 1768058
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2016/MP-Phys_Chim.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2016,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2016_SII_Enonce.pdf",
+      "pages": 18,
+      "size": 2186144
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2016/MP-SI.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2016,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2016_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 272449
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2016/MP-Info.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2017,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2017_Maths_1_Enonce.pdf",
+      "pages": 4,
+      "size": 194984
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2017/MP-Math1.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2017,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2017_Maths_2_Enonce.pdf",
+      "pages": 8,
+      "size": 266202
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2017/MP-Math2.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2017,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2017_Physique_1_Enonce.pdf",
+      "pages": 16,
+      "size": 602114
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2017/MP-Phys.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2017,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2017_Physique_2_Enonce.pdf",
+      "pages": 16,
+      "size": 1329997
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2017/MP-Phys_Chim.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2017,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2017_SII_Enonce.pdf",
+      "pages": 20,
+      "size": 1955333
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2017/MP-SI.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2017,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2017_Informatique_Enonce.pdf",
+      "pages": 12,
+      "size": 298536
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2017/MP-Info.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2018,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2018_Maths_1_Enonce.pdf",
+      "pages": 8,
+      "size": 241676
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2018/MP-Math1.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2018,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2018_Maths_2_Enonce.pdf",
+      "pages": 8,
+      "size": 340771
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2018/MP-Math2.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2018,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2018_Physique_1_Enonce.pdf",
+      "pages": 16,
+      "size": 887099
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2018/MP-Phys.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2018,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2018_Physique_2_Enonce.pdf",
+      "pages": 16,
+      "size": 1954215
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2018/MP-Phys_Chim.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2018,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2018_SII_Enonce.pdf",
+      "pages": 20,
+      "size": 3863055
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2018/MP-SI.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2018,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2018_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 249120
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2018/MP-Info.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2019,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2019_Maths_1_Enonce.pdf",
+      "pages": 4,
+      "size": 258704
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2019/Maths1-19.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2019,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2019_Maths_2_Enonce.pdf",
+      "pages": 8,
+      "size": 410531
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2019/Maths2-19.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2019,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2019_Physique_1_Enonce.pdf",
+      "pages": 20,
+      "size": 1237116
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2019/Physique-19.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2019,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2019_Physique_2_Enonce.pdf",
+      "pages": 16,
+      "size": 825545
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2019/Physique-Chimie-19.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2019,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2019_SII_Enonce.pdf",
+      "pages": 20,
+      "size": 1946693
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2019/SI-19.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2019,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2019_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 210900
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2019/Informatique-19.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2020,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2020_Maths_1_Enonce.pdf",
+      "pages": 8,
+      "size": 405876
+    },
+    "source": "https://www.concours-commun-inp.fr/_attachment/annales-mp-article/MP1M1_mathematiques_1.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2020,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2020_Maths_2_Enonce.pdf",
+      "pages": 4,
+      "size": 280108
+    },
+    "source": "https://www.concours-commun-inp.fr/_attachment/annales-mp-article/MP3M2_mathematiques_2.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2020,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2020_Physique_1_Enonce.pdf",
+      "pages": 20,
+      "size": 1878806
+    },
+    "source": "https://www.concours-commun-inp.fr/_attachment/annales-mp-article/MP5P_physique.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2020,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2020_Physique_2_Enonce.pdf",
+      "pages": 16,
+      "size": 1137997
+    },
+    "source": "https://www.concours-commun-inp.fr/_attachment/annales-mp-article/MP2PC_physique_chimie.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2020,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2020_SII_Enonce.pdf",
+      "pages": 20,
+      "size": 1267620
+    },
+    "source": "https://www.concours-commun-inp.fr/_attachment/annales-mp-article/MP7SI_sciences_industrielles.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2020,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2020_Informatique_Enonce.pdf",
+      "pages": 12,
+      "size": 316786
+    },
+    "source": "https://www.concours-commun-inp.fr/_attachment/annales-mp-article/MP7IN_informatique.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2021,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2021_Maths_1_Enonce.pdf",
+      "pages": 8,
+      "size": 432686
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2021/MP/MP1M1.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2021,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2021_Maths_2_Enonce.pdf",
+      "pages": 4,
+      "size": 438751
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2021/MP/MP3M2.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2021,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2021_Physique_1_Enonce.pdf",
+      "pages": 20,
+      "size": 2308406
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2021/MP/MP5P.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2021,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2021_Physique_2_Enonce.pdf",
+      "pages": 16,
+      "size": 1379566
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2021/MP/MP2PC.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2021,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2021_SII_Enonce.pdf",
+      "pages": 24,
+      "size": 3277095
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2021/MP/MP7SI.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2021,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2021_Informatique_Enonce.pdf",
+      "pages": 12,
+      "size": 327829
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2021/MP/MP7IN.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2022,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2022_Maths_1_Enonce.pdf",
+      "pages": 8,
+      "size": 417480
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2022/MP/MP1Maths1.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2022,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2022_Maths_2_Enonce.pdf",
+      "pages": 8,
+      "size": 390602
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2022/MP/MP3Maths%202.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2022,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2022_Physique_1_Enonce.pdf",
+      "pages": 16,
+      "size": 1359056
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2022/MP/MP5Physique.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2022,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2022_Physique_2_Enonce.pdf",
+      "pages": 20,
+      "size": 1792661
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2022/MP/MP2Physique-Chimie.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2022,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2022_SII_Enonce.pdf",
+      "pages": 20,
+      "size": 1733805
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2022/MP/MP7SI.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2022,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2022_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 242874
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2022/MP/MP7Informatique.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2023,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2023_Maths_1_Enonce.pdf",
+      "pages": 8,
+      "size": 409050
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2023/MP1M1.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2023,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2023_Maths_2_Enonce.pdf",
+      "pages": 8,
+      "size": 432983
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2023/MP3M2.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2023,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2023_Physique_1_Enonce.pdf",
+      "pages": 16,
+      "size": 1902509
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2023/MP5P.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2023,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2023_Physique_2_Enonce.pdf",
+      "pages": 16,
+      "size": 839460
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2023/MP2PC.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2023,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2023_SII_Enonce.pdf",
+      "pages": 24,
+      "size": 3490349
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2023/MP7SI.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2023,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2023_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 315739
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/MP/2023/MP7IN.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2024,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2024_Maths_1_Enonce.pdf",
+      "pages": 4,
+      "size": 350802
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2024/MP/2024_MP1M1.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2024,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2024_Maths_2_Enonce.pdf",
+      "pages": 8,
+      "size": 419359
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2024/MP/2024_MP3M2.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2024,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2024_Physique_1_Enonce.pdf",
+      "pages": 16,
+      "size": 1241960
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2024/MP/2024_MP5P.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2024,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2024_Physique_2_Enonce.pdf",
+      "pages": 20,
+      "size": 5117239
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2024/MP/2024_MP2PC.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2024,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2024_SII_Enonce.pdf",
+      "pages": 28,
+      "size": 9248786
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2024/MP/2024_MP7SI.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2024,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2024_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 317270
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2024/MP/2024_MP7IN.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2025,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2025_Maths_1_Enonce.pdf",
+      "pages": 8,
+      "size": 305998
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2025/MP/Maths1_2025.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2025,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2025_Maths_2_Enonce.pdf",
+      "pages": 8,
+      "size": 466012
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2025/MP/Maths%202_2025.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2025,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2025_Physique_1_Enonce.pdf",
+      "pages": 20,
+      "size": 920079
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2025/MP/Physique_2025.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2025,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2025_Physique_2_Enonce.pdf",
+      "pages": 12,
+      "size": 1171558
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2025/MP/Physique_Chimie_2025.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2025,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2025_SII_Enonce.pdf",
+      "pages": 24,
+      "size": 2341324
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2025/MP/Sciences%20Industrielles_2025.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2025,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2025_Informatique_Enonce.pdf",
+      "pages": 16,
+      "size": 879818
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2025/MP/Informatique_2025.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2026,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2026_Maths_1_Enonce.pdf",
+      "pages": 4,
+      "size": 266292
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2026/MP/2026_MP1M1.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2026,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/maths/CCINP_MP_2026_Maths_2_Enonce.pdf",
+      "pages": 4,
+      "size": 320820
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2026/MP/2026_MP3M2.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2026,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2026_Physique_1_Enonce.pdf",
+      "pages": 16,
+      "size": 1365881
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2026/MP/2026_MP5P.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2026,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/ccinp/mp/physique/CCINP_MP_2026_Physique_2_Enonce.pdf",
+      "pages": 16,
+      "size": 1112231
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2026/MP/2026_MP2PC.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2026,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/ccinp/mp/si/CCINP_MP_2026_SII_Enonce.pdf",
+      "pages": 16,
+      "size": 1616976
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2026/MP/2026_MP7SI_SUJET.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "ccinp",
+    "year": 2026,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/ccinp/mp/info/CCINP_MP_2026_Informatique_Enonce.pdf",
+      "pages": 12,
+      "size": 241708
+    },
+    "source": "https://www.concours-commun-inp.fr/_resource/annales%20%C3%A9crits/2026/MP/2026_MP7IN.pdf?download=true",
+    "attribution": "Sujet officiel © Concours Commun INP (CCINP)"
+  },
+  {
+    "concours": "centrale",
+    "year": 2017,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2017_Maths_1_Enonce.pdf",
+      "pages": 4,
+      "size": 90841
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/2015-106.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2017,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2017_Maths_2_Enonce.pdf",
+      "pages": 4,
+      "size": 87150
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/2015-006.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2017,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique-Chimie I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2017_Physique_1_Enonce.pdf",
+      "pages": 8,
+      "size": 1295206
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/2016-011.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2017,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2017_Physique_2_Enonce.pdf",
+      "pages": 12,
+      "size": 2415964
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/2016-002%2BDR.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2017,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/centrale/mp/si/CENTRALE_MP_2017_SII_Enonce.pdf",
+      "pages": 15,
+      "size": 2886153
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/2016-001%2BDR.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2017,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/centrale/mp/info/CENTRALE_MP_2017_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 982064
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/2014-028.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2017,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Rédaction",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2017_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 57110
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/2016-210.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2017,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2017_Langues_Enonce.pdf",
+      "pages": 30,
+      "size": 4379621
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/Langues%20vivantes%20MP-PC-PSI%202017.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2018,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2018_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 93633
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M007.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2018,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2018_Maths_2_Enonce.pdf",
+      "pages": 4,
+      "size": 78583
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M006.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2018,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique-Chimie I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2018_Physique_1_Enonce.pdf",
+      "pages": 8,
+      "size": 2639513
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P009.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2018,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2018_Physique_2_Enonce.pdf",
+      "pages": 9,
+      "size": 447384
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P027.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2018,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/centrale/mp/si/CENTRALE_MP_2018_SII_Enonce.pdf",
+      "pages": 19,
+      "size": 10392606
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/S001%2BDR.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2018,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/centrale/mp/info/CENTRALE_MP_2018_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 110910
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/I003.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2018,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Rédaction",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2018_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 51802
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/R005.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2018,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2018_Langues_Enonce.pdf",
+      "pages": 29,
+      "size": 4146731
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/Langues%20vivantes%20MP-PC-PSI%202018.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2019,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2019_Maths_1_Enonce.pdf",
+      "pages": 4,
+      "size": 77930
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M005_0.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2019,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2019_Maths_2_Enonce.pdf",
+      "pages": 4,
+      "size": 65373
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M010.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2019,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique-Chimie I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2019_Physique_1_Enonce.pdf",
+      "pages": 11,
+      "size": 980989
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P010.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2019,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2019_Physique_2_Enonce.pdf",
+      "pages": 12,
+      "size": 721826
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P017.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2019,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/centrale/mp/si/CENTRALE_MP_2019_SII_Enonce.pdf",
+      "pages": 16,
+      "size": 2474365
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/S007%2BDR.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2019,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/centrale/mp/info/CENTRALE_MP_2019_Informatique_Enonce.pdf",
+      "pages": 10,
+      "size": 283369
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/I005.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2019,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Rédaction",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2019_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 56085
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/R036.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2019,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2019_Langues_Enonce.pdf",
+      "pages": 29,
+      "size": 6230462
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/Langues%20vivantes%20MP-PC-PSI%202019.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2020,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2020_Maths_1_Enonce.pdf",
+      "pages": 5,
+      "size": 102683
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M032.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2020,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2020_Maths_2_Enonce.pdf",
+      "pages": 4,
+      "size": 80393
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M022.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2020,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique-Chimie I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2020_Physique_1_Enonce.pdf",
+      "pages": 7,
+      "size": 580976
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P019.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2020,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2020_Physique_2_Enonce.pdf",
+      "pages": 8,
+      "size": 1264905
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P031.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2020,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/centrale/mp/si/CENTRALE_MP_2020_SII_Enonce.pdf",
+      "pages": 17,
+      "size": 1222463
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/S009%2BDR.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2020,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/centrale/mp/info/CENTRALE_MP_2020_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 4565296
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/I001.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2020,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Rédaction",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2020_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 58156
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/R044.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2020,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2020_Langues_Enonce.pdf",
+      "pages": 29,
+      "size": 4685656
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/Langues%20vivantes%20MP-PC-PSI%202020.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2021,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2021_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 109484
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M042.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2021,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2021_Maths_2_Enonce.pdf",
+      "pages": 4,
+      "size": 83524
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M033.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2021,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique-Chimie I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2021_Physique_1_Enonce.pdf",
+      "pages": 10,
+      "size": 437506
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P039.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2021,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2021_Physique_2_Enonce.pdf",
+      "pages": 9,
+      "size": 950756
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P021.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2021,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/centrale/mp/si/CENTRALE_MP_2021_SII_Enonce.pdf",
+      "pages": 21,
+      "size": 8441921
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/S013.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2021,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/centrale/mp/info/CENTRALE_MP_2021_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 1738314
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/I007.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2021,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Rédaction",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2021_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 57474
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/R065.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2021,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2021_Langues_Enonce.pdf",
+      "pages": 30,
+      "size": 2434012
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/Langues%20vivantes%20MP-PC-PSI%202021.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2022,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2022_Maths_1_Enonce.pdf",
+      "pages": 5,
+      "size": 92361
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M035.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2022,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2022_Maths_2_Enonce.pdf",
+      "pages": 4,
+      "size": 81690
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M041.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2022,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique-Chimie I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2022_Physique_1_Enonce.pdf",
+      "pages": 8,
+      "size": 653597
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P040.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2022,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2022_Physique_2_Enonce.pdf",
+      "pages": 13,
+      "size": 546180
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P049%2BDR.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2022,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/centrale/mp/si/CENTRALE_MP_2022_SII_Enonce.pdf",
+      "pages": 19,
+      "size": 639107
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/S015%2BDR.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2022,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/centrale/mp/info/CENTRALE_MP_2022_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 103010
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/I004.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2022,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Rédaction",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2022_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 52299
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/R074.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2022,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2022_Langues_Enonce.pdf",
+      "pages": 31,
+      "size": 4723397
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/Langues%20vivantes%20MP-PC-PSI%202022.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2023,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2023_Maths_1_Enonce.pdf",
+      "pages": 5,
+      "size": 79627
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/2025-01/M048.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2023,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2023_Maths_2_Enonce.pdf",
+      "pages": 5,
+      "size": 76757
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M049.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2023,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique-Chimie I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2023_Physique_1_Enonce.pdf",
+      "pages": 15,
+      "size": 2907136
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P056%2BDR.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2023,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2023_Physique_2_Enonce.pdf",
+      "pages": 9,
+      "size": 538440
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P059.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2023,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/centrale/mp/si/CENTRALE_MP_2023_SII_Enonce.pdf",
+      "pages": 17,
+      "size": 1266082
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/S017.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2023,
+    "matiere": "info",
+    "code": "info",
+    "label": "Option informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/centrale/mp/info/CENTRALE_MP_2023_Informatique_Enonce.pdf",
+      "pages": 5,
+      "size": 101986
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/I014.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2023,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Rédaction",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2023_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 49237
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/R083.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2023,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2023_Langues_Enonce.pdf",
+      "pages": 29,
+      "size": 4202233
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/Langues%20vivantes%20MP-MPI-PC-PSI%202023.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2024,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2024_Maths_1_Enonce.pdf",
+      "pages": 4,
+      "size": 80749
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/2025-01/M055.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2024,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2024_Maths_2_Enonce.pdf",
+      "pages": 4,
+      "size": 74185
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/2025-01/M064.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2024,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique-Chimie I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2024_Physique_1_Enonce.pdf",
+      "pages": 10,
+      "size": 3271150
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/2025-01/P030.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2024,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2024_Physique_2_Enonce.pdf",
+      "pages": 8,
+      "size": 1682213
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/2025-01/P070.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2024,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/centrale/mp/si/CENTRALE_MP_2024_SII_Enonce.pdf",
+      "pages": 22,
+      "size": 14524657
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/2025-01/S026.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2024,
+    "matiere": "info",
+    "code": "info",
+    "label": "Option informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/centrale/mp/info/CENTRALE_MP_2024_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 233229
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/2025-01/N004.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2024,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Rédaction",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2024_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 59491
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/2025-01/R118.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2024,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2024_Langues_Enonce.pdf",
+      "pages": 31,
+      "size": 5865448
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/Langues%20vivantes%20MP-MPI-PC-PSI%202024_3.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2025,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2025_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 351469
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M062.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2025,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2025_Maths_2_Enonce.pdf",
+      "pages": 6,
+      "size": 396885
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M065.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2025,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique-Chimie I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2025_Physique_1_Enonce.pdf",
+      "pages": 12,
+      "size": 940465
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P084.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2025,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2025_Physique_2_Enonce.pdf",
+      "pages": 14,
+      "size": 1552678
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P078_0.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2025,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/centrale/mp/si/CENTRALE_MP_2025_SII_Enonce.pdf",
+      "pages": 22,
+      "size": 6267447
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/S023_0.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2025,
+    "matiere": "info",
+    "code": "info",
+    "label": "Option informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/centrale/mp/info/CENTRALE_MP_2025_Informatique_Enonce.pdf",
+      "pages": 10,
+      "size": 205662
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/I019.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2025,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Rédaction",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2025_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 296840
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/R129.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2025,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2025_Langues_Enonce.pdf",
+      "pages": 31,
+      "size": 4399454
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/G055-LV08.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2026,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2026_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 399071
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M098.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2026,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/maths/CENTRALE_MP_2026_Maths_2_Enonce.pdf",
+      "pages": 6,
+      "size": 350403
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/M104.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2026,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique-Chimie I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2026_Physique_1_Enonce.pdf",
+      "pages": 10,
+      "size": 916468
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P086.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2026,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique-Chimie II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/centrale/mp/physique/CENTRALE_MP_2026_Physique_2_Enonce.pdf",
+      "pages": 8,
+      "size": 2711352
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/P097.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2026,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/centrale/mp/si/CENTRALE_MP_2026_SII_Enonce.pdf",
+      "pages": 18,
+      "size": 9854758
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/S028.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2026,
+    "matiere": "info",
+    "code": "info",
+    "label": "Option informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/centrale/mp/info/CENTRALE_MP_2026_Informatique_Enonce.pdf",
+      "pages": 9,
+      "size": 299135
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/I021.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2026,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Rédaction",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2026_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 284663
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/R131_1.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "centrale",
+    "year": 2026,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/centrale/mp/langues/CENTRALE_MP_2026_Langues_Enonce.pdf",
+      "pages": 34,
+      "size": 5499462
+    },
+    "source": "https://www.concours-centrale-supelec.fr/sites/default/files/documents/G079-LV009.pdf",
+    "attribution": "Sujet officiel © Concours Centrale-Supélec"
+  },
+  {
+    "concours": "mines",
+    "year": 2014,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2014_Maths_1_Enonce.pdf",
+      "pages": 4,
+      "size": 104317
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2014 : 2014/MP-2014/Math-MP-1-2014.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2014,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2014_Maths_2_Enonce.pdf",
+      "pages": 6,
+      "size": 109977
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2014 : 2014/MP-2014/Math-MP-2-2014.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2014,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2014_Physique_1_Enonce.pdf",
+      "pages": 6,
+      "size": 151902
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2014 : 2014/MP-2014/Physique-MP-1-2014.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2014,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2014_Physique_2_Enonce.pdf",
+      "pages": 7,
+      "size": 141935
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2014 : 2014/MP-2014/Physique-MP-2-2014.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2014,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2014_Chimie_Enonce.pdf",
+      "pages": 6,
+      "size": 287062
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2014 : 2014/MP-2014/Chimie-MP-2014.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2014,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2014_SII_Enonce.pdf",
+      "pages": 29,
+      "size": 2576573
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2014 : 2014/MP-2014/SI-MP-2014.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2014,
+    "matiere": "info",
+    "code": "info",
+    "label": "Option informatique",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2014_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 66439
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2014 : 2014/MP-2014/Info-MP-2014.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2014,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2014_Francais_Enonce.pdf",
+      "pages": 1,
+      "size": 111967
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2014 : 2014/EPREUVES-COMMUNES/Francais-2014.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2014,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2014_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 347233
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2014 : 2014/EPREUVES-COMMUNES/Langues-2014.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2015,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2015_Maths_1_Enonce.pdf",
+      "pages": 5,
+      "size": 104059
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2015 : 2015/MP-2015/Math-MP-1-2015.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2015,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2015_Maths_2_Enonce.pdf",
+      "pages": 5,
+      "size": 118688
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2015 : 2015/MP-2015/Math-MP-2-2015.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2015,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2015_Physique_1_Enonce.pdf",
+      "pages": 6,
+      "size": 238310
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2015 : 2015/MP-2015/Physique-MP-1-2015.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2015,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2015_Physique_2_Enonce.pdf",
+      "pages": 8,
+      "size": 178860
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2015 : 2015/MP-2015/Physique-MP-2-2015.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2015,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2015_Chimie_Enonce.pdf",
+      "pages": 6,
+      "size": 373046
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2015 : 2015/MP-2015/Chimie-MP-2015.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2015,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2015_SII_Enonce.pdf",
+      "pages": 28,
+      "size": 1334003
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2015 : 2015/MP-2015/SI-MP-2015.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2015,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2015_Informatique_Enonce.pdf",
+      "pages": 10,
+      "size": 278048
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2015 : 2015/EPREUVES-COMMUNES/IPT-2015.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2015,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2015_Francais_Enonce.pdf",
+      "pages": 1,
+      "size": 113067
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2015 : 2015/EPREUVES-COMMUNES/Francais-2015.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2015,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2015_Langues_Enonce.pdf",
+      "pages": 15,
+      "size": 474004
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2015 : 2015/EPREUVES-COMMUNES/Langues-2015.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2016,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2016_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 382662
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2016 : 2016/MP-2016/Math-MP-1-2016.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2016,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2016_Maths_2_Enonce.pdf",
+      "pages": 5,
+      "size": 346868
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2016 : 2016/MP-2016/Math-MP-2-2016.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2016,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2016_Physique_1_Enonce.pdf",
+      "pages": 7,
+      "size": 679240
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2016 : 2016/MP-2016/Physique-MP-1-2016.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2016,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2016_Physique_2_Enonce.pdf",
+      "pages": 8,
+      "size": 188555
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2016 : 2016/MP-2016/Physique-MP-2-2016.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2016,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2016_Chimie_Enonce.pdf",
+      "pages": 8,
+      "size": 647558
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2016 : 2016/MP-2016/Chimie-MP-2016.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2016,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2016_SII_Enonce.pdf",
+      "pages": 24,
+      "size": 4562832
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2016 : 2016/MP-2016/SI-MP-2016.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2016,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2016_Informatique_Enonce.pdf",
+      "pages": 10,
+      "size": 476874
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2016 : 2016/EPREUVES-COMMUNES/IPT-2016.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2016,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2016_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 221131
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2016 : 2016/EPREUVES-COMMUNES/Francais-2016.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2016,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2016_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 439657
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2016 : 2016/EPREUVES-COMMUNES/Langues-2016.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2017,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2017_Maths_1_Enonce.pdf",
+      "pages": 4,
+      "size": 434899
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2017 : 2017/MP-2017/Math-MP-1-2017.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2017,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2017_Maths_2_Enonce.pdf",
+      "pages": 6,
+      "size": 571030
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2017 : 2017/MP-2017/Maths-MP-2-2017.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2017,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2017_Physique_1_Enonce.pdf",
+      "pages": 7,
+      "size": 408225
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2017 : 2017/MP-2017/Physique-MP-1-2017.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2017,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2017_Physique_2_Enonce.pdf",
+      "pages": 5,
+      "size": 321397
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2017 : 2017/MP-2017/Physique-MP-2-2017.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2017,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2017_Chimie_Enonce.pdf",
+      "pages": 7,
+      "size": 668900
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2017 : 2017/MP-2017/Chimie-MP-2017.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2017,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2017_SII_Enonce.pdf",
+      "pages": 30,
+      "size": 2219364
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2017 : 2017/MP-2017/SI-MP-2017.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2017,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2017_Informatique_Enonce.pdf",
+      "pages": 8,
+      "size": 417742
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2017 : 2017/EPREUVES-COMMUNES/IPT-2017.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2017,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2017_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 455695
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2017 : 2017/EPREUVES-COMMUNES/Francais-2017.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2017,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2017_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 505291
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2017 : 2017/EPREUVES-COMMUNES/Langues-2017.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2018,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2018_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 299133
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2018 : 2018/MP-2018/Maths-MP-1-2018.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2018,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2018_Maths_2_Enonce.pdf",
+      "pages": 6,
+      "size": 309582
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2018 : 2018/MP-2018/Maths-MP-2-2018.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2018,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2018_Physique_1_Enonce.pdf",
+      "pages": 10,
+      "size": 556111
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2018 : 2018/MP-2018/Physique-MP-1-2018.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2018,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2018_Physique_2_Enonce.pdf",
+      "pages": 7,
+      "size": 186895
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2018 : 2018/MP-2018/Physique-MP-2-2018.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2018,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2018_Chimie_Enonce.pdf",
+      "pages": 7,
+      "size": 494161
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2018 : 2018/MP-2018/Chimie-MP-2018.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2018,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2018_SII_Enonce.pdf",
+      "pages": 24,
+      "size": 7743891
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2018 : 2018/MP-2018/SI-MP-2018.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2018,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2018_Informatique_Enonce.pdf",
+      "pages": 11,
+      "size": 1640576
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2018 : 2018/EPREUVES-COMMUNES-2018/Info-pour-tous-2018.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2018,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2018_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 421233
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2018 : 2018/EPREUVES-COMMUNES-2018/Francais-2018.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2018,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2018_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 570057
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2018 : 2018/EPREUVES-COMMUNES-2018/Langues-2018.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2019,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2019_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 546098
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2019 : 2019/MP-2019/Maths-MP-1-2019.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2019,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2019_Maths_2_Enonce.pdf",
+      "pages": 5,
+      "size": 248631
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2019 : 2019/MP-2019/Math-MP-2-2019.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2019,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2019_Physique_1_Enonce.pdf",
+      "pages": 7,
+      "size": 296699
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2019 : 2019/MP-2019/Physique-MP-1-2019.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2019,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2019_Physique_2_Enonce.pdf",
+      "pages": 7,
+      "size": 246337
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2019 : 2019/MP-2019/Physique-MP-2-2019.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2019,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2019_Chimie_Enonce.pdf",
+      "pages": 8,
+      "size": 528350
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2019 : 2019/MP-2019/CHIMIE-MP-2019.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2019,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2019_SII_Enonce.pdf",
+      "pages": 13,
+      "size": 1833634
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2019 : 2019/MP-2019/MP---SI.zip/MP - SI/SUJET-SI-MP-2019.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2019,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2019_Informatique_Enonce.pdf",
+      "pages": 10,
+      "size": 571905
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2019 : 2019/EPREUVES-COMMUNES-2019/IPT-2019.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2019,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2019_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 159158
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2019 : 2019/EPREUVES-COMMUNES-2019/Francais-2019.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2019,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2019_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 429128
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2019 : 2019/EPREUVES-COMMUNES-2019/Langues-2019.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2020,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2020_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 515176
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2020 : 2020/MP/Math-MP-1-2020.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2020,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2020_Maths_2_Enonce.pdf",
+      "pages": 6,
+      "size": 417499
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2020 : 2020/MP/Math-MP-2-2020.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2020,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2020_Physique_1_Enonce.pdf",
+      "pages": 11,
+      "size": 2316788
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2020 : 2020/MP/Physique-MP-1-2020.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2020,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2020_Physique_2_Enonce.pdf",
+      "pages": 8,
+      "size": 508225
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2020 : 2020/MP/Physique-MP-2-2020.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2020,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2020_Chimie_Enonce.pdf",
+      "pages": 8,
+      "size": 706628
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2020 : 2020/MP/Chimie-MP-2020.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2020,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2020_SII_Enonce.pdf",
+      "pages": 17,
+      "size": 1342268
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2020 : 2020/MP/SI-MP-Sujet-2020.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2020,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2020_Informatique_Enonce.pdf",
+      "pages": 13,
+      "size": 4741686
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2020 : 2020/EPREUVES-COMMUNES/IPT-2020.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2020,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2020_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 193556
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2020 : 2020/EPREUVES-COMMUNES/Francais-2020.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2020,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2020_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 414167
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2020 : 2020/EPREUVES-COMMUNES/Langues-2020.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2021,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2021_Maths_1_Enonce.pdf",
+      "pages": 5,
+      "size": 358645
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2021 : 2021/MP/Maths-MP-1-2021.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2021,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2021_Maths_2_Enonce.pdf",
+      "pages": 6,
+      "size": 359034
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2021 : 2021/MP/Maths-MP-2-2021.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2021,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2021_Physique_1_Enonce.pdf",
+      "pages": 7,
+      "size": 851225
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2021 : 2021/MP/Physique-MP-1-2021.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2021,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2021_Physique_2_Enonce.pdf",
+      "pages": 7,
+      "size": 2097846
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2021 : 2021/MP/Physique-MP-2-2021.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2021,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2021_Chimie_Enonce.pdf",
+      "pages": 6,
+      "size": 1107180
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2021 : 2021/MP/Chimie-MP-2021.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2021,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2021_SII_Enonce.pdf",
+      "pages": 16,
+      "size": 908854
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2021 : 2021/MP/SI-MP-2021/SI-MP-2021-Enonce.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2021,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2021_Informatique_Enonce.pdf",
+      "pages": 11,
+      "size": 555739
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2021 : 2021/EPREUVES-COMMUNES/IPT-2021.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2021,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2021_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 208530
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2021 : 2021/EPREUVES-COMMUNES/FrancÌ§ais-2021.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2021,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2021_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 558425
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2021 : 2021/EPREUVES-COMMUNES/Langues-2021.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2022,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2022_Maths_1_Enonce.pdf",
+      "pages": 8,
+      "size": 557853
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2022 : 2022/MP/Maths-MP1-2022.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2022,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2022_Maths_2_Enonce.pdf",
+      "pages": 7,
+      "size": 346338
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2022 : 2022/MP/Maths-MP2-2022.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2022,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2022_Physique_1_Enonce.pdf",
+      "pages": 8,
+      "size": 884119
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2022 : 2022/MP/Physique-MP1-2022.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2022,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2022_Physique_2_Enonce.pdf",
+      "pages": 9,
+      "size": 2769718
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2022 : 2022/MP/Physique-MP2-2022.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2022,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2022_Chimie_Enonce.pdf",
+      "pages": 6,
+      "size": 1917235
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2022 : 2022/MP/Chimie-MP-2022.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2022,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2022_SII_Enonce.pdf",
+      "pages": 16,
+      "size": 4055400
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2022 : 2022/MP/SI-MP-2022/SI-MP-2022.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2022,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2022_Informatique_Enonce.pdf",
+      "pages": 13,
+      "size": 947195
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2022 : 2022/EPREUVES-COMMUNES/IPT-2022.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2022,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2022_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 252313
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2022 : 2022/EPREUVES-COMMUNES/Francais-2022.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2022,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2022_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 450331
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2022 : 2022/EPREUVES-COMMUNES/Langues-2022.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2023,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2023_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 490827
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2023 : Sujets-2023/Maths-MP-1.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2023,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2023_Maths_2_Enonce.pdf",
+      "pages": 6,
+      "size": 321479
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2023 : Sujets-2023/Maths-MP-2.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2023,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2023_Physique_1_Enonce.pdf",
+      "pages": 8,
+      "size": 1085649
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2023 : Sujets-2023/Physique-MP-1.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2023,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2023_Physique_2_Enonce.pdf",
+      "pages": 6,
+      "size": 584065
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2023 : Sujets-2023/Physique-MP-2.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2023,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2023_Chimie_Enonce.pdf",
+      "pages": 6,
+      "size": 413927
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2023 : Sujets-2023/Chimie-MP.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2023,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2023_SII_Enonce.pdf",
+      "pages": 11,
+      "size": 9250873
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2023 : Sujets-2023/SI/SI-MP-2023.zip/SI-MP-2023/MP.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2023,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2023_Informatique_Enonce.pdf",
+      "pages": 9,
+      "size": 604439
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2023 : Sujets-2023/Informatique-MP-PC-PSI.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2023,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2023_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 267483
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2023 : Sujets-2023/Francais.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2023,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2023_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 468687
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2023 : Sujets-2023/Langues.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2024,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2024_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 749393
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2024 : 2024/Maths/Maths-MP-1.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2024,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2024_Maths_2_Enonce.pdf",
+      "pages": 9,
+      "size": 637329
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2024 : 2024/Maths/Maths-MP-2.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2024,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2024_Physique_1_Enonce.pdf",
+      "pages": 7,
+      "size": 792259
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2024 : 2024/Physique/Physique-MP-1-2024.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2024,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2024_Physique_2_Enonce.pdf",
+      "pages": 8,
+      "size": 1460286
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2024 : 2024/Physique/Physique-MP-2-2024.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2024,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2024_Chimie_Enonce.pdf",
+      "pages": 7,
+      "size": 2037022
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2024 : 2024/Chimie/Chimie-MP.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2024,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2024_SII_Enonce.pdf",
+      "pages": 21,
+      "size": 10620059
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2024 : 2024/SI/SI-MP.zip/MP/SI-MP.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2024,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2024_Informatique_Enonce.pdf",
+      "pages": 13,
+      "size": 470052
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2024 : 2024/Informatique/Informatique commune-MP-PC-PSI.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2024,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2024_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 191380
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2024 : 2024/Francais.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2024,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2024_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 468073
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2024 : 2024/Langues.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2025,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2025_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 400152
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2025 : SUJETS-2025/MATHS/Maths-MP-1.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2025,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2025_Maths_2_Enonce.pdf",
+      "pages": 7,
+      "size": 364648
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2025 : SUJETS-2025/MATHS/Maths-MP-2.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2025,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2025_Physique_1_Enonce.pdf",
+      "pages": 8,
+      "size": 723367
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2025 : SUJETS-2025/PHYSIQUE/Physique-MP-1.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2025,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2025_Physique_2_Enonce.pdf",
+      "pages": 7,
+      "size": 1183432
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2025 : SUJETS-2025/PHYSIQUE/Physique-MP-2.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2025,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2025_Chimie_Enonce.pdf",
+      "pages": 5,
+      "size": 599275
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2025 : SUJETS-2025/CHIMIE/Chimie-MP.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2025,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2025_SII_Enonce.pdf",
+      "pages": 16,
+      "size": 1812125
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2025 : SUJETS-2025/SI/MP/SI-MP.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2025,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2025_Informatique_Enonce.pdf",
+      "pages": 15,
+      "size": 435071
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2025 : SUJETS-2025/INFO/Info-MP-PC-PSI.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2025,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2025_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 175099
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2025 : SUJETS-2025/FRANÃAIS/Francais.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2025,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2025_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 459966
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2025 : SUJETS-2025/LANGUES/Langues.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2026,
+    "matiere": "maths",
+    "code": "maths-1",
+    "label": "Mathématiques I",
+    "badge": "MATH 1",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2026_Maths_1_Enonce.pdf",
+      "pages": 6,
+      "size": 363596
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2026 : SUJETS CCMP 2026/MATHS/Maths-MP-1.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2026,
+    "matiere": "maths",
+    "code": "maths-2",
+    "label": "Mathématiques II",
+    "badge": "MATH 2",
+    "sujet": {
+      "url": "/annales/mines/mp/maths/MINES_MP_2026_Maths_2_Enonce.pdf",
+      "pages": 5,
+      "size": 406321
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2026 : SUJETS CCMP 2026/MATHS/Maths-MP-2.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2026,
+    "matiere": "physique",
+    "code": "physique-1",
+    "label": "Physique I",
+    "badge": "PHYS 1",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2026_Physique_1_Enonce.pdf",
+      "pages": 8,
+      "size": 713904
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2026 : SUJETS CCMP 2026/PHYSIQUE/Physique_MP_1_2026.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2026,
+    "matiere": "physique",
+    "code": "physique-2",
+    "label": "Physique II",
+    "badge": "PHYS 2",
+    "sujet": {
+      "url": "/annales/mines/mp/physique/MINES_MP_2026_Physique_2_Enonce.pdf",
+      "pages": 10,
+      "size": 1041257
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2026 : SUJETS CCMP 2026/PHYSIQUE/Physique_MP_2_2026.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2026,
+    "matiere": "physique",
+    "code": "chimie",
+    "label": "Chimie",
+    "badge": "CHIMIE",
+    "sujet": {
+      "url": "/annales/mines/mp/chimie/MINES_MP_2026_Chimie_Enonce.pdf",
+      "pages": 7,
+      "size": 658879
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2026 : SUJETS CCMP 2026/CHIMIE/Chimie-MP.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2026,
+    "matiere": "si",
+    "code": "si",
+    "label": "Sciences Industrielles de l'Ingénieur",
+    "badge": "SII",
+    "sujet": {
+      "url": "/annales/mines/mp/si/MINES_MP_2026_SII_Enonce.pdf",
+      "pages": 15,
+      "size": 5131778
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2026 : SUJETS CCMP 2026/SI/MP/SI_MP.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2026,
+    "matiere": "info",
+    "code": "info",
+    "label": "Informatique (tronc commun)",
+    "badge": "INFO",
+    "sujet": {
+      "url": "/annales/mines/mp/info/MINES_MP_2026_Informatique_Enonce.pdf",
+      "pages": 9,
+      "size": 243140
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2026 : SUJETS CCMP 2026/EPREUVES_COMMUNES/Info-Commune.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2026,
+    "matiere": "langues",
+    "code": "francais",
+    "label": "Français",
+    "badge": "FRANÇAIS",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2026_Francais_Enonce.pdf",
+      "pages": 2,
+      "size": 172384
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2026 : SUJETS CCMP 2026/EPREUVES_COMMUNES/Francais.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  },
+  {
+    "concours": "mines",
+    "year": 2026,
+    "matiere": "langues",
+    "code": "anglais",
+    "label": "Langues vivantes",
+    "badge": "LANGUES",
+    "sujet": {
+      "url": "/annales/mines/mp/langues/MINES_MP_2026_Langues_Enonce.pdf",
+      "pages": 13,
+      "size": 537935
+    },
+    "source": "https://concoursminesponts.fr/annales/ (archive 2026 : SUJETS CCMP 2026/EPREUVES_COMMUNES/Langues.pdf)",
+    "attribution": "Sujet propriété du Concours Commun Mines Ponts (CCMP)",
+    "licence": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr"
+    }
+  }
+]
