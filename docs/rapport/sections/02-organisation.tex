@@ -1,0 +1,73 @@
+\section{Organisation du dépôt}
+
+\subsection{Avant et après la réorganisation}
+
+Avant la réorganisation, le frontend Next.js occupait la racine du dossier \code{projet/}. Il y côtoyait un dossier \code{backend/} incomplet : son \code{package.json} appelait \code{gateway.ts} et \code{auth.ts}, deux fichiers qui n'existaient pas. À la même racine se trouvaient aussi le CDC, des captures, des archives zip, un dossier \code{tmp/} de 580\,Mo et une jonction Windows (\code{test_junc}) qui pointait vers \code{app/}.
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+  folder/.style={box,minimum width=2.6cm,font=\footnotesize\ttfamily,inner sep=3pt},
+  every node/.append style={font=\footnotesize}]
+  % AVANT
+  \node[font=\bfseries\color{warm}] at (0,0.9) {AVANT};
+  \node[folder,fill=red!5,draw=warm,minimum width=4.2cm,align=left,anchor=north] (av) at (0,0.5) {%
+    projet/\\
+    \ app/ components/ lib/ public/\\
+    \ scripts/ node\_modules/ .next/\\
+    \ package.json next.config.mjs ...\\
+    \ backend/ \textcolor{warm}{(incomplet)}\\
+    \ cdc.pdf audit-ui-cdc.md\\
+    \ tmp/ output/ *.zip *.png\\
+    \ test\_junc \textcolor{warm}{(jonction)}};
+  \draw[arr,line width=1.2pt] (2.4,-1.3) -- (4.2,-1.3);
+  % APRES
+  \node[font=\bfseries\color{okgreen}] at (8.2,0.9) {APRÈS};
+  \node[folder,fill=royal!8] (fe) at (6.3,0) {frontend/};
+  \node[folder,fill=green!10,draw=okgreen] (be) at (10.1,0) {backend/};
+  \node[folder,fill=soft] (dc) at (6.3,-1.6) {docs/};
+  \node[folder,fill=black!5,draw=black!40] (ar) at (10.1,-1.6) {archive/};
+  \node[font=\scriptsize,align=center,below=1mm of fe] {Next.js autonome};
+  \node[font=\scriptsize,align=center,below=1mm of be] {microservices Node.js};
+  \node[font=\scriptsize,align=center,below=1mm of dc] {CDC, audit, rapport};
+  \node[font=\scriptsize,align=center,below=1mm of ar] {maquettes, tmp, zips};
+  \node[folder,fill=white] (rd) at (8.2,-3.1) {README.md};
+\end{tikzpicture}
+\caption{Réorganisation du dépôt en deux applications indépendantes}
+\end{figure}
+
+\subsection{Arborescence finale}
+
+\begin{lstlisting}[numbers=none,language={},caption={Arborescence de premier niveau}]
+projet/
++-- README.md                 Explique l'organisation et les commandes
++-- frontend/                 Application Next.js (package.json et node_modules propres)
+|   +-- app/                  Routes App Router : /, /login, /signup, /admin, /pochettes, /parametres
+|   +-- components/           42 composants React (dont document-studio/ et ui/)
+|   +-- lib/                  auth.ts (session), bases d'annales, manifestes JSON
+|   +-- public/               579 PDF (annales, problèmes), pdf.js, logos
+|   +-- scripts/              téléchargement d'annales, génération de PDF, logos
++-- backend/                  Monorepo npm workspaces (package.json racine)
+|   +-- gateway/              API Gateway (port 4000)
+|   +-- packages/common/      code partagé par tous les services
+|   +-- services/             6 microservices (ports 4001 à 4006)
+|   +-- compose.yaml          PostgreSQL 16, Redis 7, MinIO
+|   +-- .env.example          variables d'environnement documentées
++-- docs/                     cdc.pdf, audit-ui-cdc.md, test-accounts.md, rapport/
++-- archive/                  anciens fichiers, conservés mais non utilisés
+\end{lstlisting}
+
+\begin{note}[Ce qui garantit l'indépendance des deux applications]
+\begin{itemize}
+  \item Chaque application a ses propres \code{package.json}, \code{node_modules} et \code{tsconfig}. On peut travailler sur l'une sans installer l'autre.
+  \item Elles communiquent \emph{uniquement} en HTTP/JSON, à travers la gateway (\code{http://localhost:4000/api/...}).
+  \item Après le déplacement, le build de production du frontend (\code{next build}) réussit, et les scripts du frontend se repèrent par rapport à leur propre dossier (\code{import.meta.url}).
+\end{itemize}
+\end{note}
+
+\begin{alerte}[Points d'attention sur la machine de développement]
+\begin{itemize}
+  \item Le port \textbf{5433} était déjà pris par un autre conteneur (\code{launchops-db}). PostgreSQL du projet utilise donc le port \textbf{5434}.
+  \item Au démarrage, Docker Desktop relance un conteneur \code{open-webui} sur le port \textbf{3000}. Si ce conteneur tourne, \code{next dev} se rabattra sur le port 3001.
+  \item Le dossier \code{archive/tmp/github-publish} contient un ancien clone git. Il a été déplacé tel quel.
+\end{itemize}
+\end{alerte}

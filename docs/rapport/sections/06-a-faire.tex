@@ -1,0 +1,154 @@
+\section{Ce qu'il reste à faire}
+
+\subsection{Backend : sprints restants}
+
+Le contrat d'API et les schémas existent déjà. Pour chaque sprint, le travail consiste à remplacer \code{notImplemented(...)} par de vrais handlers, en suivant le modèle de \code{auth-user-service} : \code{schemas.ts} (Zod), \code{*.service.ts} (règles métier), \code{routes.ts}.
+
+\begin{longtable}{p{2cm} p{3cm} p{10.2cm}}
+\toprule
+\textbf{Sprint} & \textbf{Service} & \textbf{Travail restant}\\
+\midrule\endhead
+\textbf{S2}\newline sem. 3–5 & catalog-course & Lecture des matières, chapitres (filtres niveau et filière, \emph{sans} restriction d'accès), leçons, exercices double mode ; enregistrement d'une \code{ExerciseAttempt} qui publie un événement d'activité ; CRUD admin ; section Ouvrages (filtres matière, filière, niveau) ; script de \emph{seed} qui importe les 26 chapitres de \code{COURSES_DATABASE} du frontend ; envoi des PDF de cours vers MinIO (URL présignées).\\
+\textbf{S3}\newline sem. 6–8 & exam-submission & Import des 437 épreuves depuis les manifestes JSON du frontend ; filtres année, filière, épreuve ; \code{ExamSession} dont la fin (\code{deadlineAt}) est calculée côté serveur (anti-triche) ; soumission LaTeX ou scan (MinIO) ; corrigé et barème renvoyés \emph{uniquement} après soumission ; auto-évaluation ; portefeuille « Mes Problèmes Rédigés » (UC07).\\
+\textbf{S4}\newline sem. 9–10 & analytics-streak & \code{POST /analytics/activities} : \emph{upsert} de \code{DailyActivityLog} et appel à \code{updateStreak()} dans \textbf{une même transaction} ; heatmap annuelle, radar par matière (ventilé Sup/Spé), compteurs ; cache Redis du Dashboard (objectif : moins de 200\,ms au 95\textsuperscript{e} centile).\\
+\textbf{S4} & admin-contact & Création de ticket avec \code{targetEntityRef} pré-rempli et l'une des 4 catégories ; cycle OPEN $\rightarrow$ IN\_PROGRESS $\rightarrow$ RESOLVED ; réponse de l'administrateur qui crée une \code{Notification} et envoie un e-mail (SMTP, par exemple Nodemailer).\\
+\textbf{S5}\newline sem. 11–12 & adaptive-qcm & Session adaptative qui s'appuie sur \code{updateMastery()}, \code{nextDifficulty()} et \code{scheduleReview()} ; « QCM Flash Quotidien » (questions dont la révision est due) ; bilan \code{weakLessonsJson} ; événement Streak ; CRUD admin des questions.\\
+\textbf{Transverse} & tous & Communication entre services par événements Redis (par exemple \code{activity.recorded}) plutôt que par appels HTTP directs ; migrations Prisma versionnées (\code{prisma migrate}) au lieu de \code{db push} ; journaux structurés ; tests d'intégration par service ; Dockerfile par service ; documentation OpenAPI.\\
+\bottomrule
+\caption{Travail backend restant, par sprint (planning du CDC, section 7.2)}
+\end{longtable}
+
+\subsubsection{Flux d'événements prévu pour le Streak}
+
+Le CDC demande que \emph{toute} activité pédagogique valide le Streak (UC09). Plusieurs services produisent ces activités, mais seul \code{analytics-streak-service} doit tenir le compteur :
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[node distance=5mm]
+  \node[skel,minimum width=3cm] (c) {catalog\\\scriptsize exercice résolu};
+  \node[skel,minimum width=3cm,below=of c] (e) {exam\\\scriptsize copie soumise};
+  \node[skel,minimum width=3cm,below=of e] (q) {qcm\\\scriptsize session terminée};
+  \node[db,fill=red!6,right=16mm of e] (r) {Redis\\\scriptsize\texttt{activity.recorded}};
+  \node[done,right=16mm of r,text width=3.6cm] (a) {analytics-streak\\\scriptsize upsert du journal\\+ \texttt{updateStreak()}\\(1 transaction)};
+  \node[db,right=10mm of a,minimum width=1.6cm] (pg) {schéma\\analytics};
+  \foreach \n in {c,e,q}{\draw[darr] (\n.east) -- (r.west);}
+  \draw[darr] (r) -- (a); \draw[arr] (a) -- (pg);
+\end{tikzpicture}
+\caption{Publication et consommation des événements d'activité (à implémenter)}
+\end{figure}
+
+\subsection{Frontend : branchement sur l'API}
+
+\subsubsection{Étape 1 : un client HTTP unique}
+
+Il faut créer \code{frontend/lib/api.ts}. Ce module ajoute l'en-tête \code{Authorization}, appelle \code{/api/auth/refresh} une seule fois quand il reçoit un 401, puis rejoue la requête. Il remplacera les fonctions de \code{lib/auth.ts}. Le refresh token devrait idéalement être stocké dans un cookie \code{httpOnly} plutôt que dans \code{localStorage}.
+
+\begin{lstlisting}[language=TypeScript,caption={Esquisse de \texttt{frontend/lib/api.ts} (à écrire)}]
+const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api'
+
+export async function api<T>(path: string, init: RequestInit = {}, retry = true): Promise<T> {
+  const res = await fetch(API + path, {
+    ...init,
+    headers: { 'Content-Type': 'application/json',
+               Authorization: `Bearer ${getAccessToken()}`, ...init.headers },
+  })
+  if (res.status === 401 && retry && (await refreshTokens())) return api<T>(path, init, false)
+  if (!res.ok) throw await res.json()          // { error, message, details? }
+  return res.status === 204 ? (undefined as T) : res.json()
+}
+\end{lstlisting}
+
+\subsubsection{Étape 2 : remplacer les données en dur}
+
+\begin{longtable}{p{5.6cm} p{4.4cm} p{5cm}}
+\toprule
+\textbf{Emplacement dans le frontend} & \textbf{Donnée simulée} & \textbf{Endpoint cible}\\
+\midrule\endhead
+\code{lib/auth.ts}, \code{LoginPage.tsx}, \code{SignUpPage.tsx} & \code{DEMO_STUDENT}, faux jetons, mot de passe ignoré & \code{/api/auth/*} — \textbf{disponible}\\
+\code{app/parametres/page.tsx} & profil dans \code{localStorage}, faux changement de mot de passe & \code{PATCH /api/users/me} — \textbf{disponible}\\
+\code{app/admin/page.tsx} & aucune vérification du rôle & \code{GET /api/users/me} (rôle) — \textbf{disponible}\\
+\code{app/page.tsx} (dashboard), \code{ActivityBar}, \code{StreakBadge}, \code{AchievementBadgesCard} & 72\,\%, 12 jours, 254\,h, heatmap pseudo-aléatoire & \code{/api/analytics/me/*}\\
+\code{CourseExerciseQcmDoubleMode.tsx} : \code{COURSES_DATABASE}, \code{SUBJECTS} & 26 chapitres, 28 exercices & \code{/api/catalog/*}\\
+même fichier : \code{exerciseEvaluations}, « Signaler » & auto-évaluation et erratum non conservés & \code{POST /api/catalog/}\allowbreak\code{exercises/:id/attempts}, \code{POST /api/contact/}\allowbreak\code{tickets}\\
+même fichier : QCM flash et banque QCM & maîtrise +6/$-$4, chronomètre figé & \code{/api/qcm/*}\\
+\code{lib/concours-annales-database.ts} et manifestes JSON & 437 épreuves, URL statiques & \code{/api/exams}\\
+\code{ConcoursPdfExamViewer.tsx} & remise de copie et infractions en mémoire, candidat en dur & \code{/api/exams/:id/sessions}, \code{/submit}\\
+\code{ExercisePdfTemplate.tsx}, \code{lib/classiques-problems.ts} & 10 problèmes, notes locales & \code{/api/exams?kind=PROBLEM}\\
+\code{ContactAdminTemplate.tsx} & tickets en dur, réponse automatique au bout de 1,4\,s & \code{/api/contact/*}\\
+\code{AdminBackOffice.tsx} & catalogue, annales, QCM et conversations en état local & routes admin des 4 services\\
+\code{PochettesWorkspace.tsx} & dossiers et pages personnels & \emph{à arbitrer} (aucun service prévu par le CDC)\\
+\bottomrule
+\caption{Données simulées à remplacer par des appels à l'API}
+\end{longtable}
+
+\subsubsection{Étape 3 : harmoniser les énumérations}
+
+\begin{table}[H]\centering\footnotesize
+\begin{tabular}{l l l}
+\toprule
+\textbf{Champ} & \textbf{Frontend actuel} & \textbf{Backend (CDC)}\\
+\midrule
+Filière & \code{'MP*' | 'MP' | 'PSI*' | 'PSI' | 'TSI'} & \code{MP | PSI | TSI}\\
+Année & \texttt{'1re année Sup' | '2e année Spé'} & \code{SUP | SPE}\\
+Niveau d'un chapitre & \code{'sup' | 'spe'} & \code{SUP | SPE}\\
+Matière & \code{maths, physique, si (ou sii), info} & \code{MATH | PHYS | SI | INFO}\\
+Auto-évaluation & \code{mastered | with_help | review} & \code{MASTERED | WITH_HINT | TO_REVIEW}\\
+Statut de ticket & \code{pending | in_progress | resolved} & \code{OPEN | IN_PROGRESS | RESOLVED}\\
+\bottomrule
+\end{tabular}
+\caption{Correspondances à mettre en place (par exemple dans \texttt{frontend/lib/mappers.ts})}
+\end{table}
+Pour la filière, il faut décider si l'« étoile » (MP*) doit être conservée. Si oui, il faudrait ajouter un champ booléen \code{starClass} au modèle \code{Student}.
+
+\subsection{Écarts restants avec le CDC}
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{X l l}
+\toprule
+\textbf{Exigence du CDC} & \textbf{Frontend} & \textbf{Backend}\\
+\midrule
+Inscription et connexion JWT + bcrypt (M1) & \partiel{} (simulé) & \fait\\
+Basculeur « Tous les niveaux / Sup / Spé » & \partiel{} (pas de « Tous ») & \fait{} (\code{accessAllYears})\\
+Organisation domaine $\rightarrow$ chapitre $\rightarrow$ leçon (M2) & \partiel{} & \fait{} (schéma)\\
+Exercices en mode PDF avec énoncé et corrigé séparés & \afaire{} (planche HTML) & \fait{} (schéma)\\
+Annales 2010–2026, filtre par filière (M3) & \partiel{} (MP seulement) & \afaire\\
+« Mes Problèmes Rédigés » : soumission, archive, barème & \afaire & \afaire\\
+Bibliothèque d'ouvrages (M4) & \afaire{} (absente) & \afaire{} (schéma prêt)\\
+Record de Streak, ventilation Sup/Spé (M5) & \afaire & \afaire{} (algorithme prêt)\\
+Signalement contextualisé et 4 catégories (M6) & \partiel & \afaire{} (schéma prêt)\\
+QCM adaptatif et répétition espacée (P15) & \partiel{} & \afaire{} (algorithmes prêts)\\
+Modules optionnels M7 (TIPE, simulateur de rang, oraux…) & \afaire & \afaire\\
+\bottomrule
+\end{tabularx}
+\caption{Couverture du CDC par couche}
+\end{table}
+
+\subsection{Dette technique du frontend à traiter}
+
+\begin{enumerate}
+  \item \textbf{Découper les gros composants} : extraire les données de \code{CourseExerciseQcmDoubleMode.tsx} (5\,276 lignes) dans \code{lib/}, puis séparer les sous-vues (\code{CoursView}, \code{TdView}, \code{QcmBank}, \code{AnnalesPortal}). Faire de même pour \code{AdminBackOffice.tsx}.
+  \item \textbf{Protéger les routes} : rediriger vers \code{/login} sans session ; contrôler le rôle ADMIN sur \code{/admin} (le backend refuse déjà, mais l'interface s'affiche quand même).
+  \item \textbf{Déconnexion réelle} : appeler \code{POST /api/auth/logout}, puis \code{clearUserSession()}.
+  \item \textbf{Supprimer le code mort} : \code{StudentDrawer}, \code{PersonalWorkspaceModal}, \code{glass-folder-cards}, \code{ui/button}, \code{@base-ui/react}.
+  \item \textbf{Réactiver la vérification de types} : retirer \code{ignoreBuildErrors} de \code{next.config.mjs} et corriger les erreurs.
+  \item \textbf{Corriger l'échappement LaTeX} : certaines formules contiennent \texttt{'\textbackslash forall'} au lieu de \texttt{'\textbackslash\textbackslash forall'} (en JavaScript, \texttt{\textbackslash f} devient un caractère de contrôle).
+  \item \textbf{Déplacer les 570\,Mo de PDF} de \code{public/} vers MinIO, servis par \code{exam-submission-service} avec des URL signées.
+\end{enumerate}
+
+\subsection{Planning proposé}
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[x=1.15cm,y=0.62cm]
+  \foreach \w in {1,...,12}{\node[font=\scriptsize] at (\w-0.5,0.8) {S\w}; \draw[black!12] (\w,0.4) -- (\w,-7.6);}
+  \draw[black!12] (0,0.4) -- (0,-7.6);
+  \newcommand{\ganttbar}[5]{\fill[#4,rounded corners=1.5pt] (#1,-#3+0.32) rectangle (#2,-#3-0.32); \node[font=\scriptsize,anchor=east] at (-0.1,-#3) {#5};}
+  \ganttbar{0}{2}{0.5}{okgreen!70}{Sprint 1 : gateway + auth}
+  \ganttbar{2}{5}{1.5}{royal!60}{Sprint 2 : catalog}
+  \ganttbar{5}{8}{2.5}{royal!60}{Sprint 3 : exam}
+  \ganttbar{8}{10}{3.5}{royal!60}{Sprint 4 : analytics + contact}
+  \ganttbar{10}{12}{4.5}{purple!50}{Sprint 5 : QCM + options}
+  \ganttbar{2}{10}{5.5}{warm!50}{Branchement du frontend}
+  \ganttbar{4}{12}{6.5}{black!25}{Tests, Docker, documentation}
+  \draw[warm,line width=1pt] (2,0.5) -- (2,-7.4) node[below,font=\scriptsize]{aujourd'hui};
+\end{tikzpicture}
+\caption{Avancement par rapport au planning du CDC (le Sprint 1 est terminé)}
+\end{figure}

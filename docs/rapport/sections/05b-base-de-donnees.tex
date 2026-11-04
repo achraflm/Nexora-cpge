@@ -1,0 +1,318 @@
+\section{Base de données : état actuel et consignes}\label{sec:bdd}
+
+Cette section décrit la base \textbf{telle qu'elle existe aujourd'hui}. Les chiffres ont été relevés directement dans PostgreSQL, et non recopiés depuis les schémas Prisma. Elle fixe ensuite les \textbf{règles à suivre} pour toute modification future.
+
+% -----------------------------------------------------------------------------
+\subsection{Vue d'ensemble}
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{>{\bfseries}l X}
+\toprule
+Moteur & PostgreSQL \textbf{16.15} (image Docker \code{postgres:16})\\
+Conteneur & \code{backend-postgres-1}, volume persistant \code{nexora-postgres}\\
+Connexion & \code{127.0.0.1:5434}, base \code{nexora}, utilisateur \code{nexora} (local uniquement)\\
+Taille & 8,5\,Mo\\
+Organisation & \textbf{6 schémas} logiques, un par microservice : \code{auth}, \code{catalog}, \code{exam}, \code{analytics}, \code{contact}, \code{qcm}\\
+Objets & \textbf{23 tables}, \textbf{14 types énumérés}, \textbf{15 clés étrangères} (toutes internes à un schéma), \textbf{18 index} secondaires ou d'unicité\\
+Outil & Prisma 6.19, un \code{schema.prisma} et un client généré par service\\
+Méthode de création & \code{prisma db push} : il n'y a \textbf{pas encore d'historique de migrations} (aucune table \code{_prisma_migrations})\\
+Cohérence & \code{prisma migrate diff} renvoie « No difference detected » pour les 6 services : la base correspond exactement aux fichiers \code{schema.prisma}\\
+\bottomrule
+\end{tabularx}
+\caption{Fiche d'identité de la base de données actuelle}
+\end{table}
+
+\begin{figure}[H]\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  sch/.style={draw=#1,fill=#1!6,rounded corners=4pt,inner sep=6pt,line width=0.8pt},
+  tb/.style={draw=black!35,fill=white,font=\scriptsize\ttfamily,text width=3.1cm,align=left,inner sep=2.5pt,rounded corners=1pt},
+  hd/.style={font=\small\bfseries},
+  node distance=1.2mm]
+  % auth
+  \node[tb] (a1) at (0,0) {users \hfill\textrm{3}};
+  \node[tb,below=of a1] (a2) {students \hfill\textrm{2}};
+  \node[tb,below=of a2] (a3) {administrators \hfill\textrm{1}};
+  \node[tb,below=of a3] (a4) {refresh\_tokens \hfill\textrm{4}};
+  \node[hd,above=1.5mm of a1,text=okgreen] (ha) {auth \textmd{\scriptsize(Sprint 1)}};
+  \begin{scope}[on background layer]\node[sch=okgreen,fit=(ha)(a1)(a4)] (A) {};\end{scope}
+  % catalog
+  \node[tb] (c1) at (4.2,0) {subjects};
+  \node[tb,below=of c1] (c2) {chapters};
+  \node[tb,below=of c2] (c3) {lessons};
+  \node[tb,below=of c3] (c4) {exercises};
+  \node[tb,below=of c4] (c5) {exercise\_attempts};
+  \node[tb,below=of c5] (c6) {reference\_books};
+  \node[hd,above=1.5mm of c1,text=royal] (hc) {catalog};
+  \begin{scope}[on background layer]\node[sch=royal,fit=(hc)(c1)(c6)] (C) {};\end{scope}
+  % exam
+  \node[tb] (e1) at (8.4,0) {cnc\_exams};
+  \node[tb,below=of e1] (e2) {exam\_sessions};
+  \node[tb,below=of e2] (e3) {written\_submissions};
+  \node[hd,above=1.5mm of e1,text=warm] (he) {exam};
+  \begin{scope}[on background layer]\node[sch=warm,fit=(he)(e1)(e3)] (E) {};\end{scope}
+  % analytics
+  \node[tb] (n1) at (8.4,-2.9) {user\_streaks};
+  \node[tb,below=of n1] (n2) {daily\_activity\_logs};
+  \node[hd,above=1.5mm of n1,text=teal] (hn) {analytics};
+  \begin{scope}[on background layer]\node[sch=teal,fit=(hn)(n1)(n2)] (N) {};\end{scope}
+  % contact
+  \node[tb] (t1) at (12.6,0) {contact\_messages};
+  \node[tb,below=of t1] (t2) {notifications};
+  \node[hd,above=1.5mm of t1,text=navy] (ht) {contact};
+  \begin{scope}[on background layer]\node[sch=navy,fit=(ht)(t1)(t2)] (T) {};\end{scope}
+  % qcm
+  \node[tb] (q1) at (12.6,-2.2) {qcm\_questions};
+  \node[tb,below=of q1] (q2) {qcm\_choices};
+  \node[tb,below=of q2] (q3) {qcm\_mastery};
+  \node[tb,below=of q3] (q4) {qcm\_sessions};
+  \node[tb,below=of q4] (q5) {qcm\_answers};
+  \node[tb,below=of q5] (q6) {qcm\_spaced\_repetition};
+  \node[hd,above=1.5mm of q1,text=purple] (hq) {qcm};
+  \begin{scope}[on background layer]\node[sch=purple,fit=(hq)(q1)(q6)] (Q) {};\end{scope}
+  % references logiques userId
+  \node[font=\scriptsize,align=left,anchor=north west] at (-1.7,-5.6) {%
+    Les chiffres indiquent le nombre de lignes actuel (tables vides sinon).\\
+    Références \textbf{logiques} par UUID, \textbf{sans} clé étrangère : toute colonne \texttt{userId} désigne \texttt{auth.users},\\ et \texttt{qcm} désigne \texttt{catalog} par \texttt{chapterId} et \texttt{lessonId}.};
+\end{tikzpicture}}
+\caption{Les 6 schémas et leurs 23 tables}
+\end{figure}
+
+% -----------------------------------------------------------------------------
+\subsection{Contenu actuel}
+
+Seul le schéma \code{auth} contient des données ; les cinq autres schémas ont leurs tables créées, mais vides.
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{l r X}
+\toprule
+\textbf{Table} & \textbf{Lignes} & \textbf{Origine}\\
+\midrule
+\code{auth.users} & 3 & 2 comptes de démonstration (\code{npm run db:seed}) + 1 compte \code{test.<horodatage>@cpge.ma} créé par le test de bout en bout\\
+\code{auth.students} & 2 & Achraf Lemrani (MP, SPE) et le compte de test (PSI, SPE)\\
+\code{auth.administrators} & 1 & Karim Mansouri (\code{privilegeLevel} 3, 4 matières)\\
+\code{auth.refresh_tokens} & 4 & sessions du test ; \textbf{1 seule active}, les 3 autres révoquées (rotation, réutilisation, déconnexion)\\
+autres schémas & 0 & tables créées, aucune donnée\\
+\bottomrule
+\end{tabularx}
+\caption{Données présentes dans la base}
+\end{table}
+
+\begin{alerte}[À nettoyer]
+Le compte créé par le test (\code{test.*@cpge.ma}) n'a pas d'intérêt : on peut le supprimer. La suppression en cascade emporte aussi son profil étudiant et ses jetons.
+\begin{lstlisting}[numbers=none,language=SQL]
+DELETE FROM auth.users WHERE email LIKE 'test.%@cpge.ma';
+\end{lstlisting}
+\end{alerte}
+
+% -----------------------------------------------------------------------------
+\subsection{Dictionnaire des données}
+
+Notation : \textbf{PK} clé primaire, \textbf{FK} clé étrangère, \textbf{U} unique, \textbf{I} index, \textbf{?} colonne pouvant être nulle, \textbf{=} valeur par défaut.
+
+{\footnotesize
+\begin{longtable}{p{3cm} p{8.6cm} p{3.6cm}}
+\toprule
+\textbf{Table} & \textbf{Colonnes (type)} & \textbf{Clés / index}\\
+\midrule\endhead
+\multicolumn{3}{l}{\cellcolor{okgreen!12}\textbf{Schéma \texttt{auth}} — auth-user-service}\\
+\code{users} & \code{id} uuid, \code{firstName} text, \code{lastName} text, \code{email} text, \code{passwordHash} text, \code{role} Role = STUDENT, \code{createdAt} timestamp = now, \code{updatedAt} timestamp & PK id ; U email\\
+\code{students} & \code{userId} uuid, \code{filiere} Filiere, \code{enrolledYear} StudyYear, \code{cpgeCenter} text, \code{accessAllYears} bool = true & PK userId ; FK users (cascade)\\
+\code{administrators} & \code{userId} uuid, \code{privilegeLevel} int = 1, \code{assignedSubjects} text[], \code{department} text? & PK userId ; FK users (cascade)\\
+\code{refresh_tokens} & \code{id} uuid, \code{userId} uuid, \code{tokenHash} text, \code{expiresAt} timestamp, \code{revokedAt} timestamp?, \code{createdAt} timestamp = now & PK id ; U tokenHash ; I userId ; FK users (cascade)\\
+\midrule
+\multicolumn{3}{l}{\cellcolor{royal!12}\textbf{Schéma \texttt{catalog}} — catalog-course-service}\\
+\code{subjects} & \code{id} int (auto-incrément), \code{code} SubjectCode, \code{name} text, \code{coeffMP}, \code{coeffPSI}, \code{coeffTSI} double & PK id ; U code\\
+\code{chapters} & \code{id} uuid, \code{subjectId} int, \code{studyLevel} StudyLevel, \code{domainName} text, \code{title} text, \code{targetFilieres} text[], \code{orderIndex} int & PK ; I (subjectId, studyLevel) ; FK subjects (restrict)\\
+\code{lessons} & \code{id} uuid, \code{chapterId} uuid, \code{title}, \code{contentLatex} text, \code{coursePdfUrl}?, \code{summarySheetUrl}? text, \code{estimatedDurationMin} int, \code{orderIndex} int & PK ; FK chapters (cascade)\\
+\code{exercises} & \code{id} uuid, \code{ref} text, \code{lessonId} uuid, \code{annaleSource} text?, \code{difficulty} int, \code{statementLatex}, \code{solutionLatex} text, \code{hintsLatex} text[], \code{statementPdfUrl}?, \code{corrPdfUrl}? text & PK ; U ref ; FK lessons (cascade)\\
+\code{exercise_attempts} & \code{id} uuid, \code{exerciseId} uuid, \code{userId} uuid, \code{usedMode} ExerciseMode, \code{hintUsed} bool = false, \code{resolutionStatus} ResolutionStatus, \code{timeSpentSec} int, \code{attemptedAt} timestamp = now & PK ; I userId ; FK exercises (cascade)\\
+\code{reference_books} & \code{id} uuid, \code{subjectId} int, \code{title}, \code{authors} text, \code{edition} text?, \code{targetFilieres} text[], \code{studyLevel} BookLevel, \code{summaryAndAdvice} text, \code{resourcePdfUrl} text? & PK ; FK subjects (restrict)\\
+\midrule
+\multicolumn{3}{l}{\cellcolor{warm!12}\textbf{Schéma \texttt{exam}} — exam-submission-service}\\
+\code{cnc_exams} & \code{id} uuid, \code{kind} ExamKind, \code{year} int?, \code{filiere} Filiere, \code{epreuve} Epreuve, \code{title} text, \code{durationMinutes} int, \code{statementPdfUrl} text, \code{solutionPdfUrl}?, \code{gradingSchemeUrl}?, \code{juryReportUrl}? text & PK ; I (year, filiere, epreuve)\\
+\code{exam_sessions} & \code{id} uuid, \code{userId} uuid, \code{examId} uuid, \code{timed} bool = true, \code{startedAt} timestamp = now, \code{deadlineAt}?, \code{submittedAt}? timestamp & PK ; I userId ; FK cnc\_exams (restrict)\\
+\code{written_submissions} & \code{id} uuid, \code{userId} uuid, \code{examId} uuid, \code{sessionId} uuid?, \code{writtenContentLatex}?, \code{uploadedScanUrl}? text, \code{selfGrade} double?, \code{personalNotes} text?, \code{submittedAt} timestamp = now & PK ; U sessionId ; I userId ; FK cnc\_exams (restrict), exam\_sessions (set null)\\
+\midrule
+\multicolumn{3}{l}{\cellcolor{teal!12}\textbf{Schéma \texttt{analytics}} — analytics-streak-service}\\
+\code{user_streaks} & \code{userId} uuid, \code{currentStreak}, \code{longestStreak}, \code{freezeTokens} int = 0, \code{lastActiveDate} date? & PK userId\\
+\code{daily_activity_logs} & \code{id} uuid, \code{userId} uuid, \code{activityDate} date, \code{subjectCode} SubjectCode, \code{lessonsRead}, \code{exercisesSolved}, \code{problemsWritten}, \code{qcmCompleted}, \code{studyMinutes} int = 0 & PK ; U (userId, activityDate, subjectCode)\\
+\midrule
+\multicolumn{3}{l}{\cellcolor{navy!12}\textbf{Schéma \texttt{contact}} — admin-contact-service}\\
+\code{contact_messages} & \code{id} uuid, \code{userId} uuid, \code{category} TicketCategory, \code{targetEntityRef} text?, \code{messageBody} text, \code{status} TicketStatus = OPEN, \code{adminReply} text?, \code{repliedBy} uuid?, \code{createdAt} = now, \code{updatedAt}, \code{resolvedAt}? timestamp & PK ; I userId ; I status\\
+\code{notifications} & \code{id} uuid, \code{userId} uuid, \code{ticketId} uuid, \code{message} text, \code{readAt} timestamp?, \code{createdAt} = now & PK ; I (userId, readAt) ; FK contact\_messages (cascade)\\
+\midrule
+\multicolumn{3}{l}{\cellcolor{purple!12}\textbf{Schéma \texttt{qcm}} — adaptive-qcm-service}\\
+\code{qcm_questions} & \code{id} uuid, \code{lessonId} uuid, \code{chapterId} uuid, \code{questionLatex} text, \code{difficultyLevel} int, \code{targetTimeSec} int, \code{explanationLatex} text & PK ; I (chapterId, difficultyLevel)\\
+\code{qcm_choices} & \code{id} uuid, \code{questionId} uuid, \code{labelLatex} text, \code{isCorrect} bool, \code{feedback} text? & PK ; FK qcm\_questions (cascade)\\
+\code{qcm_mastery} & \code{userId} uuid, \code{chapterId} uuid, \code{masteryScore} double = 50, \code{updatedAt} timestamp & PK (userId, chapterId)\\
+\code{qcm_sessions} & \code{id} uuid, \code{userId} uuid, \code{chapterId} uuid, \code{currentDifficulty} int = 2, \code{score} double?, \code{weakLessonsJson} jsonb?, \code{startedAt} = now, \code{endedAt}? timestamp & PK ; I userId\\
+\code{qcm_answers} & \code{id} uuid, \code{sessionId}, \code{questionId}, \code{choiceId} uuid, \code{isCorrect} bool, \code{timeSpentSec} int, \code{masteryAfter} double, \code{answeredAt} = now & PK ; FK qcm\_sessions (cascade), qcm\_questions (restrict)\\
+\code{qcm_spaced_}\allowbreak\code{repetition} & \code{userId}, \code{questionId} uuid, \code{step} int = 0, \code{intervalDays} int, \code{easeFactor} double = 2.5, \code{nextReviewDate} date & PK (userId, questionId) ; I (userId, nextReviewDate)\\
+\bottomrule
+\caption{Dictionnaire des données relevé dans PostgreSQL (23 tables)}
+\end{longtable}
+}
+
+\begin{table}[H]\centering\footnotesize
+\begin{tabularx}{\linewidth}{l l X}
+\toprule
+\textbf{Schéma} & \textbf{Type énuméré} & \textbf{Valeurs}\\
+\midrule
+auth & \code{Role} & STUDENT, ADMIN\\
+auth & \code{Filiere} & MP, PSI, TSI\\
+auth & \code{StudyYear} & SUP, SPE\\
+catalog & \code{SubjectCode} & MATH, PHYS, SI, INFO\\
+catalog & \code{StudyLevel} & SUP, SPE\\
+catalog & \code{BookLevel} & SUP, SPE, BOTH\\
+catalog & \code{ExerciseMode} & PDF, BIBMATH\\
+catalog & \code{ResolutionStatus} & MASTERED, WITH\_HINT, TO\_REVIEW\\
+exam & \code{ExamKind} & CNC\_ANNALE, PROBLEM\\
+exam & \code{Filiere} & MP, PSI, TSI \hfill\emph{(copie de auth.Filiere)}\\
+exam & \code{Epreuve} & MATH\_1, MATH\_2, PHYS\_1, PHYS\_2, SI, INFO\\
+analytics & \code{SubjectCode} & MATH, PHYS, SI, INFO \hfill\emph{(copie de catalog.SubjectCode)}\\
+contact & \code{TicketCategory} & ERRATUM, PEDAGOGICAL\_QUESTION, TECHNICAL\_ISSUE, BOOK\_SUGGESTION\\
+contact & \code{TicketStatus} & OPEN, IN\_PROGRESS, RESOLVED\\
+\bottomrule
+\end{tabularx}
+\caption{Les 14 types énumérés PostgreSQL}
+\end{table}
+
+\paragraph{Choix des règles de suppression.} \textbf{CASCADE} quand l'enfant n'a pas de sens sans son parent : profil et jetons d'un utilisateur, leçons d'un chapitre, choix d'une question. \textbf{RESTRICT} quand la suppression détruirait un historique : on ne peut pas supprimer une matière qui a des chapitres, ni une épreuve qui a des copies ou des sessions. \textbf{SET NULL} quand le lien est facultatif : une copie survit à la suppression de sa session chronométrée.
+
+% -----------------------------------------------------------------------------
+\subsection{Conventions observées dans la base}
+
+\begin{itemize}
+  \item \textbf{Noms de tables} en \code{snake_case} au pluriel (attribut \code{@@map} de Prisma). \textbf{Noms de colonnes} en \code{camelCase}, comportement par défaut de Prisma. En SQL écrit à la main, il faut donc des guillemets :
+\begin{lstlisting}[numbers=none,language=SQL]
+SELECT "firstName", "lastName", role FROM auth.users WHERE "createdAt" > now() - interval '7 days';
+\end{lstlisting}
+  \item \textbf{Les UUID sont générés par Prisma}, côté application. La colonne \code{id} n'a \emph{pas} de valeur par défaut en base, et \code{updatedAt} non plus. Une insertion SQL manuelle doit donc fournir ces valeurs, par exemple \code{gen_random_uuid()} et \code{now()}.
+  \item \textbf{Dates et heures} : les colonnes \code{...At} sont des \code{timestamp without time zone} dans lesquels Prisma écrit en \textbf{UTC}. Les colonnes \code{...Date} (\code{activityDate}, \code{lastActiveDate}, \code{nextReviewDate}) sont de type \code{date} et représentent le \textbf{jour local de l'étudiant} (Africa/Casablanca).
+  \item \textbf{Tableaux} (\code{text[]}) : ils peuvent être nuls en base, mais Prisma les traite comme obligatoires et les initialise à \texttt{\{\}}.
+  \item \textbf{Énumérations dupliquées} : \code{Filiere} existe dans \code{auth} et dans \code{exam}, \code{SubjectCode} dans \code{catalog} et dans \code{analytics}. Cette duplication est voulue, pour que chaque service reste indépendant, mais les copies doivent être \textbf{maintenues identiques}.
+  \item \textbf{Références entre services} (\code{userId}, \code{chapterId}, \code{lessonId}, \code{repliedBy}) : ce sont de simples UUID, sans clé étrangère. C'est l'application qui garantit leur validité.
+\end{itemize}
+
+% -----------------------------------------------------------------------------
+\subsection{Limites actuelles}
+
+\begin{enumerate}
+  \item \textbf{Pas de migrations versionnées} : la base a été créée avec \code{db push}. On ne peut ni rejouer l'historique sur une autre machine, ni revenir en arrière proprement, et un \code{db push} peut supprimer des colonnes en perdant leurs données.
+  \item \textbf{Un seul utilisateur PostgreSQL}, \code{nexora}, avec tous les droits sur tous les schémas : l'isolation entre services repose sur une convention, pas sur des permissions.
+  \item \textbf{Aucune contrainte \code{CHECK}} : les bornes métier (\code{difficulty} entre 1 et 4, \code{selfGrade} entre 0 et 20, \code{masteryScore} entre 0 et 100, durées positives) ne sont contrôlées que par Zod dans le code.
+  \item \textbf{URL complètes stockées} (\code{statementPdfUrl}, etc.) : elles deviendront fausses si l'adresse de MinIO change.
+  \item \textbf{Écarts avec le frontend} : le frontend gère des conversations à plusieurs messages et des pièces jointes, alors que \code{contact_messages} ne prévoit qu'une seule \code{adminReply}. Les annales du frontend couvrent aussi Mines, Centrale, CCINP, la chimie et les langues, qui sont absents de \code{Epreuve} et de \code{cnc_exams}. La page des paramètres gère un avatar, une bio et des concours visés, qui ne sont pas stockés.
+  \item \textbf{Pas de purge} des refresh tokens révoqués ou expirés.
+  \item \textbf{\code{qcm_answers.choiceId}} n'a pas de clé étrangère vers \code{qcm_choices}.
+  \item \textbf{Pas de sauvegarde} automatique.
+\end{enumerate}
+
+% -----------------------------------------------------------------------------
+\subsection{Consignes pour les changements à venir}
+
+\subsubsection{Les règles}
+
+\begin{tcolorbox}[colback=soft,colframe=navy,title=\textbf{Règles à respecter pour toute modification de la base},fonttitle=\bfseries,breakable,arc=2pt]
+\begin{enumerate}[label=\textbf{R\arabic*.},leftmargin=2.2em]
+  \item \textbf{Un service, un schéma.} Chaque service ne modifie que son propre \code{schema.prisma}. Il ne lit ni n'écrit jamais, même en SQL, les tables d'un autre schéma : il passe par l'API ou par un événement.
+  \item \textbf{Pas de clé étrangère entre schémas.} Une référence vers un autre service est un \code{String @db.Uuid} nommé \code{<entite>Id}, avec un index s'il sert à filtrer.
+  \item \textbf{Toute modification passe par une migration} (\code{prisma migrate dev}). Les fichiers \code{prisma/migrations/*} sont \textbf{commités} avec le schéma. Une fois la migration initiale créée, \code{db push} est interdit, sauf sur une base locale jetable.
+  \item \textbf{On ne modifie jamais une migration déjà appliquée} ou partagée : on en crée une nouvelle.
+  \item \textbf{Relire le SQL avant de l'appliquer} (\code{--create-only}). Attention en particulier : renommer un champ dans \code{schema.prisma} produit un \code{DROP COLUMN} puis un \code{ADD COLUMN}, donc une \textbf{perte de données}. Il faut soit garder le nom en base avec \code{@map("ancienNom")}, soit remplacer ces deux lignes par un \code{ALTER TABLE ... RENAME COLUMN}.
+  \item \textbf{Changements compatibles}, en trois temps (\emph{expand / contract}) : (1) ajouter la nouvelle colonne, nullable ou avec une valeur par défaut ; (2) déployer le code et recopier les données ; (3) dans une migration \emph{suivante}, rendre la colonne obligatoire et supprimer l'ancienne.
+  \item \textbf{Énumérations} : ajouter une valeur est sans risque. En retirer ou en renommer une demande une migration écrite à la main, après avoir converti les lignes concernées. Toute modification d'une énumération dupliquée (\code{Filiere}, \code{SubjectCode}) se fait \textbf{dans les deux schémas et dans le frontend} (\code{lib/mappers.ts}).
+  \item \textbf{Nommage} : modèle Prisma en \code{PascalCase} au singulier ; \code{@@map} en \code{snake_case} au pluriel ; champs en \code{camelCase} ; booléens en \code{is...} ou \code{has...} ; horodatages en \code{...At} ; jours calendaires en \code{...Date} avec \code{@db.Date}.
+  \item \textbf{Index} : un index pour chaque clé étrangère et chaque colonne utilisée dans un \code{WHERE} ou un \code{ORDER BY} fréquent. On vérifie avec \code{EXPLAIN ANALYZE} sur un volume réaliste.
+  \item \textbf{Contraintes métier en base} : ajouter les \code{CHECK} dans le SQL de la migration (voir ci-dessous) en plus de la validation Zod.
+  \item \textbf{Fichiers} : jamais de PDF ni d'image en base. On stocke la \emph{clé} de l'objet MinIO (\code{statementPdfKey}) et on génère une URL signée au moment de la lecture.
+  \item \textbf{Opérations sur plusieurs tables} dans une transaction, avec \code{prisma.$transaction} (par exemple : journal d'activité et Streak).
+  \item \textbf{Données de départ} : chaque service a un \code{prisma/seed.ts} \emph{idempotent} (avec \code{upsert}), qu'on peut relancer sans créer de doublons. Les comptes de démonstration ne servent qu'en développement.
+  \item \textbf{Sécurité} : aucun secret ni mot de passe en clair en base ou dans le dépôt. En production, chaque service a un utilisateur PostgreSQL limité à son propre schéma.
+  \item \textbf{Sauvegarde} (\code{pg_dump}) avant toute migration qui supprime ou transforme des données.
+\end{enumerate}
+\end{tcolorbox}
+
+\subsubsection{Procédure d'une modification}
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[node distance=4mm,
+  st/.style={box,minimum width=2.6cm,minimum height=1.1cm,font=\scriptsize,text width=2.4cm}]
+  \node[st,fill=royal!8] (1) {\textbf{1.} modifier\\\texttt{schema.prisma}};
+  \node[st,fill=yellow!12,right=of 1] (2) {\textbf{2.} \texttt{migrate dev}\\\texttt{-{}-create-only}};
+  \node[st,fill=warm!10,draw=warm,right=of 2] (3) {\textbf{3.} relire / compléter le SQL (RENAME, CHECK)};
+  \node[st,fill=royal!8,right=of 3] (4) {\textbf{4.} \texttt{migrate dev}\\(applique)};
+  \node[st,fill=royal!8,below=8mm of 4] (5) {\textbf{5.} \texttt{db:generate}\\code + tests};
+  \node[st,fill=royal!8,left=of 5] (6) {\textbf{6.} vérifier l'écart\\(\texttt{migrate diff})};
+  \node[st,fill=green!10,draw=okgreen,left=of 6] (7) {\textbf{7.} commit\\schéma + migrations};
+  \node[st,fill=green!10,draw=okgreen,left=of 7] (8) {\textbf{8.} production :\\\texttt{migrate deploy}};
+  \draw[arr] (1)--(2); \draw[arr] (2)--(3); \draw[arr] (3)--(4); \draw[arr] (4)--(5);
+  \draw[arr] (5)--(6); \draw[arr] (6)--(7); \draw[arr] (7)--(8);
+\end{tikzpicture}
+\caption{Cycle de vie d'une modification du schéma}
+\end{figure}
+
+\subsubsection{Commandes de référence}
+Toutes les commandes se lancent \textbf{dans le dossier du service} concerné, par exemple \code{backend/services/catalog-course-service}. Le préfixe \code{npx dotenv -e ../../.env --} charge le fichier \code{.env} commun.
+
+\begin{lstlisting}[numbers=none,language={},caption={Étape préalable, une seule fois par service : partir de l'état actuel (baseline)}]
+mkdir prisma\migrations\0_init
+npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script -o prisma/migrations/0_init/migration.sql
+npx dotenv -e ../../.env -- prisma migrate resolve --applied 0_init
+# -> crée la table _prisma_migrations dans le schéma du service, sans toucher aux données
+\end{lstlisting}
+
+\begin{lstlisting}[numbers=none,language={},caption={Modification courante}]
+npx dotenv -e ../../.env -- prisma migrate dev --create-only --name add_star_class_to_students
+#   relire et éventuellement compléter prisma/migrations/<date>_add_star_class_to_students/migration.sql
+npx dotenv -e ../../.env -- prisma migrate dev          # applique la migration et régénère le client
+npx dotenv -e ../../.env -- prisma migrate diff --from-schema-datasource prisma/schema.prisma `
+     --to-schema-datamodel prisma/schema.prisma --exit-code   # doit afficher : No difference detected
+npx dotenv -e ../../.env -- prisma migrate deploy       # sur le serveur (CI / production)
+\end{lstlisting}
+
+\begin{lstlisting}[numbers=none,language=SQL,caption={Exemple de SQL ajouté à la main dans une migration : contraintes métier}]
+ALTER TABLE "exercises"           ADD CONSTRAINT exercises_difficulty_chk   CHECK ("difficulty" BETWEEN 1 AND 4);
+ALTER TABLE "written_submissions" ADD CONSTRAINT submissions_grade_chk      CHECK ("selfGrade" BETWEEN 0 AND 20);
+ALTER TABLE "qcm_mastery"         ADD CONSTRAINT mastery_score_chk          CHECK ("masteryScore" BETWEEN 0 AND 100);
+ALTER TABLE "cnc_exams"           ADD CONSTRAINT exams_duration_chk         CHECK ("durationMinutes" > 0);
+\end{lstlisting}
+
+\begin{lstlisting}[numbers=none,language={},caption={Consulter, sauvegarder et restaurer}]
+docker exec -it backend-postgres-1 psql -U nexora -d nexora     # \dn  (schémas)   \dt auth.*  (tables)
+npx dotenv -e ../../.env -- prisma studio                         # interface web de consultation
+docker exec backend-postgres-1 pg_dump -U nexora -d nexora -Fc -f /tmp/nexora.dump
+docker cp backend-postgres-1:/tmp/nexora.dump .\nexora_<date>.dump
+docker exec backend-postgres-1 pg_restore -U nexora -d nexora --clean /tmp/nexora.dump
+\end{lstlisting}
+
+\subsubsection{Liste de contrôle avant de valider un changement}
+\begin{itemize}[label=$\square$]
+  \item La migration a été relue : aucun \code{DROP} non voulu, renommages traités, \code{CHECK} ajoutés.
+  \item \code{npm run db:generate}, \code{npm run typecheck} et \code{npm test} passent.
+  \item \code{prisma migrate diff ... --exit-code} indique « No difference detected ».
+  \item Le \emph{seed} est mis à jour et peut être relancé sans créer de doublons.
+  \item Les énumérations dupliquées et les correspondances du frontend sont synchronisées.
+  \item Le schéma et le dossier \code{migrations/} sont commités \emph{ensemble}.
+  \item Une sauvegarde existe si la migration supprime ou transforme des données.
+\end{itemize}
+
+\subsubsection{Changements de la base déjà identifiés}
+
+\begin{longtable}{p{1.4cm} p{2.4cm} p{11.3cm}}
+\toprule
+\textbf{Quand} & \textbf{Schéma} & \textbf{Changement prévu}\\
+\midrule\endhead
+Avant S2 & tous & Migration initiale \code{0_init} (baseline) dans les 6 services ; suppression du compte de test ; tâche de purge des \code{refresh_tokens} révoqués ou expirés depuis plus de 30 jours.\\
+S2 & \code{auth} & Décider pour l'« étoile » de filière : ajouter \code{starClass Boolean @default(false)} à \code{Student}. Ajouter les champs de profil gérés par le frontend : \code{avatarKey String?}, \code{bio String?}, \code{targetConcours String[]}.\\
+S2 & \code{catalog} & \emph{Seed} des 4 matières avec leurs coefficients ; import des 26 chapitres, leçons et exercices du frontend ; \code{CHECK} sur \code{difficulty} ; remplacer les colonnes \code{...PdfUrl} par \code{...PdfKey} (expand/contract) ; index \code{(chapterId, orderIndex)} et \code{(lessonId)}.\\
+S3 & \code{exam} & Arbitrer le périmètre des annales. Le CDC ne parle que du CNC, mais le frontend affiche aussi Mines, Centrale et CCINP. Si on les garde : ajouter une énumération \code{Concours} et une colonne \code{concours}, ainsi que les épreuves \code{CHIMIE} et \code{LANGUES}. Clé unique \code{(concours, year, filiere, epreuve, kind)} pour un import idempotent des 437 épreuves ; \code{CHECK} sur \code{durationMinutes} et \code{selfGrade}.\\
+S4 & \code{contact} & Conversations à plusieurs messages : nouvelle table \code{ticket_messages} (\code{ticketId}, \code{authorId}, \code{authorRole}, \code{body}, \code{isInternalNote}, \code{createdAt}) et table \code{ticket_attachments} (\code{messageId}, \code{objectKey}, \code{fileName}, \code{size}). Recopier \code{adminReply} dans la nouvelle table, puis supprimer la colonne dans une migration ultérieure.\\
+S4 & \code{analytics} & Aucun changement de structure nécessaire. Prévoir l'index \code{(userId, activityDate)} si la heatmap annuelle est lente.\\
+S5 & \code{qcm} & Clé étrangère \code{qcm_answers.choiceId} vers \code{qcm_choices} ; \code{CHECK} sur \code{difficultyLevel} et \code{masteryScore} ; index \code{(sessionId)} sur \code{qcm_answers}.\\
+À décider & — & Pochettes et pages personnelles du frontend : aucun service n'est prévu par le CDC. Soit nouveau schéma \code{workspace}, soit tables dans \code{auth}.\\
+Production & tous & Un utilisateur PostgreSQL par service (\code{GRANT USAGE, CREATE ON SCHEMA catalog TO catalog_svc}), sauvegardes quotidiennes, \code{migrate deploy} lancé par la chaîne de déploiement.\\
+\bottomrule
+\caption{Évolutions de la base à prévoir, sprint par sprint}
+\end{longtable}

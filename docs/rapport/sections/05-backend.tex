@@ -1,0 +1,500 @@
+\section{Backend : ce qui a été fait}
+
+\subsection{Organisation en monorepo}
+
+Le backend est un \textbf{monorepo npm workspaces}. Un seul \code{npm install} à la racine de \code{backend/} installe les dépendances de la gateway, du paquet commun et des six services. Chaque service reste pourtant un paquet indépendant, avec son \code{package.json}, son schéma Prisma et ses scripts.
+
+\begin{lstlisting}[numbers=none,language={},caption={Arborescence du backend (1\,336 lignes de TypeScript et Prisma écrites à la main)}]
+backend/
++-- package.json            workspaces + scripts globaux (dev, typecheck, test, db:*)
++-- tsconfig.base.json      options TypeScript communes (strict, ES2023, Bundler)
++-- compose.yaml            postgres:16 (5434), redis:7 (6379), minio (9000/9001)
++-- .env.example            toutes les variables, une URL de base par service
++-- packages/common/src/
+|   +-- env.ts              charge backend/.env, requireEnv(), portEnv()
+|   +-- errors.ts           HttpError, notFoundHandler, errorHandler (Zod -> 400)
+|   +-- auth-context.ts     en-têtes x-user-*, requireGateway(), requireUser(), currentUser()
+|   +-- service-app.ts      createServiceApp() : /health + sécurité + JSON + erreurs
+|   +-- not-implemented.ts  notImplemented('Sprint N') -> 501
++-- gateway/src/
+|   +-- index.ts            CORS, rate limit, /api/health, proxys
+|   +-- authenticate.ts     vérification JWT + injection d'identité
+|   +-- routes.ts           table préfixe -> service, routes publiques
++-- services/
+    +-- auth-user-service/      IMPLÉMENTÉ (Sprint 1)
+    |   +-- prisma/schema.prisma, prisma/seed.ts
+    |   +-- src/ index, config, db, schemas, tokens, user-mapper,
+    |            auth.service, users.service, routes, schemas.test
+    +-- catalog-course-service/   prisma/schema.prisma + src/index.ts (routes 501)
+    +-- exam-submission-service/  idem
+    +-- analytics-streak-service/ idem + src/streak.ts (+ tests)
+    +-- admin-contact-service/    idem
+    +-- adaptive-qcm-service/     idem + src/adaptive-engine.ts (+ tests)
+\end{lstlisting}
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{l X}
+\toprule
+\textbf{Commande (dans \code{backend/})} & \textbf{Effet}\\
+\midrule
+\code{npm run infra:up} & Démarre PostgreSQL, Redis et MinIO avec Docker Compose\\
+\code{npm run db:generate} & Génère les 6 clients Prisma (\code{src/generated/prisma} de chaque service)\\
+\code{npm run db:push} & Crée ou met à jour les 6 schémas PostgreSQL\\
+\code{npm run db:seed} & Crée les comptes de démonstration (admin et étudiant)\\
+\code{npm run dev} & Lance les 7 processus en parallèle (\code{concurrently} + \code{tsx watch})\\
+\code{npm run typecheck} & \code{tsc} strict sur chaque workspace\\
+\code{npm test} & Tests unitaires (\code{node:test} via \code{tsx})\\
+\bottomrule
+\end{tabularx}
+\caption{Scripts du monorepo}
+\end{table}
+
+\begin{note}[Choix techniques]
+\begin{itemize}
+  \item \textbf{Express 5} plutôt que NestJS (le CDC accepte les deux). Express est plus simple à relire, et sa version 5 transmet automatiquement les erreurs des fonctions \code{async} au gestionnaire d'erreurs, sans \code{try/catch} dans chaque route.
+  \item \textbf{tsx} exécute le TypeScript directement, sans étape de compilation en développement. \texttt{tsc -{}-noEmit} sert uniquement à la vérification de types.
+  \item \textbf{Zod} valide toutes les entrées. Une donnée invalide produit une erreur \code{VALIDATION_ERROR} (400) qui détaille chaque champ fautif.
+  \item \textbf{Un fichier \code{.env} unique} dans \code{backend/}, chargé par \code{@cnc/common} avec \code{process.loadEnvFile} (fonction native de Node). Chaque service y lit sa propre URL de base (\code{AUTH_DATABASE_URL}, \code{CATALOG_DATABASE_URL}, etc.).
+\end{itemize}
+\end{note}
+
+% -----------------------------------------------------------------------------
+\subsection{Le paquet partagé \texttt{@cnc/common}}
+
+Tous les services sont construits de la même façon, grâce à \code{createServiceApp}. Pour relire un service, il suffit donc de lire son fichier \code{routes} : le reste est commun.
+
+\begin{lstlisting}[language=TypeScript,caption={\texttt{packages/common/src/service-app.ts} (extrait)}]
+export function createServiceApp({ name, internalSecret, router }: ServiceOptions): Express {
+  const app = express()
+  app.disable('x-powered-by')
+
+  app.get('/health', (_req, res) => {                 // public : supervision
+    res.json({ service: name, status: 'ok', time: new Date().toISOString() })
+  })
+
+  app.use(requireGateway(internalSecret))             // 403 si l'appel ne vient pas de la gateway
+  app.use(express.json({ limit: '1mb' }))
+  app.use(router)                                     // routes métier du service
+
+  app.use(notFoundHandler)                            // 404 JSON
+  app.use(errorHandler)                               // HttpError, ZodError, 500
+  return app
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=TypeScript,caption={\texttt{auth-context.ts} : contrôle d'accès dans les services}]
+export function requireUser(role?: Role): RequestHandler {
+  return (req, _res, next) => {
+    const user = getAuthUser(req)                     // lit x-user-id / x-user-role
+    if (!user) return next(new HttpError(401, 'Authentification requise', 'UNAUTHORIZED'))
+    if (role && user.role !== role) return next(new HttpError(403, 'Droits insuffisants', 'FORBIDDEN'))
+    next()
+  }
+}
+\end{lstlisting}
+
+Toutes les erreurs ont le même format JSON, quel que soit le service. Le frontend n'aura donc qu'un seul cas à gérer :
+\begin{lstlisting}[numbers=none,language={}]
+{ "error": "EMAIL_TAKEN", "message": "Un compte existe deja avec cet e-mail" }
+{ "error": "VALIDATION_ERROR", "message": "Donnees invalides",
+  "details": [ { "path": "filiere", "message": "Invalid option: ..." } ] }
+\end{lstlisting}
+
+% -----------------------------------------------------------------------------
+\subsection{L'API Gateway}
+
+\subsubsection{Chaîne de traitement d'une requête}
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[node distance=3.5mm,
+  st/.style={box,fill=navy!8,minimum width=2.25cm,minimum height=1.25cm,font=\scriptsize,text width=2cm}]
+  \node[st] (1) {\textbf{CORS}\\origine = \texttt{CORS\_ORIGIN}};
+  \node[st,right=of 1] (2) {\textbf{Rate limit}\\600 req / 15\,min\\(20 sur login)};
+  \node[st,right=of 2] (3) {\textbf{/api/health}\\santé agrégée des 6 services};
+  \node[st,right=of 3,fill=warm!10,draw=warm] (4) {\textbf{authenticate}\\JWT + en-têtes d'identité};
+  \node[st,right=of 4] (5) {\textbf{Proxy}\\préfixe $\rightarrow$ service\\\texttt{/api} retiré};
+  \foreach \a/\b in {1/2,2/3,3/4,4/5}{\draw[arr] (\a) -- (\b);}
+  \node[box,fill=red!6,draw=warm,font=\scriptsize,below=7mm of 4] (e) {401\\\texttt{UNAUTHORIZED}\\\texttt{INVALID\_TOKEN}};
+  \node[box,fill=red!6,draw=warm,font=\scriptsize,below=7mm of 5] (e2) {503\\\texttt{SERVICE\_}\\\texttt{UNAVAILABLE}};
+  \node[box,fill=red!6,draw=warm,font=\scriptsize,below=7mm of 2] (e3) {429\\Too Many\\Requests};
+  \draw[darr,color=warm] (4) -- (e); \draw[darr,color=warm] (5) -- (e2); \draw[darr,color=warm] (2) -- (e3);
+\end{tikzpicture}
+\caption{Middlewares de la gateway, dans l'ordre d'exécution}
+\end{figure}
+
+La gateway \textbf{ne lit pas le corps} des requêtes (pas de \code{express.json()}). Le flux est transmis tel quel au service, ce qui évite de devoir le reconstruire dans le proxy.
+
+\subsubsection{Table de routage}
+
+\begin{table}[H]\centering\small
+\begin{tabular}{l l l l}
+\toprule
+\textbf{Préfixe public} & \textbf{Service} & \textbf{Cible} & \textbf{Exemple réécrit}\\
+\midrule
+\code{/api/auth} & auth-user-service & \code{:4001} & \code{/api/auth/login} $\rightarrow$ \code{/auth/login}\\
+\code{/api/users} & auth-user-service & \code{:4001} & \code{/api/users/me} $\rightarrow$ \code{/users/me}\\
+\code{/api/catalog} & catalog-course-service & \code{:4002} & \code{/catalog/chapters}\\
+\code{/api/exams} & exam-submission-service & \code{:4003} & \code{/exams/:id/sessions}\\
+\code{/api/analytics} & analytics-streak-service & \code{:4004} & \code{/analytics/me/streak}\\
+\code{/api/contact} & admin-contact-service & \code{:4005} & \code{/contact/tickets}\\
+\code{/api/qcm} & adaptive-qcm-service & \code{:4006} & \code{/qcm/sessions}\\
+\bottomrule
+\end{tabular}
+\caption{Routage de la gateway (\texttt{gateway/src/routes.ts})}
+\end{table}
+
+\textbf{Routes publiques} (sans jeton) : \code{POST /api/auth/register}, \code{/login}, \code{/refresh}, \code{/logout} et \code{GET /api/health}. Toutes les autres routes exigent un access token valide.
+
+\begin{lstlisting}[language=TypeScript,caption={\texttt{gateway/src/authenticate.ts} : le cœur de la sécurité}]
+export function authenticate(accessSecret: string, internalSecret: string): RequestHandler {
+  return (req, _res, next) => {
+    delete req.headers[HEADER_USER_ID]                // anti-usurpation : on ignore
+    delete req.headers[HEADER_USER_ROLE]              // ce que le client prétend être
+    req.headers[HEADER_INTERNAL_SECRET] = internalSecret
+
+    const header = req.header('authorization')
+    const token = header?.startsWith('Bearer ') ? header.slice(7) : null
+    if (token) {
+      try {
+        const payload = jwt.verify(token, accessSecret) as AccessTokenPayload
+        req.headers[HEADER_USER_ID] = payload.sub
+        req.headers[HEADER_USER_ROLE] = payload.role
+      } catch {
+        return next(new HttpError(401, 'Access token invalide ou expire', 'INVALID_TOKEN'))
+      }
+    }
+    if (!token && !isPublicRoute(req.method, req.path)) {
+      return next(new HttpError(401, 'Authentification requise', 'UNAUTHORIZED'))
+    }
+    next()
+  }
+}
+\end{lstlisting}
+
+% -----------------------------------------------------------------------------
+\subsection{auth-user-service (Sprint 1, implémenté)}\label{sec:auth}
+
+\subsubsection{Découpage en couches}
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[node distance=4mm,
+  ly/.style={box,minimum width=3.1cm,minimum height=1cm,font=\scriptsize,text width=2.9cm}]
+  \node[ly,fill=royal!8] (r) {\textbf{routes.ts}\\HTTP : lit \texttt{req}, répond};
+  \node[ly,fill=yellow!10,right=of r] (z) {\textbf{schemas.ts}\\validation Zod};
+  \node[ly,fill=green!8,right=of z] (s) {\textbf{auth.service.ts}\\\textbf{users.service.ts}\\règles métier};
+  \node[ly,fill=navy!8,right=of s] (d) {\textbf{db.ts}\\client Prisma};
+  \node[db,right=6mm of d,minimum width=1.6cm] (pg) {schéma\\\texttt{auth}};
+  \draw[arr] (r) -- (z); \draw[arr] (z) -- (s); \draw[arr] (s) -- (d); \draw[arr] (d) -- (pg);
+  \node[ly,fill=soft,below=6mm of s] (t) {\textbf{tokens.ts}\\JWT, refresh, SHA-256};
+  \node[ly,fill=soft,below=6mm of z] (m) {\textbf{user-mapper.ts}\\\texttt{toPublicUser()}};
+  \node[ly,fill=soft,below=6mm of d] (c) {\textbf{config.ts}\\secrets, durées};
+  \draw[arr] (s) -- (t); \draw[arr] (s) -- (m); \draw[darr] (t) -- (c);
+\end{tikzpicture}
+\caption{Couches du service : chaque fichier a une seule responsabilité}
+\end{figure}
+
+\subsubsection{Modèle de données (schéma \texttt{auth})}
+
+Le modèle traduit la hiérarchie \code{User} / \code{Student} / \code{Administrator} du diagramme de classes du CDC (section 4.2). Comme Prisma ne gère pas l'héritage, on utilise une \textbf{table par spécialisation}, chacune en relation 1–1 avec \code{users}.
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+  ent/.style={draw=navy,rectangle split,rectangle split parts=2,rectangle split part fill={navy!15,white},font=\scriptsize,align=left,rounded corners=2pt,text width=3.9cm}]
+  \node[ent] (u) at (0,0) {\textbf{users}\nodepart{two}\texttt{id} UUID PK\\ \texttt{firstName}, \texttt{lastName}\\ \texttt{email} UNIQUE\\ \texttt{passwordHash} (bcrypt)\\ \texttt{role} STUDENT|ADMIN\\ \texttt{createdAt}, \texttt{updatedAt}};
+  \node[ent] (s) at (-5.2,-0.4) {\textbf{students}\nodepart{two}\texttt{userId} PK/FK\\ \texttt{filiere} MP|PSI|TSI\\ \texttt{enrolledYear} SUP|SPE\\ \texttt{cpgeCenter}\\ \texttt{accessAllYears} = true};
+  \node[ent] (a) at (5.2,-0.4) {\textbf{administrators}\nodepart{two}\texttt{userId} PK/FK\\ \texttt{privilegeLevel}\\ \texttt{assignedSubjects[]}\\ \texttt{department}};
+  \node[ent] (t) at (0,-4.1) {\textbf{refresh\_tokens}\nodepart{two}\texttt{id} UUID PK\\ \texttt{userId} FK (index)\\ \texttt{tokenHash} UNIQUE (SHA-256)\\ \texttt{expiresAt}, \texttt{revokedAt?}};
+  \draw[arr,-] (s) -- node[lbl,above]{1 — 0..1} (u);
+  \draw[arr,-] (a) -- node[lbl,above]{0..1 — 1} (u);
+  \draw[arr,-] (u) -- node[lbl,right]{1 — 0..*} (t);
+\end{tikzpicture}
+\caption{Schéma \texttt{auth} (suppression en cascade depuis \texttt{users})}
+\end{figure}
+
+\subsubsection{Endpoints}
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{l l l X}
+\toprule
+\textbf{Méthode} & \textbf{Route (gateway)} & \textbf{Accès} & \textbf{Corps / réponse}\\
+\midrule
+POST & \code{/api/auth/register} & public & \code{firstName, lastName, email, password, cpgeCenter, enrolledYear, filiere} $\rightarrow$ 201 \code{{user, accessToken, refreshToken}}\\
+POST & \code{/api/auth/login} & public & \code{email, password} $\rightarrow$ 200 \code{{user, accessToken, refreshToken}}\\
+POST & \code{/api/auth/refresh} & public & \code{refreshToken} $\rightarrow$ nouvelle paire (rotation)\\
+POST & \code{/api/auth/logout} & public & \code{refreshToken} $\rightarrow$ 204 (jeton révoqué)\\
+GET & \code{/api/users/me} & connecté & profil complet (jamais \code{passwordHash})\\
+PATCH & \code{/api/users/me} & connecté & nom, prénom ; centre, année, filière (étudiant)\\
+GET & \code{/api/users?page=&pageSize=} & ADMIN & liste paginée \code{{total, page, items}}\\
+\bottomrule
+\end{tabularx}
+\caption{API de \texttt{auth-user-service}}
+\end{table}
+
+\subsubsection{Stratégie des jetons}
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{l X X}
+\toprule
+ & \textbf{Access token} & \textbf{Refresh token}\\
+\midrule
+Format & JWT signé HS256, contenu \code{{sub, role}} & 48 octets aléatoires (\code{base64url}), opaque\\
+Durée & 15 minutes (\code{ACCESS_TOKEN_TTL}) & 30 jours (\code{REFRESH_TOKEN_TTL_DAYS})\\
+Stockage serveur & aucun (vérifié par signature) & seulement son \textbf{empreinte SHA-256} en base\\
+Vérifié par & la gateway, à chaque requête & \code{auth-user-service}, sur \code{/auth/refresh}\\
+Révocation & expiration naturelle & \code{revokedAt} (déconnexion, rotation, vol détecté)\\
+\bottomrule
+\end{tabularx}
+\caption{Les deux jetons définis par le CDC (section 2.1)}
+\end{table}
+
+\subsubsection{Rotation des refresh tokens et détection de vol}
+
+Chaque appel à \code{/auth/refresh} \textbf{consomme} le refresh token présenté et en émet un nouveau. Si un jeton déjà consommé est présenté une deuxième fois, il a forcément été copié. Le service révoque alors \emph{tous} les jetons de l'utilisateur, ce qui coupe aussi la session de l'attaquant.
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[node distance=9mm]
+  \node[box,fill=white] (in) {\texttt{POST /auth/refresh}\\\scriptsize\texttt{\{refreshToken\}}};
+  \node[box,fill=soft,below=of in] (h) {recherche par \texttt{sha256(token)}};
+  \node[diamond,draw=navy,aspect=2.2,font=\scriptsize,inner sep=1pt,below=of h] (q1) {trouvé ?};
+  \node[diamond,draw=navy,aspect=2.2,font=\scriptsize,inner sep=1pt,below=of q1] (q2) {révoqué ?};
+  \node[diamond,draw=navy,aspect=2.2,font=\scriptsize,inner sep=1pt,below=of q2] (q3) {expiré ?};
+  \node[done,below=of q3] (ok) {révoque l'ancien + émet\\une nouvelle paire $\rightarrow$ 200};
+  \node[box,fill=red!8,draw=warm,right=18mm of q1] (e1) {401 \texttt{INVALID\_REFRESH\_TOKEN}};
+  \node[box,fill=red!15,draw=warm,right=18mm of q2,text width=4.3cm] (e2) {\textbf{vol présumé} : révoque \emph{tous} les jetons de l'utilisateur $\rightarrow$ 401 \texttt{REFRESH\_TOKEN\_REUSED}};
+  \node[box,fill=red!8,draw=warm,right=18mm of q3] (e3) {401 \texttt{REFRESH\_TOKEN\_EXPIRED}};
+  \draw[arr] (in) -- (h); \draw[arr] (h) -- (q1);
+  \draw[arr] (q1) -- node[lbl,left]{oui} (q2); \draw[arr] (q2) -- node[lbl,left]{non} (q3); \draw[arr] (q3) -- node[lbl,left]{non} (ok);
+  \draw[arr] (q1) -- node[lbl,above]{non} (e1); \draw[arr] (q2) -- node[lbl,above]{oui} (e2); \draw[arr] (q3) -- node[lbl,above]{oui} (e3);
+\end{tikzpicture}
+\caption{Algorithme de \texttt{refresh()} dans \texttt{auth.service.ts}}
+\end{figure}
+
+\begin{lstlisting}[language=TypeScript,caption={\texttt{auth.service.ts} : inscription et connexion}]
+export async function register(input: RegisterInput) {
+  const exists = await prisma.user.findUnique({ where: { email: input.email } })
+  if (exists) throw new HttpError(409, 'Un compte existe deja avec cet e-mail', 'EMAIL_TAKEN')
+
+  const user = await prisma.user.create({
+    data: {
+      firstName: input.firstName, lastName: input.lastName, email: input.email,
+      passwordHash: await bcrypt.hash(input.password, config.bcryptRounds),   // coût 12
+      role: 'STUDENT',
+      student: { create: { filiere: input.filiere, enrolledYear: input.enrolledYear,
+                           cpgeCenter: input.cpgeCenter, accessAllYears: true } },
+    },
+    include: withProfile,
+  })
+  return { user: toPublicUser(user), ...(await issueTokens(user.id, user.role)) }
+}
+
+export async function login(input: LoginInput) {
+  const user = await prisma.user.findUnique({ where: { email: input.email }, include: withProfile })
+  // compare() est appelé même si l'utilisateur n'existe pas (temps de réponse constant)
+  const valid = await bcrypt.compare(input.password, user?.passwordHash ?? DUMMY_HASH)
+  if (!user || !valid) throw new HttpError(401, 'E-mail ou mot de passe incorrect', 'INVALID_CREDENTIALS')
+  return { user: toPublicUser(user), ...(await issueTokens(user.id, user.role)) }
+}
+\end{lstlisting}
+
+\subsubsection{Mesures de sécurité}
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{l X}
+\toprule
+\textbf{Menace} & \textbf{Parade mise en place}\\
+\midrule
+Vol de la base de données & bcrypt (coût 12) pour les mots de passe, SHA-256 pour les refresh tokens\\
+Brute force sur la connexion & 20 tentatives par tranche de 15 min et par IP sur login et register\\
+Énumération des comptes & message d'erreur identique, \code{bcrypt.compare} exécuté même si l'e-mail n'existe pas\\
+Usurpation d'identité & en-têtes \code{x-user-*} venant du client supprimés à la gateway\\
+Appel direct d'un service & secret interne obligatoire, sinon 403\\
+Vol d'un refresh token & rotation à chaque usage et révocation globale en cas de réutilisation\\
+Fuite de données & \code{toPublicUser()} n'expose jamais \code{passwordHash} ; en-tête \code{x-powered-by} désactivé\\
+Élévation de privilèges & le rôle vient du JWT signé ; \code{requireUser('ADMIN')} sur les routes d'administration\\
+Entrées malformées & validation Zod de tous les corps de requête (e-mail normalisé, énumérations strictes)\\
+\bottomrule
+\end{tabularx}
+\caption{Sécurité implémentée au Sprint 1}
+\end{table}
+
+% -----------------------------------------------------------------------------
+\subsection{Les cinq autres microservices (squelettes)}
+
+Chaque squelette contient trois éléments :
+\begin{enumerate}
+  \item un \textbf{schéma Prisma complet}, déjà poussé en base, qui traduit le diagramme de classes du CDC ;
+  \item un fichier \code{index.ts} qui \textbf{déclare toutes les routes prévues}. Elles répondent \code{501 NOT_IMPLEMENTED} avec le numéro du sprint concerné ;
+  \item le contrôle d'accès déjà en place sur les routes d'administration (\code{requireUser('ADMIN')}).
+\end{enumerate}
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[
+  ent/.style={draw=navy,rectangle split,rectangle split parts=2,rectangle split part fill={#1!15,white},font=\tiny,align=left,rounded corners=2pt,text width=3.55cm},
+  ent/.default=royal]
+  \node[font=\small\bfseries\color{royal}] at (0,0.6) {catalog};
+  \node[ent,anchor=north] (sb) at (0,0.3) {\textbf{Subject}\nodepart{two}code MATH|PHYS|SI|INFO\\coeffMP, coeffPSI, coeffTSI};
+  \node[ent,below=2mm of sb] (ch) {\textbf{Chapter}\nodepart{two}studyLevel SUP|SPE, domainName\\title, targetFilieres[], orderIndex};
+  \node[ent,below=2mm of ch] (ls) {\textbf{Lesson}\nodepart{two}contentLatex, coursePdfUrl\\summarySheetUrl, durée};
+  \node[ent,below=2mm of ls] (ex) {\textbf{Exercise}\nodepart{two}ref (EXO-MP-MATH-204), difficulty\\statementLatex, hintsLatex[]\\solutionLatex, statementPdfUrl, corrPdfUrl};
+  \node[ent,below=2mm of ex] (ea) {\textbf{ExerciseAttempt}\nodepart{two}usedMode PDF|BIBMATH, hintUsed\\resolutionStatus, timeSpentSec};
+  \node[ent,below=2mm of ea] (rb) {\textbf{ReferenceBook}\nodepart{two}title, authors, edition\\studyLevel SUP|SPE|BOTH};
+
+  \node[font=\small\bfseries\color{warm}] at (4.1,0.6) {exam};
+  \node[ent=warm,anchor=north] (ce) at (4.1,0.3) {\textbf{CncExam}\nodepart{two}kind CNC\_ANNALE|PROBLEM\\year, filiere, epreuve\\durationMinutes, PDFs, barème, rapport jury};
+  \node[ent=warm,below=2mm of ce] (es) {\textbf{ExamSession}\nodepart{two}startedAt, deadlineAt\\submittedAt (chronomètre)};
+  \node[ent=warm,below=2mm of es] (ws) {\textbf{WrittenSubmission}\nodepart{two}writtenContentLatex\\uploadedScanUrl, selfGrade\\personalNotes};
+
+  \node[font=\small\bfseries\color{okgreen}] at (8.2,0.6) {analytics};
+  \node[ent=okgreen,anchor=north] (us) at (8.2,0.3) {\textbf{UserStreak}\nodepart{two}currentStreak, longestStreak\\lastActiveDate, freezeTokens};
+  \node[ent=okgreen,below=2mm of us] (dl) {\textbf{DailyActivityLog}\nodepart{two}(userId, date, subject) UNIQUE\\lessonsRead, exercisesSolved\\problemsWritten, qcmCompleted, minutes};
+  \node[font=\small\bfseries\color{navy}] at (8.2,-3.4) {contact};
+  \node[ent=navy,anchor=north] (cm) at (8.2,-3.7) {\textbf{ContactMessage}\nodepart{two}category (4 valeurs), targetEntityRef\\status OPEN|IN\_PROGRESS|RESOLVED\\adminReply, repliedBy};
+  \node[ent=navy,below=2mm of cm] (nt) {\textbf{Notification}\nodepart{two}ticketId, message, readAt};
+
+  \node[font=\small\bfseries\color{purple}] at (12.3,0.6) {qcm};
+  \node[ent=purple,anchor=north] (qq) at (12.3,0.3) {\textbf{QcmQuestion}\nodepart{two}questionLatex, difficultyLevel\\targetTimeSec, explanationLatex};
+  \node[ent=purple,below=2mm of qq] (qc) {\textbf{QcmChoice}\nodepart{two}labelLatex, isCorrect, feedback};
+  \node[ent=purple,below=2mm of qc] (qm) {\textbf{QcmMastery}\nodepart{two}(userId, chapterId), score = 50};
+  \node[ent=purple,below=2mm of qm] (qs) {\textbf{QcmSession} / \textbf{QcmAnswer}\nodepart{two}currentDifficulty, score\\weakLessonsJson, masteryAfter};
+  \node[ent=purple,below=2mm of qs] (qr) {\textbf{QcmSpacedRepetition}\nodepart{two}step, intervalDays\\easeFactor, nextReviewDate};
+\end{tikzpicture}
+\caption{Modèles Prisma des services squelettes (déjà créés en base)}
+\end{figure}
+
+\begin{table}[H]\centering\footnotesize
+\begin{tabularx}{\linewidth}{l X}
+\toprule
+\textbf{Service} & \textbf{Routes déclarées (réponse 501 en attendant)}\\
+\midrule
+catalog (S2) & \code{GET /catalog/subjects}, \code{/chapters?subject&level&filiere}, \code{/chapters/:id}, \code{/lessons/:id}, \code{/lessons/:id/exercises}, \code{/exercises/:id}, \code{POST /exercises/:id/attempts}, \code{GET /books}, \code{/books/:id} ; admin : \code{POST|PATCH|DELETE /catalog/:entity}\\
+exam (S3) & \code{GET /exams?kind&year&filiere&epreuve}, \code{/exams/:id}, \code{POST /exams/:id/sessions}, \code{POST /exams/sessions/:id/submit}, \code{PATCH /exams/submissions/:id}, \code{GET /exams/submissions/mine} ; admin : \code{POST|PATCH /exams}\\
+analytics (S4) & \code{POST /analytics/activities}, \code{GET /analytics/me/streak}, \code{/me/heatmap?year}, \code{/me/subjects}, \code{/me/summary}\\
+contact (S4) & \code{POST /contact/tickets}, \code{GET /tickets/mine}, \code{/tickets/:id}, \code{/notifications}, \code{PATCH /notifications/:id/read} ; admin : \code{GET /contact/admin/tickets}, \code{PATCH /admin/tickets/:id}, \code{POST /admin/tickets/:id/reply}\\
+qcm (S5) & \code{POST /qcm/sessions}, \code{POST /sessions/:id/answers}, \code{POST /sessions/:id/finish}, \code{GET /qcm/flash}, \code{GET /qcm/mastery} ; admin : \code{POST|PATCH /qcm/questions}\\
+\bottomrule
+\end{tabularx}
+\caption{Contrat d'API déjà fixé pour les sprints 2 à 5}
+\end{table}
+
+% -----------------------------------------------------------------------------
+\subsection{Logique métier déjà codée : Streak et QCM adaptatif}
+
+Les deux algorithmes du CDC sont écrits comme des \textbf{fonctions pures}, sans base de données. Ils sont donc testables en isolation ; les sprints 4 et 5 n'auront qu'à les appeler depuis les routes.
+
+\subsubsection{Moteur de Streak (\texttt{analytics-streak-service/src/streak.ts})}
+
+Le calcul suit le diagramme d'activité 4.3.1 du CDC. On note $\Delta$ le nombre de jours calendaires entre la dernière activité et aujourd'hui :
+\[
+\text{currentStreak}' =
+\begin{cases}
+\text{currentStreak} & \text{si } \Delta = 0 \quad\text{(déjà actif aujourd'hui)}\\
+\text{currentStreak}+1 & \text{si } \Delta = 1\\
+1 & \text{si } \Delta > 1
+\end{cases}
+\]
+\[
+\text{longestStreak}' = \max(\text{longestStreak},\ \text{currentStreak}')
+\]
+
+\begin{lstlisting}[language=TypeScript,caption={Fonction \texttt{updateStreak}}]
+export function updateStreak(state: StreakState, today: string): StreakState {
+  if (state.lastActiveDate === null) {
+    return { currentStreak: 1, longestStreak: Math.max(1, state.longestStreak), lastActiveDate: today }
+  }
+  const delta = daysBetween(state.lastActiveDate, today)
+  if (delta < 0) throw new Error('Activite anterieure a la derniere activite enregistree')
+  if (delta === 0) return state
+  const currentStreak = delta === 1 ? state.currentStreak + 1 : 1
+  return { currentStreak, longestStreak: Math.max(state.longestStreak, currentStreak), lastActiveDate: today }
+}
+\end{lstlisting}
+
+\begin{note}[Le piège du fuseau horaire]
+Un « jour » doit être le jour \emph{de l'étudiant} (Africa/Casablanca, UTC+1), pas celui du serveur. \code{localDate()} convertit un instant en date locale : une activité à 23h30 UTC le 4 novembre compte pour le \textbf{5} novembre à Casablanca. Un test unitaire couvre ce cas.
+\end{note}
+
+\subsubsection{Moteur QCM adaptatif (\texttt{adaptive-qcm-service/src/adaptive-engine.ts})}
+
+Formule (1) du CDC (section 6.2) :
+\[
+M_{k+1}(u,c) = \operatorname{clamp}_{[0,100]}\Big(M_k(u,c) + \alpha\cdot S_k\cdot\omega(D_k)\cdot\varphi(t_k)\Big)
+\]
+\[
+S_k=\begin{cases}+1 & \text{réponse exacte}\\-1{,}2 & \text{réponse fausse}\end{cases}
+\qquad
+\omega(D)=1+0{,}25\,(D-1)
+\qquad
+\varphi(t)=\max\!\Big(0{,}5\,;\ \min\big(1{,}3\,;\ \tfrac{T_{\text{cible}}}{t}\big)\Big)
+\]
+Le CDC ne fixe pas la valeur de $\alpha$. Elle est réglée à $\alpha=5$ (constante \code{ALPHA}) : une bonne réponse rapide en difficulté 4 rapporte au plus $5\times1{,}75\times1{,}3\approx 11{,}4$ points.
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[node distance=7mm]
+  \node[box] (q) {question de niveau $D$};
+  \node[diamond,draw=navy,aspect=2.4,font=\scriptsize,right=of q,inner sep=1pt] (c) {exacte ?};
+  \node[diamond,draw=navy,aspect=2.4,font=\scriptsize,above right=2mm and 8mm of c,inner sep=1pt] (f) {$t\le T_{\text{cible}}$ ?};
+  \node[done,right=8mm of f,yshift=5mm] (up) {$D\leftarrow\min(4,D+1)$};
+  \node[box,right=8mm of f,yshift=-5mm] (eq) {$D$ inchangé};
+  \node[box,fill=red!8,draw=warm,below right=2mm and 8mm of c,text width=4.2cm,font=\scriptsize] (dn) {$D\leftarrow\max(1,D-1)$, explication affichée, ajout en répétition espacée (J+1)};
+  \draw[arr] (q) -- (c);
+  \draw[arr] (c) |- node[lbl,pos=0.25,left]{oui} (f);
+  \draw[arr] (c) |- node[lbl,pos=0.25,left]{non} (dn);
+  \draw[arr] (f) -- node[lbl,above]{oui} (up);
+  \draw[arr] (f) -- node[lbl,below]{non} (eq);
+\end{tikzpicture}
+\caption{Sélection adaptative de la difficulté (\texttt{nextDifficulty})}
+\end{figure}
+
+\paragraph{Répétition espacée.} Une question ratée entre dans la file avec une révision à J+1. Chaque bonne réponse lors d'une révision la fait avancer d'un cran ; une erreur la ramène à J+1.
+\begin{center}
+\begin{tikzpicture}[x=1cm]
+  \draw[arr] (0,0) -- (12.6,0) node[right,font=\scriptsize]{temps};
+  \foreach \x/\l/\s in {0/{erreur}/{J0},2.2/{révision 1}/{J+1},4.8/{révision 2}/{J+3},7.8/{révision 3}/{J+7}}{
+    \fill[navy] (\x,0) circle (2.5pt);
+    \node[font=\scriptsize,above] at (\x,0.12) {\l};
+    \node[font=\scriptsize\bfseries,below] at (\x,-0.12) {\s};}
+  \fill[okgreen] (11.2,0) circle (3pt);
+  \node[font=\scriptsize,above,text=okgreen] at (11.2,0.12) {révision 4 réussie};
+  \node[font=\scriptsize\bfseries,below,text=okgreen] at (11.2,-0.12) {J+21 $\rightarrow$ sortie de la file};
+\end{tikzpicture}
+\end{center}
+
+% -----------------------------------------------------------------------------
+\subsection{Vérifications réalisées}
+
+\begin{ok}[Compilation et tests unitaires]
+\begin{itemize}
+  \item \code{npm run typecheck} : \textbf{0 erreur} sur les 8 workspaces (TypeScript \code{strict}).
+  \item \code{npm test} : \textbf{15 tests réussis sur 15}. Ils couvrent le Streak (6 tests : $\Delta=0$, $\Delta=1$, $\Delta>1$, changement de mois ou d'année, année bissextile, fuseau horaire), le moteur QCM (6 tests : bornes de $M$, de $\varphi$ et de $D$, séquence J+1/J+3/J+7/J+21) et la validation de l'inscription (3 tests).
+  \item Frontend : \code{next build} réussi après le déplacement (11 pages générées).
+\end{itemize}
+\end{ok}
+
+\paragraph{Test de bout en bout.} PostgreSQL a été lancé dans Docker, les 6 schémas créés, puis les 7 processus démarrés. Le scénario ci-dessous a été joué contre la gateway (\code{http://localhost:4000}) :
+
+\begin{longtable}{>{\ttfamily}c p{6.3cm} p{6.6cm}}
+\toprule
+\textrm{\textbf{Code}} & \textbf{Requête} & \textbf{Comportement vérifié}\\
+\midrule\endhead
+201 & \code{POST /api/auth/register} & compte créé, rôle STUDENT, filière PSI, \code{passwordHash} absent de la réponse\\
+409 & même e-mail une seconde fois & \code{EMAIL_TAKEN}\\
+400 & e-mail invalide, filière « BCPST » & \code{VALIDATION_ERROR} avec 7 champs détaillés\\
+401 & connexion avec un mauvais mot de passe & \code{INVALID_CREDENTIALS}\\
+200 & connexion correcte & paire de jetons\\
+401 & \code{GET /api/users/me} sans jeton & bloqué par la gateway\\
+401 & \code{GET /api/users/me} avec un jeton forgé & \code{INVALID_TOKEN}\\
+200 & \code{GET /api/users/me} avec un jeton valide & profil renvoyé\\
+200 & \code{PATCH /api/users/me} \code{{enrolledYear: SPE}} & profil mis à jour\\
+403 & \code{GET /api/users} en tant qu'étudiant & réservé à ADMIN\\
+403 & même requête + en-tête \code{x-user-role: ADMIN} & \textbf{usurpation bloquée}\\
+200 & \code{GET /api/users} en tant qu'admin & liste paginée (3 comptes)\\
+200 & \code{POST /api/auth/refresh} & rotation : nouvelle paire\\
+401 & ré-utilisation de l'ancien refresh token & \code{REFRESH_TOKEN_REUSED}\\
+401 & refresh avec le jeton issu de la rotation & révoqué aussi (révocation globale)\\
+204 & \code{POST /api/auth/logout} & jeton révoqué\\
+501 & \code{GET /api/catalog/subjects} & « sera implémenté au Sprint 2 »\\
+403 & appel direct \code{http://localhost:4001/users/me} & refusé sans secret interne\\
+200 & \code{GET /api/health} & gateway + 6 services « up »\\
+\bottomrule
+\caption{Scénario de bout en bout : 19 cas, tous conformes}
+\end{longtable}

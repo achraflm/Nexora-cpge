@@ -1,0 +1,145 @@
+% =============================================================================
+%  Rapport technique — Plateforme CNC (Projets 28 & 15)
+%  Compilation : latexmk -pdf rapport.tex   (ou pdflatex x2)
+% =============================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[a4paper,margin=2.2cm,headheight=14pt]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{booktabs,tabularx,longtable,array,multirow}
+\usepackage{enumitem}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,shapes.multipart,fit,backgrounds,calc,decorations.pathreplacing}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+% ---------------------------------------------------------------- Couleurs CDC
+\definecolor{navy}{HTML}{14365D}
+\definecolor{royal}{HTML}{2B6CB0}
+\definecolor{warm}{HTML}{C05621}
+\definecolor{okgreen}{HTML}{2F855A}
+\definecolor{todo}{HTML}{B7791F}
+\definecolor{soft}{HTML}{EDF2F7}
+\definecolor{codebg}{HTML}{F7FAFC}
+
+% ---------------------------------------------------------------- Mise en page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{navy}\textbf{Plateforme CNC} — Rapport technique}
+\fancyhead[R]{\small\color{royal}Frontend \& Backend}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}{\Large\bfseries\color{navy}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\large\bfseries\color{royal}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{navy}}{\thesubsubsection}{0.5em}{}
+\setlist{itemsep=2pt,topsep=4pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\sloppy
+\setlength{\emergencystretch}{3em}
+
+% ---------------------------------------------------------------- Commandes
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\fait}{\textcolor{okgreen}{\textbf{Fait}}}
+\newcommand{\afaire}{\textcolor{todo}{\textbf{À faire}}}
+\newcommand{\partiel}{\textcolor{royal}{\textbf{Partiel}}}
+\newcommand{\capture}[3][0.92]{%
+  \begin{figure}[H]\centering
+  \fcolorbox{black!15}{white}{\includegraphics[width=#1\linewidth]{images/#2}}
+  \caption{#3}\end{figure}}
+
+\newtcolorbox{note}[1][Remarque]{colback=soft,colframe=royal,fonttitle=\bfseries,title=#1,breakable,arc=2pt,boxrule=0.6pt}
+\newtcolorbox{alerte}[1][Attention]{colback=orange!6,colframe=warm,fonttitle=\bfseries,title=#1,breakable,arc=2pt,boxrule=0.6pt}
+\newtcolorbox{ok}[1][Résultat]{colback=green!4,colframe=okgreen,fonttitle=\bfseries,title=#1,breakable,arc=2pt,boxrule=0.6pt}
+
+% ---------------------------------------------------------------- Code
+\lstdefinelanguage{TypeScript}{
+  keywords={const,let,var,function,return,if,else,for,of,in,new,throw,try,catch,async,await,
+    import,export,from,type,interface,class,extends,readonly,true,false,null,undefined,typeof,as,default},
+  sensitive=true, comment=[l]{//}, morecomment=[s]{/*}{*/},
+  morestring=[b]', morestring=[b]", morestring=[b]`}
+\lstdefinelanguage{Prisma}{
+  keywords={model,enum,generator,datasource,String,Int,Float,Boolean,DateTime,Json},
+  sensitive=true, comment=[l]{//}, morestring=[b]"}
+\lstset{
+  basicstyle=\ttfamily\footnotesize, keywordstyle=\color{royal}\bfseries,
+  commentstyle=\color{black!50}\itshape, stringstyle=\color{warm},
+  backgroundcolor=\color{codebg}, frame=single, rulecolor=\color{black!15},
+  breaklines=true, columns=fullflexible, keepspaces=true, showstringspaces=false,
+  numbers=left, numberstyle=\tiny\color{black!40}, xleftmargin=1.5em, framexleftmargin=1.5em,
+  literate={é}{{\'e}}1 {è}{{\`e}}1 {à}{{\`a}}1 {ê}{{\^e}}1 {ç}{{\c c}}1 {ô}{{\^o}}1
+           {É}{{\'E}}1 {î}{{\^i}}1 {ù}{{\`u}}1 {→}{{$\rightarrow$}}1
+           {û}{{\^u}}1 {â}{{\^a}}1 {ï}{{\"i}}1 {ë}{{\"e}}1 {ü}{{\"u}}1 {À}{{\`A}}1
+           {È}{{\`E}}1 {Ê}{{\^E}}1 {Ç}{{\c C}}1 {œ}{{\oe}}1 {«}{{\guillemotleft}}1 {»}{{\guillemotright}}1
+}
+
+% ---------------------------------------------------------------- Styles TikZ
+\tikzset{
+  box/.style={draw=navy,rounded corners=3pt,fill=white,align=center,font=\small,inner sep=5pt,line width=0.6pt},
+  svc/.style={box,fill=royal!8,minimum width=3.2cm,minimum height=1.1cm},
+  done/.style={box,fill=green!10,draw=okgreen},
+  skel/.style={box,fill=orange!8,draw=warm,dashed},
+  db/.style={cylinder,shape border rotate=90,aspect=0.18,draw=navy,fill=navy!8,align=center,font=\small,minimum height=1.3cm,minimum width=2.2cm},
+  arr/.style={-{Stealth[length=2.2mm]},line width=0.6pt,color=navy},
+  darr/.style={arr,dashed},
+  lbl/.style={font=\scriptsize,fill=white,inner sep=1pt},
+}
+
+\hypersetup{pdftitle={Plateforme CNC - Rapport technique},pdfauthor={A. Lemrani, M. Rouijel}}
+
+% =============================================================================
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  {\color{navy}\rule{\linewidth}{1.2pt}}\\[1.2em]
+  {\large\textsc{Royaume du Maroc — CPGE \& Cycle Ingénieur}}\\[2.2em]
+  {\Huge\bfseries\color{navy} Rapport technique du projet}\\[0.6em]
+  {\LARGE\color{royal} Plateforme de préparation au CNC}\\[0.4em]
+  {\large Projet 28 \& extension Projet 15 (QCM adaptatif)}\\[1.2em]
+  {\color{navy}\rule{\linewidth}{1.2pt}}\\[2.5em]
+
+  \begin{tikzpicture}[node distance=6mm]
+    \node[box,fill=royal!10,minimum width=4.2cm,minimum height=1.2cm] (f) {\textbf{frontend/}\\ Next.js 16 · React 19};
+    \node[box,fill=green!10,draw=okgreen,minimum width=4.2cm,minimum height=1.2cm,right=2.8cm of f] (b) {\textbf{backend/}\\ Node.js · 7 processus};
+    \draw[arr,{Stealth[length=2.2mm]}-{Stealth[length=2.2mm]}] (f) -- node[above=2pt,font=\scriptsize,text=navy]{HTTP / JSON} (b);
+  \end{tikzpicture}\\[3em]
+
+  \begin{minipage}{0.8\linewidth}\centering\large
+    Ce document explique \textbf{ce qui a été fait}, \textbf{ce qu'il reste à faire} et \textbf{la logique du code} du frontend et du backend, avec des schémas et des captures d'écran de l'application.
+  \end{minipage}\\[\fill]
+
+  \begin{tabular}{ll}
+    \textbf{Réalisé par :} & Achraf Lemrani, Mohammed Rouijel\\
+    \textbf{Encadré par :} & M. Hosni\\
+    \textbf{Référence :} & Cahier des charges (\code{docs/cdc.pdf})\\
+    \textbf{Date :} & \today\\
+  \end{tabular}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\input{sections/01-introduction}
+\input{sections/02-organisation}
+\input{sections/03-architecture}
+\input{sections/04-frontend}
+\input{sections/05-backend}
+\input{sections/05b-base-de-donnees}
+\input{sections/06-a-faire}
+\input{sections/07-demarrage}
+
+\end{document}

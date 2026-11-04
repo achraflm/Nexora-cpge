@@ -1,0 +1,94 @@
+// adaptive-qcm-service — schema PostgreSQL "qcm" (Sprint 5, Projet 15)
+// Tables du CDC 6.3 : qcm_questions, qcm_choices, qcm_sessions, qcm_spaced_repetition
+// + qcm_mastery (indice M(u,c)) et qcm_answers (historique des reponses).
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("QCM_DATABASE_URL")
+}
+
+model QcmQuestion {
+  id               String      @id @default(uuid()) @db.Uuid
+  lessonId         String      @db.Uuid
+  chapterId        String      @db.Uuid
+  questionLatex    String
+  difficultyLevel  Int         /// 1..4
+  targetTimeSec    Int         /// T_cible
+  explanationLatex String
+  choices          QcmChoice[]
+  answers          QcmAnswer[]
+
+  @@index([chapterId, difficultyLevel])
+  @@map("qcm_questions")
+}
+
+model QcmChoice {
+  id         String      @id @default(uuid()) @db.Uuid
+  questionId String      @db.Uuid
+  labelLatex String
+  isCorrect  Boolean
+  feedback   String?     /// pourquoi ce distracteur est faux
+  question   QcmQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@map("qcm_choices")
+}
+
+/// Indice de maitrise M(u, c) in [0, 100], initialise a 50.
+model QcmMastery {
+  userId       String   @db.Uuid
+  chapterId    String   @db.Uuid
+  masteryScore Float    @default(50)
+  updatedAt    DateTime @updatedAt
+
+  @@id([userId, chapterId])
+  @@map("qcm_mastery")
+}
+
+model QcmSession {
+  id                String      @id @default(uuid()) @db.Uuid
+  userId            String      @db.Uuid
+  chapterId         String      @db.Uuid
+  currentDifficulty Int         @default(2)
+  score             Float?
+  weakLessonsJson   Json?       /// lecons "a consolider"
+  startedAt         DateTime    @default(now())
+  endedAt           DateTime?
+  answers           QcmAnswer[]
+
+  @@index([userId])
+  @@map("qcm_sessions")
+}
+
+model QcmAnswer {
+  id            String      @id @default(uuid()) @db.Uuid
+  sessionId     String      @db.Uuid
+  questionId    String      @db.Uuid
+  choiceId      String      @db.Uuid
+  isCorrect     Boolean
+  timeSpentSec  Int
+  masteryAfter  Float
+  answeredAt    DateTime    @default(now())
+  session       QcmSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question      QcmQuestion @relation(fields: [questionId], references: [id])
+
+  @@map("qcm_answers")
+}
+
+/// File de repetition espacee (J+1, J+3, J+7, J+21).
+model QcmSpacedRepetition {
+  userId         String   @db.Uuid
+  questionId     String   @db.Uuid
+  step           Int      @default(0)
+  intervalDays   Int
+  easeFactor     Float    @default(2.5)
+  nextReviewDate DateTime @db.Date
+
+  @@id([userId, questionId])
+  @@index([userId, nextReviewDate])
+  @@map("qcm_spaced_repetition")
+}

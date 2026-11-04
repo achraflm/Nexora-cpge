@@ -1,0 +1,136 @@
+// catalog-course-service — schema PostgreSQL "catalog" (Sprint 2)
+// Classes du CDC (4.2) : Subject, Chapter, Lesson, Exercise, ExerciseAttempt, ReferenceBook.
+// userId reference un utilisateur d'auth-user-service : pas de cle etrangere entre services.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("CATALOG_DATABASE_URL")
+}
+
+enum SubjectCode {
+  MATH
+  PHYS
+  SI
+  INFO
+}
+
+enum StudyLevel {
+  SUP
+  SPE
+}
+
+enum BookLevel {
+  SUP
+  SPE
+  BOTH
+}
+
+enum ExerciseMode {
+  PDF
+  BIBMATH
+}
+
+/// Auto-evaluation de l'etudiant : Maitrise / Avec indication / A revoir (CDC 2.2).
+enum ResolutionStatus {
+  MASTERED
+  WITH_HINT
+  TO_REVIEW
+}
+
+model Subject {
+  id       Int             @id @default(autoincrement())
+  code     SubjectCode     @unique
+  name     String
+  coeffMP  Float
+  coeffPSI Float
+  coeffTSI Float
+  chapters Chapter[]
+  books    ReferenceBook[]
+
+  @@map("subjects")
+}
+
+/// studyLevel SUP | SPE : sert au filtrage, jamais a restreindre l'acces.
+model Chapter {
+  id             String     @id @default(uuid()) @db.Uuid
+  subjectId      Int
+  studyLevel     StudyLevel
+  domainName     String
+  title          String
+  targetFilieres String[]
+  orderIndex     Int
+  subject        Subject    @relation(fields: [subjectId], references: [id])
+  lessons        Lesson[]
+
+  @@index([subjectId, studyLevel])
+  @@map("chapters")
+}
+
+model Lesson {
+  id                   String     @id @default(uuid()) @db.Uuid
+  chapterId            String     @db.Uuid
+  title                String
+  contentLatex         String
+  coursePdfUrl         String?
+  summarySheetUrl      String?
+  estimatedDurationMin Int
+  orderIndex           Int
+  chapter              Chapter    @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  exercises            Exercise[]
+
+  @@map("lessons")
+}
+
+/// Exercice en double mode : Bibm@th (LaTeX) + PDF classique.
+model Exercise {
+  id              String            @id @default(uuid()) @db.Uuid
+  ref             String            @unique /// ex. EXO-MP-MATH-204 (target_entity_ref des tickets)
+  lessonId        String            @db.Uuid
+  annaleSource    String?           /// ex. "Extrait CNC MP - Mathematiques I"
+  difficulty      Int               /// 1..4 etoiles
+  statementLatex  String
+  hintsLatex      String[]          /// indices progressifs
+  solutionLatex   String
+  statementPdfUrl String?
+  corrPdfUrl      String?
+  lesson          Lesson            @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  attempts        ExerciseAttempt[]
+
+  @@map("exercises")
+}
+
+model ExerciseAttempt {
+  id               String           @id @default(uuid()) @db.Uuid
+  exerciseId       String           @db.Uuid
+  userId           String           @db.Uuid
+  usedMode         ExerciseMode
+  hintUsed         Boolean          @default(false)
+  resolutionStatus ResolutionStatus
+  timeSpentSec     Int
+  attemptedAt      DateTime         @default(now())
+  exercise         Exercise         @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("exercise_attempts")
+}
+
+/// Section Ouvrages de reference (CDC 2.4).
+model ReferenceBook {
+  id               String    @id @default(uuid()) @db.Uuid
+  subjectId        Int
+  title            String
+  authors          String
+  edition          String?
+  targetFilieres   String[]
+  studyLevel       BookLevel
+  summaryAndAdvice String
+  resourcePdfUrl   String?
+  subject          Subject   @relation(fields: [subjectId], references: [id])
+
+  @@map("reference_books")
+}

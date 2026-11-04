@@ -1,0 +1,29 @@
+{
+  "name": "cnc-backend",
+  "private": true,
+  "type": "module",
+  "description": "Backend microservices Node.js (TypeScript) de la plateforme CNC - Projets 28 & 15",
+  "workspaces": [
+    "packages/*",
+    "gateway",
+    "services/*"
+  ],
+  "scripts": {
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down",
+    "db:generate": "npm run db:generate --workspaces --if-present",
+    "db:push": "npm run db:push --workspaces --if-present",
+    "db:seed": "npm run db:seed --workspace=auth-user-service",
+    "dev": "concurrently -k -n gateway,auth,catalog,exam,analytics,contact,qcm -c blue,green,cyan,magenta,yellow,red,white \"npm:dev -w gateway\" \"npm:dev -w auth-user-service\" \"npm:dev -w catalog-course-service\" \"npm:dev -w exam-submission-service\" \"npm:dev -w analytics-streak-service\" \"npm:dev -w admin-contact-service\" \"npm:dev -w adaptive-qcm-service\"",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "concurrently": "^9.2.0",
+    "dotenv-cli": "^10.0.0",
+    "prisma": "^6.19.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}

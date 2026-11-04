@@ -1,0 +1,83 @@
+// auth-user-service — schema PostgreSQL "auth"
+// Classes du CDC (4.2) : User (abstraite), Student, Administrator.
+// RefreshToken : stockage des refresh tokens JWT (CDC 2.1, securite).
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("AUTH_DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum Filiere {
+  MP
+  PSI
+  TSI
+}
+
+enum StudyYear {
+  SUP
+  SPE
+}
+
+/// Classe abstraite User du CDC : champs communs aux etudiants et administrateurs.
+model User {
+  id            String         @id @default(uuid()) @db.Uuid
+  firstName     String
+  lastName      String
+  email         String         @unique
+  passwordHash  String
+  role          Role           @default(STUDENT)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  student       Student?
+  administrator Administrator?
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+/// Specialisation Student : profil CPGE. accessAllYears = true (navigation libre Sup/Spe).
+model Student {
+  userId         String    @id @db.Uuid
+  filiere        Filiere
+  enrolledYear   StudyYear
+  cpgeCenter     String
+  accessAllYears Boolean   @default(true)
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("students")
+}
+
+/// Specialisation Administrator.
+model Administrator {
+  userId           String   @id @db.Uuid
+  privilegeLevel   Int      @default(1)
+  assignedSubjects String[]
+  department       String?
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("administrators")
+}
+
+/// Refresh token opaque : seul son hash SHA-256 est stocke.
+model RefreshToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @db.Uuid
+  tokenHash String    @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}

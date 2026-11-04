@@ -1,0 +1,45 @@
+// analytics-streak-service — schema PostgreSQL "analytics" (Sprint 4)
+// Classes du CDC (4.2) : UserStreak, DailyActivityLog.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("ANALYTICS_DATABASE_URL")
+}
+
+enum SubjectCode {
+  MATH
+  PHYS
+  SI
+  INFO
+}
+
+model UserStreak {
+  userId         String    @id @db.Uuid
+  currentStreak  Int       @default(0)
+  longestStreak  Int       @default(0)
+  lastActiveDate DateTime? @db.Date
+  freezeTokens   Int       @default(0)
+
+  @@map("user_streaks")
+}
+
+/// Une ligne par (etudiant, jour, matiere) : alimente heatmap, radar et compteurs.
+model DailyActivityLog {
+  id              String      @id @default(uuid()) @db.Uuid
+  userId          String      @db.Uuid
+  activityDate    DateTime    @db.Date
+  subjectCode     SubjectCode
+  lessonsRead     Int         @default(0)
+  exercisesSolved Int         @default(0)
+  problemsWritten Int         @default(0)
+  qcmCompleted    Int         @default(0)
+  studyMinutes    Int         @default(0)
+
+  @@unique([userId, activityDate, subjectCode])
+  @@map("daily_activity_logs")
+}

@@ -1,25 +1,37 @@
-# v0 sandbox internal files
-__v0_runtime_loader.js
-__v0_devtools.tsx
-__v0_jsx-dev-runtime.ts
-.snowflake/
-.design-cache/
-.v0-trash/
-.vercel/
+# Archive (old files, not used by the code)
+/archive/
 
-# Environment variables
-.env*.local
+# Dependencies
+node_modules/
 
-# Common ignores
-node_modules
+# Builds / generated
 .next/
-.DS_Store
+out/
+dist/
+build/
+*.tsbuildinfo
+**/src/generated/
+
+# Environment / secrets
 .env
 .env.*
 !.env.example
-*.tsbuildinfo
-/tmp/
-/output/
 
+# Python
 __pycache__/
 *.pyc
+
+# LaTeX build artefacts
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

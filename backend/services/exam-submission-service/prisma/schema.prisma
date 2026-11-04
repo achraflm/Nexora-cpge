@@ -1,0 +1,87 @@
+// exam-submission-service — schema PostgreSQL "exam" (Sprint 3)
+// Classes du CDC (4.2) : CncExam & Problem, WrittenSubmission (+ ExamSession pour le chronometre).
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("EXAM_DATABASE_URL")
+}
+
+enum ExamKind {
+  CNC_ANNALE
+  PROBLEM
+}
+
+enum Filiere {
+  MP
+  PSI
+  TSI
+}
+
+/// Epreuves du CNC (CDC 2.3).
+enum Epreuve {
+  MATH_1
+  MATH_2
+  PHYS_1
+  PHYS_2
+  SI
+  INFO
+}
+
+/// Annale officielle (year renseigne) ou probleme transversal (year null).
+model CncExam {
+  id               String              @id @default(uuid()) @db.Uuid
+  kind             ExamKind
+  year             Int?                /// 2010..2026
+  filiere          Filiere
+  epreuve          Epreuve
+  title            String
+  durationMinutes  Int                 /// 180 ou 240
+  statementPdfUrl  String
+  solutionPdfUrl   String?             /// debloque apres soumission
+  gradingSchemeUrl String?             /// bareme, debloque apres soumission
+  juryReportUrl    String?
+  sessions         ExamSession[]
+  submissions      WrittenSubmission[]
+
+  @@index([year, filiere, epreuve])
+  @@map("cnc_exams")
+}
+
+/// Simulateur chronometre : deadlineAt = startedAt + durationMinutes (calcule cote serveur).
+model ExamSession {
+  id          String             @id @default(uuid()) @db.Uuid
+  userId      String             @db.Uuid
+  examId      String             @db.Uuid
+  timed       Boolean            @default(true)
+  startedAt   DateTime           @default(now())
+  deadlineAt  DateTime?
+  submittedAt DateTime?
+  exam        CncExam            @relation(fields: [examId], references: [id])
+  submission  WrittenSubmission?
+
+  @@index([userId])
+  @@map("exam_sessions")
+}
+
+/// "Mes Problemes Rediges" : redaction LaTeX/Markdown ou scan televerse (MinIO/S3).
+model WrittenSubmission {
+  id                  String       @id @default(uuid()) @db.Uuid
+  userId              String       @db.Uuid
+  examId              String       @db.Uuid
+  sessionId           String?      @unique @db.Uuid
+  writtenContentLatex String?
+  uploadedScanUrl     String?
+  selfGrade           Float?       /// note d'auto-evaluation /20
+  personalNotes       String?
+  submittedAt         DateTime     @default(now())
+  exam                CncExam      @relation(fields: [examId], references: [id])
+  session             ExamSession? @relation(fields: [sessionId], references: [id])
+
+  @@index([userId])
+  @@map("written_submissions")
+}

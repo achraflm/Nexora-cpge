@@ -1,0 +1,51 @@
+\section{Introduction}
+
+\subsection{Rappel du besoin (cahier des charges)}
+
+Le cahier des charges (CDC) décrit une plateforme web de préparation au \textbf{Concours National Commun} (CNC) pour les étudiants de CPGE des filières \textbf{MP}, \textbf{PSI} et \textbf{TSI}, sur quatre matières : Mathématiques, Physique, Sciences de l'Ingénieur et Informatique. Les modules fonctionnels sont :
+
+\begin{enumerate}[label=\textbf{M\arabic*}]
+  \item Authentification, profil étudiant et navigation libre Sup / Spé (JWT + bcrypt) ;
+  \item Cours par leçon et exercices en double mode (PDF classique et mode interactif type Bibm@th) ;
+  \item Problèmes, annales CNC 2010–2026, simulateur chronométré et « Mes Problèmes Rédigés » ;
+  \item Bibliothèque d'ouvrages de référence ;
+  \item Dashboard personnel : Streak, heatmap, statistiques par matière ;
+  \item Contact admin et signalement d'errata (tickets) ;
+  \item Fonctionnalités optionnelles (fiches express, TIPE, simulateur de rang, oraux, carnet d'erreurs).
+\end{enumerate}
+
+L'extension \textbf{Projet 15} ajoute un QCM intelligent : indice de maîtrise $M(u,c)$, difficulté adaptative et répétition espacée.
+
+Sur le plan technique, le CDC (section 3.1) impose une \textbf{architecture microservices en Node.js (TypeScript)} : une API Gateway et six microservices, PostgreSQL 16 avec Prisma (un schéma logique par service), Redis et un stockage objet S3/MinIO.
+
+\subsection{Objectif de ce document}
+
+Ce rapport sert à relire et comprendre le projet. Il répond à trois questions :
+
+\begin{description}[leftmargin=1.5em,style=nextline]
+  \item[Ce qui a été fait] l'organisation du dépôt en deux applications séparées, le frontend (prototype complet) et le backend (architecture complète, Sprint 1 implémenté et testé).
+  \item[Ce qu'il reste à faire] les sprints 2 à 5 du backend, le branchement du frontend sur l'API et les écarts au CDC.
+  \item[La logique du code] le cheminement d'une requête, le rôle de chaque fichier et les algorithmes (JWT, rotation des refresh tokens, Streak, QCM adaptatif).
+\end{description}
+
+\subsection{Synthèse de l'état d'avancement}
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{>{\bfseries}l X c}
+\toprule
+Élément & Contenu & État\\
+\midrule
+Organisation du dépôt & \code{frontend/}, \code{backend/}, \code{docs/}, \code{archive/} séparés & \fait\\
+Frontend (prototype) & 7 routes, 42 composants, environ 37\,700 lignes, données de démonstration & \fait\\
+API Gateway & Routage, JWT, rate limiting, CORS, santé agrégée & \fait\\
+\code{auth-user-service} & Inscription, connexion, refresh avec rotation, déconnexion, profil, liste admin & \fait\\
+Package \code{@cnc/common} & Configuration, erreurs, contexte d'identité, application type & \fait\\
+5 autres microservices & Schéma Prisma complet, routes déclarées (réponse 501) & \partiel\\
+Base de données & PostgreSQL 16 : 6 schémas, 23 tables créées ; migrations versionnées à mettre en place (section~\ref{sec:bdd}) & \partiel\\
+Moteur de Streak, moteur QCM & Formules du CDC codées et testées (logique pure) & \fait\\
+Logique métier des sprints 2 à 5 & Catalogue, examens, analytique, contact, QCM & \afaire\\
+Branchement frontend $\leftrightarrow$ API & Remplacer les données en dur par des appels HTTP & \afaire\\
+\bottomrule
+\end{tabularx}
+\caption{État d'avancement global}
+\end{table}

@@ -1,0 +1,57 @@
+\section{Guide de démarrage}
+
+\subsection{Prérequis}
+Node.js 24 ou plus récent, npm 11, et Docker Desktop (pour PostgreSQL, Redis et MinIO).
+
+\subsection{Backend}
+\begin{lstlisting}[numbers=none,language={}]
+cd backend
+copy .env.example .env      # puis remplir JWT_ACCESS_SECRET et INTERNAL_SECRET
+                            # node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+npm install
+npm run infra:up            # PostgreSQL :5434, Redis :6379, MinIO :9000 (console :9001)
+npm run db:generate
+npm run db:push
+npm run db:seed             # admin@learning-cnc.ma / AdminPassword2026!
+                            # achraf.lemrani@cpge-cnc.ma / StudentPassword2026!
+npm run dev                 # gateway :4000 + 6 services :4001..4006
+\end{lstlisting}
+
+Vérification rapide :
+\begin{lstlisting}[numbers=none,language={}]
+curl http://localhost:4000/api/health
+curl -X POST http://localhost:4000/api/auth/login -H "Content-Type: application/json" \
+     -d "{\"email\":\"admin@learning-cnc.ma\",\"password\":\"AdminPassword2026!\"}"
+\end{lstlisting}
+
+\subsection{Frontend}
+\begin{lstlisting}[numbers=none,language={}]
+cd frontend
+npm install                 # postinstall : copie les fichiers de pdf.js dans public/pdfjs
+npm run dev                 # http://localhost:3000 (ou 3001 si le port 3000 est pris)
+\end{lstlisting}
+
+\subsection{Ajouter une route dans un service (méthode)}
+\begin{enumerate}
+  \item Écrire le schéma Zod de l'entrée dans \code{src/schemas.ts}.
+  \item Écrire la fonction métier dans \code{src/<domaine>.service.ts}. Elle utilise \code{prisma} et lève une \code{HttpError} en cas de règle violée.
+  \item Dans \code{src/routes.ts} (ou \code{index.ts}), remplacer \code{todo} par :
+\begin{lstlisting}[language=TypeScript,numbers=none]
+router.get('/catalog/chapters', async (req, res) => {
+  res.json(await catalog.listChapters(chapterQuerySchema.parse(req.query)))
+})
+\end{lstlisting}
+  \item Si le schéma Prisma a changé : \code{npm run db:generate} puis \code{npm run db:push}.
+  \item Ajouter un test (\code{*.test.ts}), puis lancer \code{npm run typecheck} et \code{npm test}.
+\end{enumerate}
+
+\begin{note}[Pour relire le code dans le bon ordre]
+\begin{enumerate}
+  \item \code{backend/gateway/src/index.ts}, puis \code{authenticate.ts} : comment une requête entre.
+  \item \code{backend/packages/common/src/} : le socle de tous les services.
+  \item \code{backend/services/auth-user-service/src/routes.ts}, puis \code{auth.service.ts} et \code{tokens.ts} : un service complet.
+  \item \code{prisma/schema.prisma} de chaque service : le modèle de données du CDC.
+  \item \code{streak.ts} et \code{adaptive-engine.ts}, avec leurs tests : les algorithmes.
+  \item \code{frontend/app/page.tsx}, puis \code{components/CourseExerciseQcmDoubleMode.tsx} : l'interface.
+\end{enumerate}
+\end{note}

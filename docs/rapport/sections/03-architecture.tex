@@ -1,0 +1,77 @@
+\section{Architecture globale}
+
+\subsection{Vue d'ensemble}
+
+L'architecture reprend la section 3.1 du CDC. Le navigateur ne connaît qu'une seule adresse, celle de l'\textbf{API Gateway}. C'est la gateway qui vérifie l'identité de l'utilisateur, puis transmet la requête au microservice concerné.
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[node distance=5mm]
+  % Client
+  \node[box,fill=royal!12,minimum width=12.6cm,minimum height=1cm] (fe) {\textbf{Frontend} — Next.js 16 / React 19 / Tailwind / KaTeX / pdf.js \hfill \texttt{:3000}};
+  % Gateway
+  \node[box,fill=navy!10,minimum width=12.6cm,minimum height=1.25cm,below=9mm of fe] (gw)
+    {\textbf{API Gateway} \texttt{:4000} — CORS · rate limiting · vérification JWT · routage \texttt{/api/*}};
+  \draw[arr] (fe) -- node[lbl,right]{HTTPS / JSON + \texttt{Authorization: Bearer}} (gw);
+
+  % Services
+  \begin{scope}[node distance=2mm]
+  \node[done,minimum width=1.95cm,minimum height=1.5cm,below=11mm of gw.south west,anchor=north west,font=\scriptsize] (s1) {\textbf{auth-user}\\ \texttt{:4001}\\ Sprint 1};
+  \node[skel,minimum width=1.95cm,minimum height=1.5cm,right=of s1,font=\scriptsize] (s2) {\textbf{catalog-}\\\textbf{course} \texttt{:4002}\\ Sprint 2};
+  \node[skel,minimum width=1.95cm,minimum height=1.5cm,right=of s2,font=\scriptsize] (s3) {\textbf{exam-}\\\textbf{submission}\\ \texttt{:4003} S3};
+  \node[skel,minimum width=1.95cm,minimum height=1.5cm,right=of s3,font=\scriptsize] (s4) {\textbf{analytics-}\\\textbf{streak}\\ \texttt{:4004} S4};
+  \node[skel,minimum width=1.95cm,minimum height=1.5cm,right=of s4,font=\scriptsize] (s5) {\textbf{admin-}\\\textbf{contact}\\ \texttt{:4005} S4};
+  \node[skel,minimum width=1.95cm,minimum height=1.5cm,right=of s5,font=\scriptsize] (s6) {\textbf{adaptive-}\\\textbf{qcm}\\ \texttt{:4006} S5};
+  \end{scope}
+  \foreach \s/\p in {s1/auth,s2/catalog,s3/exams,s4/analytics,s5/contact,s6/qcm}{
+    \draw[arr] (gw.south -| \s.north) -- node[lbl,font=\tiny]{\texttt{/\p}} (\s.north);
+  }
+
+  % Common
+  \node[box,fill=soft,minimum width=12.6cm,below=4mm of s1.south west,anchor=north west,font=\scriptsize] (cm)
+    {\texttt{packages/common} : configuration, erreurs, \texttt{requireGateway}, \texttt{requireUser}, \texttt{createServiceApp}};
+
+  % Data
+  \node[db,below=8mm of cm.south,xshift=-3.6cm,minimum width=5.2cm] (pg) {\textbf{PostgreSQL 16} \texttt{:5434}\\[-1pt]\scriptsize schémas : auth · catalog · exam\\[-2pt]\scriptsize analytics · contact · qcm};
+  \node[db,right=8mm of pg,fill=red!6] (rd) {\textbf{Redis}\\\scriptsize cache, événements};
+  \node[db,right=8mm of rd,fill=orange!8] (mn) {\textbf{MinIO / S3}\\\scriptsize PDF, copies};
+  \draw[arr] (cm.south -| pg.north) -- node[lbl,font=\scriptsize]{Prisma} (pg.north);
+  \draw[darr] (cm.south -| rd.north) -- (rd.north);
+  \draw[darr] (cm.south -| mn.north) -- (mn.north);
+
+  % Legend
+  \node[done,font=\scriptsize,below=6mm of pg.south west,anchor=north west] (l1) {implémenté};
+  \node[skel,font=\scriptsize,right=3mm of l1] (l2) {squelette (schéma + routes 501)};
+  \draw[darr] ($(l2.east)+(4mm,0)$) -- ++(9mm,0) node[right,font=\scriptsize,text=black]{prévu (Redis, MinIO pas encore utilisés)};
+\end{tikzpicture}
+\caption{Architecture microservices : en vert ce qui est implémenté, en orange les squelettes}
+\label{fig:archi}
+\end{figure}
+
+\subsection{Principes de conception}
+
+\begin{description}[leftmargin=1.5em,style=nextline]
+  \item[Un seul point d'entrée] Le frontend appelle uniquement \code{/api/...} sur la gateway. Les services ne sont jamais appelés directement par le navigateur.
+  \item[JWT vérifié une seule fois] La gateway valide le jeton, puis transmet l'identité au service dans les en-têtes \code{x-user-id} et \code{x-user-role}. Les services n'ont pas besoin du secret JWT ; seul \code{auth-user-service} le connaît, car c'est lui qui signe les jetons.
+  \item[Confiance gateway $\rightarrow$ service] Chaque requête transmise porte un secret partagé, \code{x-internal-secret}. Un service refuse (403) toute requête qui ne le présente pas : un client qui l'appellerait directement ne peut donc pas usurper une identité.
+  \item[Une base par service] Il n'y a qu'un seul serveur PostgreSQL, mais chaque service a son propre schéma et son propre client Prisma (généré dans \code{src/generated/prisma}). Aucun service ne lit les tables d'un autre. Les références entre services, comme \code{userId}, sont de simples UUID sans clé étrangère.
+  \item[Code commun factorisé] Le paquet \code{@cnc/common} évite la duplication entre services : chargement du \code{.env}, format des erreurs, contrôle d'accès et construction de l'application Express.
+\end{description}
+
+\subsection{Cycle de vie d'une requête authentifiée}
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[x=1cm,y=-0.62cm]
+  \foreach \x/\n/\c in {0/Navigateur/royal,4.2/Gateway/navy,8.4/auth-user-service/okgreen,12.4/PostgreSQL/navy}{
+    \node[box,draw=\c,fill=\c!10,minimum width=2.9cm] at (\x,0) {\textbf{\n}};
+    \draw[black!30,dashed] (\x,0.7) -- (\x,13.3);
+  }
+  \draw[arr] (0,1.5) -- node[lbl,above]{\texttt{GET /api/users/me} + Bearer} (4.2,1.5);
+  \node[box,fill=soft,font=\scriptsize,align=left,text width=3.3cm] at (4.2,3.7) {1. supprime \texttt{x-user-*} reçus\\2. \texttt{jwt.verify(token)}\\3. ajoute \texttt{x-user-id}, \texttt{x-user-role}, \texttt{x-internal-secret}};
+  \draw[arr] (4.2,6) -- node[lbl,above]{\texttt{GET /users/me} (préfixe \texttt{/api} retiré)} (8.4,6);
+  \node[box,fill=soft,font=\scriptsize,align=left,text width=3.4cm] at (8.4,8.1) {4. \texttt{requireGateway}\\5. \texttt{requireUser()}\\6. \texttt{users.getUser(id)}};
+  \draw[arr] (8.4,10.2) -- node[lbl,above]{\texttt{findUnique}} (12.4,10.2);
+  \draw[darr] (12.4,11) -- (8.4,11);
+  \draw[darr] (8.4,12) -- node[lbl,above]{200 + JSON (sans \texttt{passwordHash})} (0,12);
+\end{tikzpicture}
+\caption{Diagramme de séquence : lecture du profil de l'utilisateur connecté}
+\end{figure}

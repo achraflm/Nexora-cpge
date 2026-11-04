@@ -1,0 +1,188 @@
+\section{Frontend : ce qui a été fait}
+
+\subsection{Pile technique et volume}
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{l X}
+\toprule
+\textbf{Bibliothèque} & \textbf{Rôle dans le projet}\\
+\midrule
+Next.js 16 (App Router), React 19, TypeScript & Structure des pages ; tous les écrans sont des composants client (\code{'use client'})\\
+Tailwind CSS v4, \code{tw-animate-css} & Styles ; mode sombre piloté par la classe \code{.dark} sur \code{<html>}\\
+KaTeX 0.19 & Rendu des formules (\code{MathFormula.tsx} appelle \code{katex.renderToString})\\
+\code{pdfjs-dist} 6.5 & Liseuse PDF intégrée (\code{document-studio/}) : pages, recherche, signets, mode examen\\
+\code{framer-motion} & Animations (cartes de dossiers, lecteur d'épreuve)\\
+\code{lucide-react}, \code{@phosphor-icons/react} & Icônes\\
+\bottomrule
+\end{tabularx}
+\caption{Bibliothèques principales du frontend}
+\end{table}
+
+\begin{table}[H]\centering\small
+\begin{tabular}{lrr}
+\toprule
+\textbf{Dossier} & \textbf{Fichiers} & \textbf{Lignes}\\
+\midrule
+\code{app/} & 9 & 2\,313\\
+\code{components/} & 42 & 25\,471\\
+\code{lib/} (dont 2 manifestes JSON) & 8 & 9\,326\\
+\code{scripts/} & 6 & 663\\
+\midrule
+\textbf{Total} & 65 & \textbf{37\,773}\\
+\bottomrule
+\end{tabular}
+\quad
+\begin{tabular}{lr}
+\toprule
+\textbf{Ressources} & \textbf{Volume}\\
+\midrule
+PDF d'annales & 559 (568\,Mo)\\
+PDF de problèmes & 20 (1,9\,Mo)\\
+Épreuves référencées & 437\\
+Chapitres de cours & 26\\
+\bottomrule
+\end{tabular}
+\caption{Volume de code et de contenu du frontend}
+\end{table}
+
+\subsection{Routes et navigation}
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{l l X}
+\toprule
+\textbf{Route} & \textbf{Fichier} & \textbf{Contenu}\\
+\midrule
+\code{/} & \code{app/page.tsx} & Application étudiant : 6 onglets (Dashboard, Cours, Annales, Problèmes, QCM, Contact)\\
+\code{/login} & \code{app/login/page.tsx} & \code{LoginPage}, puis redirection vers \code{/admin} ou \code{/} selon le rôle\\
+\code{/signup} & \code{app/signup/page.tsx} & \code{SignUpPage} (nom, e-mail, centre, année, filière)\\
+\code{/admin} & \code{app/admin/page.tsx} & \code{AdminBackOffice} : messages, catalogue, annales, QCM\\
+\code{/pochettes} & \code{app/pochettes/page.tsx} & Espace personnel en dossiers, éditeur de pages (LaTeX, PDF)\\
+\code{/parametres} & \code{app/parametres/page.tsx} & Profil, cursus, sécurité, notifications\\
+\bottomrule
+\end{tabularx}
+\caption{Routes de l'application}
+\end{table}
+
+\begin{figure}[H]\centering
+\resizebox{\linewidth}{!}{\begin{tikzpicture}[
+  pg/.style={box,fill=royal!8,font=\scriptsize,minimum height=0.8cm,text width=2.2cm},
+  sub/.style={box,fill=white,font=\scriptsize,text width=2.2cm},
+  node distance=3mm and 4mm]
+  \node[box,fill=navy!12,font=\small\bfseries] (root) {\texttt{app/page.tsx} — \texttt{activeTab} + \texttt{?tab=}};
+  \node[pg,below=9mm of root,xshift=-6.6cm] (d) {Dashboard\\\texttt{dashboard}};
+  \node[pg,right=of d] (c) {Cours \& TD\\\texttt{cours}};
+  \node[pg,right=of c] (a) {Annales\\\texttt{annales}};
+  \node[pg,right=of a] (p) {Problèmes\\\texttt{problemes}};
+  \node[pg,right=of p] (q) {QCM\\\texttt{qcm}};
+  \node[pg,right=of q] (ct) {Contact\\\texttt{contact}};
+  \foreach \n in {d,c,a,p,q,ct}{\draw[arr] (root.south) -- (\n.north);}
+  \node[sub,below=of d] {StatCard, RevisionChart, ActivityBar, Achievement\-BadgesCard};
+  \node[sub,below=of c] (c1) {Niveaux (Sup/Spé)};
+  \node[sub,below=of c1] (c2) {Matières (dossiers)};
+  \node[sub,below=of c2] (c3) {Chapitres};
+  \node[sub,below=of c3] (c4) {Cours : KaTeX $\leftrightarrow$ planche PDF};
+  \node[sub,below=of c4] (c5) {TD : indices, corrigé, auto-évaluation, QCM flash};
+  \foreach \i/\j in {c1/c2,c2/c3,c3/c4,c4/c5}{\draw[arr] (\i) -- (\j);}
+  \node[sub,below=of a] (a1) {5 concours};
+  \node[sub,below=of a1] (a2) {Sessions (années)};
+  \node[sub,below=of a2] (a3) {Épreuves};
+  \node[sub,below=of a3] (a4) {Lecteur : normal ou concours chronométré};
+  \foreach \i/\j in {a1/a2,a2/a3,a3/a4}{\draw[arr] (\i) -- (\j);}
+  \node[sub,below=of p] (p1) {10 problèmes classiques};
+  \node[sub,below=of p1] {Mode focus + lecteur PDF};
+  \draw[arr] (p1) -- ++(0,-0.75);
+  \node[sub,below=of q] (q1) {Choix matière};
+  \node[sub,below=of q1] {Questions, chrono 90\,s, score};
+  \draw[arr] (q1) -- ++(0,-0.75);
+  \node[sub,below=of ct] {Tickets, messages, pièces jointes};
+\end{tikzpicture}}
+\caption{Arbre de navigation de l'espace étudiant}
+\end{figure}
+
+Les onglets Cours, Annales et QCM sont tous les trois rendus par le même composant, \code{CourseExerciseQcmDoubleMode.tsx} (5\,276 lignes), avec une valeur différente de la prop \code{initialSection}.
+
+\paragraph{Logique de navigation.} \code{app/page.tsx} garde l'onglet actif dans \code{activeTab}. \code{navigateToTab()} met à jour cet état et écrit \code{?tab=<id>} dans l'URL avec \code{history.pushState}. Au chargement et sur \code{popstate}, \code{syncTabFromUrl()} relit le paramètre, en n'acceptant que les onglets d'une liste blanche. Les boutons Précédent et Suivant du navigateur fonctionnent donc sans rechargement.
+
+\paragraph{Session (simulée).} \code{lib/auth.ts} enregistre un objet \code{UserProfile} dans \code{localStorage} (clé \code{learning_cnc_user_session}). Les pages le lisent avec \code{getStoredUser() || DEMO_STUDENT}. Elles se synchronisent grâce à l'événement \code{nexora-user-updated}, émis par la page des paramètres.
+
+\paragraph{Thème.} \code{ThemeToggle} lit \code{localStorage['nexora-theme']}, à défaut \code{prefers-color-scheme}, puis bascule la classe \code{dark} sur \code{<html>}. Le fond animé WebGL (\code{SilkBackground}) observe cette classe avec un \code{MutationObserver}.
+
+\subsection{Écrans réalisés}
+
+\subsubsection{Authentification (M1)}
+\capture[0.75]{01-login.png}{Connexion : comptes de démonstration étudiant et administrateur}
+\capture[0.75]{02-signup.png}{Inscription : prénom, nom, e-mail, centre CPGE, année et filière (UC01)}
+
+\textbf{Logique :} \code{LoginPage} renvoie \code{DEMO_ADMIN} si l'e-mail est celui de l'administrateur, sinon \code{DEMO_STUDENT}, puis appelle \code{saveUserSession()}. \textbf{Le mot de passe n'est pas vérifié} : c'est précisément le rôle du backend (section~\ref{sec:auth}).
+
+\subsubsection{Dashboard (M5)}
+\capture{03-dashboard.png}{Dashboard étudiant : progression, temps de révision par matière, objectifs, activité}
+\capture{04-dashboard-dark.png}{Le même écran en mode sombre (exigence non fonctionnelle 7.1)}
+
+Les valeurs affichées (72\,\%, 12 jours, 15 annales, 254\,h…) sont \textbf{écrites en dur}. La heatmap (\code{ActivityBar}) est générée par une formule pseudo-aléatoire. Ces données viendront de \code{analytics-streak-service}.
+
+\subsubsection{Cours et exercices en double mode (M2)}
+\capture{05-cours-niveaux.png}{Choix du niveau : accès libre Sup et Spé}
+\capture{13-matieres.png}{Choix de la matière (cartes « dossiers »)}
+\capture{14-chapitres.png}{Liste des chapitres d'une matière, avec accès à la partie Cours ou TD}
+\capture{15-cours-interactif.png}{Partie Cours en mode « Fiche interactive KaTeX » : théorie, théorèmes, formules}
+\capture{16-cours-pdf.png}{Partie Cours en mode « Planche PDF » (rendu HTML façon document officiel)}
+\capture{18-td-indice-solution.png}{Partie TD : exercice référencé (\texttt{EXO-MP-MATH-204}), indications progressives, corrigé pas à pas et QCM flash}
+
+\textbf{Logique :} toutes les données (26 chapitres, 28 exercices, 26 questions) sont dans le tableau \code{COURSES_DATABASE} de \code{CourseExerciseQcmDoubleMode.tsx}. Chaque exercice a le type suivant :
+\begin{lstlisting}[language=TypeScript,numbers=none]
+interface CourseExercise {
+  id: string; refCode: string; source: string; difficultyStars: number
+  title: string; statement: string; statementMath?: string[]
+  hints: string[]                                  // indices progressifs
+  solutionSteps: { stepTitle: string; content: string; math?: string }[]
+}
+\end{lstlisting}
+Le composant mémorise \code{unlockedHints[exoId]}, le nombre d'indices déjà dévoilés, et \code{revealedSolutions[exoId]}. L'auto-évaluation (Maîtrisé, Avec aide, À revoir) est stockée dans \code{exerciseEvaluations}, \textbf{uniquement en mémoire}. Ce type correspond presque exactement au modèle \code{Exercise} du backend (\code{statementLatex}, \code{hintsLatex[]}, \code{solutionLatex}).
+
+\subsubsection{Annales CNC et simulateur d'épreuve (M3)}
+\capture{06-annales.png}{Portail des concours : 437 épreuves référencées, dont 156 CNC avec de vrais PDF}
+\capture{19-annales-cnc.png}{Sessions d'annales CNC (2000 à 2025)}
+\capture{19b-epreuves-2024.png}{Épreuves d'une session, filtres par matière, visionnage normal ou mode concours}
+\capture{21-mode-concours.png}{Mode concours : phase de préparation, chronomètre, brouillon, remise de copie}
+
+\textbf{Logique du chronomètre} (\code{ConcoursPdfExamViewer.tsx}) : l'épreuve passe par trois phases.
+\begin{center}
+\begin{tikzpicture}[node distance=26mm]
+  \node[box,fill=yellow!15] (p) {\texttt{prep}\\\scriptsize 300\,s, énoncé masqué};
+  \node[box,fill=royal!10,right=of p] (a) {\texttt{active}\\\scriptsize durée $\times$ 3600\,s};
+  \node[box,fill=green!10,right=of a] (s) {\texttt{submitted}\\\scriptsize corrigé déverrouillé};
+  \draw[arr] (p) -- node[above=2pt,font=\scriptsize,align=center]{chrono à 0\\ou « Débuter »} (a);
+  \draw[arr] (a) -- node[above=2pt,font=\scriptsize,align=center]{chrono à 0\\ou « Rendre »} (s);
+  \node[box,fill=red!6,draw=warm,font=\scriptsize,below=6mm of a] (i) {sortie de fenêtre (\texttt{blur}, \texttt{visibilitychange}) $\rightarrow$ infraction enregistrée};
+  \draw[darr] (a) -- (i);
+\end{tikzpicture}
+\end{center}
+Un \code{setInterval} d'une seconde décrémente le temps restant. Les annales sont décrites par deux manifestes JSON, générés par \code{scripts/download-*-annales.mjs}, qui pointent vers \code{public/annales/...}.
+
+\subsubsection{Problèmes, QCM et contact}
+\capture{07-problemes.png}{Banque de problèmes classiques (énoncé et corrigé PDF générés par \texttt{build-problem-pdfs.cjs})}
+\capture{22-qcm-question.png}{QCM par matière : question, choix rendus en KaTeX, chronomètre de 90\,s}
+\capture{09-contact.png}{Contact admin : tickets, messagerie, pièces jointes (M6)}
+
+\subsubsection{Back-office et espace personnel}
+\capture{10-admin.png}{Back-office administrateur : demandes à traiter, annales, statistiques}
+\capture{11-pochettes.png}{Pochettes : espace personnel organisé en dossiers}
+\capture{12-parametres.png}{Paramètres : profil, cursus, sécurité, notifications}
+
+\subsection{Bilan du frontend}
+
+\begin{ok}[Points forts]
+L'interface est complète et cohérente avec les maquettes du CDC : double mode d'exercices, rendu KaTeX, liseuse PDF avec mode examen, mode sombre, mise en page responsive, 559 PDF d'annales réellement intégrés, et une navigation qui conserve l'onglet dans l'URL.
+\end{ok}
+
+\begin{alerte}[Limites : c'est un prototype]
+\begin{itemize}
+  \item \textbf{Aucun appel réseau} (aucun \code{fetch}) : toutes les données sont en dur ou dans \code{localStorage}, et rien n'est conservé côté serveur.
+  \item \textbf{Pas de vraie sécurité} : le mot de passe n'est pas vérifié, la route \code{/admin} est accessible sans contrôle de rôle, et \code{clearUserSession()} n'est jamais appelée à la déconnexion.
+  \item \textbf{Composants très volumineux} : \code{CourseExerciseQcmDoubleMode.tsx} fait 5\,276 lignes et \code{AdminBackOffice.tsx} 3\,726 lignes. Ils mélangent données et affichage.
+  \item \textbf{Code orphelin} : \code{StudentDrawer}, \code{PersonalWorkspaceModal} et \code{glass-folder-cards} ne sont rendus nulle part ; l'onglet \code{fiches} est inaccessible.
+  \item Le chronomètre du QCM flash est figé sur « 01:45 » ; la répétition espacée n'est pas reliée à l'interface.
+  \item \code{next.config.mjs} contient \code{ignoreBuildErrors: true} : les erreurs TypeScript sont masquées au build.
+\end{itemize}
+\end{alerte}
