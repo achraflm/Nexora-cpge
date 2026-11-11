@@ -1,15 +1,25 @@
 import { createServiceApp, notImplemented, portEnv, requireEnv, requireUser, startService } from '@cnc/common'
 import { Router } from 'express'
+import { prisma } from './db'
+import { resourceFilters } from './external-resources'
 
 /**
  * catalog-course-service (CDC 3.1 - service 2) — Sprint 2.
  * Matieres, chapitres Sup/Spe, lecons, exercices double mode, ouvrages de reference.
- * Squelette : les routes prevues sont declarees et repondent 501 en attendant le code.
+ * Catalogue externe disponible ; les routes de contenus natifs restent au Sprint 2.
  */
 const router = Router()
 const todo = notImplemented('Sprint 2')
 
 // Consultation (tout etudiant connecte ; aucune restriction Sup/Spe).
+router.get('/catalog/resources', async (req, res) => {
+  const where = resourceFilters.parse(req.query)
+  const resources = await prisma.externalResource.findMany({
+    where,
+    orderBy: [{ subject: 'asc' }, { level: 'asc' }, { orderIndex: 'asc' }, { sourceUrl: 'asc' }],
+  })
+  res.json({ resources, total: resources.length })
+})
 router.get('/catalog/subjects', todo)
 router.get('/catalog/chapters', todo) // ?subject=MATH&level=SUP|SPE&filiere=MP
 router.get('/catalog/chapters/:id', todo)

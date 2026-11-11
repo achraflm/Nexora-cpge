@@ -39,6 +39,9 @@ import {
   Trophy,
 } from '@phosphor-icons/react'
 import { MathFormula } from './MathFormula'
+import { PdfCourseChapterCard } from './PdfCourseChapterCard'
+import { CoursePdfReader } from './CoursePdfReader'
+import { getPdfCourseChapters, type CourseDocument } from '@/lib/pdf-course-chapters'
 import { ThemeToggle } from './ThemeToggle'
 import { NexoraLogo } from './NexoraLogo'
 import { Footer } from './Footer'
@@ -2829,6 +2832,7 @@ export function CourseExerciseQcmDoubleMode({
 
   // Level state: 'sup' (1ère Année CPGE) vs 'spe' (2ème Année CPGE)
   const [selectedLevel, setSelectedLevel] = useState<'sup' | 'spe'>('spe')
+  const [selectedPdfDocument, setSelectedPdfDocument] = useState<CourseDocument | null>(null)
 
   // Flow context: 'cours' (Cours & Exercices de cours) vs 'concours' (Annales et Concours)
   const [currentFlow, setCurrentFlow] = useState<'cours' | 'concours'>(
@@ -2983,6 +2987,7 @@ export function CourseExerciseQcmDoubleMode({
   const currentConcoursMeta = CONCOURS_METADATA_CONFIG[selectedConcoursId] || CONCOURS_METADATA_CONFIG.cnc
 
   const currentSubject = SUBJECTS.find((s) => s.id === selectedSubjectId) || SUBJECTS[0]
+  const pdfChapters = getPdfCourseChapters(selectedSubjectId, selectedLevel)
   const activeSubjectCourses = COURSES_DATABASE.filter(
     (c) => c.subjectId === selectedSubjectId && (c.level || 'spe') === selectedLevel
   )
@@ -3045,6 +3050,7 @@ export function CourseExerciseQcmDoubleMode({
   }
 
   const handleOpenSubjectCourses = (subjectId: 'maths' | 'physique' | 'si' | 'info') => {
+    setSelectedPdfDocument(null)
     setSelectedSubjectId(subjectId)
     const firstCourse = COURSES_DATABASE.find(
       (c) => c.subjectId === subjectId && (c.level || 'spe') === selectedLevel
@@ -4139,7 +4145,10 @@ export function CourseExerciseQcmDoubleMode({
       {/* ====================================================================== */}
       {/* PAGE 2 : LISTE DES CHAPITRES DE COURS PAR MATIÈRE                      */}
       {/* ====================================================================== */}
-      {currentPage === 'courses' && (
+      {currentPage === 'courses' && selectedPdfDocument && (
+        <CoursePdfReader key={selectedPdfDocument.sourceUrl} document={selectedPdfDocument} onBack={() => setSelectedPdfDocument(null)} />
+      )}
+      {currentPage === 'courses' && !selectedPdfDocument && (
         <main className="relative mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8 animate-in fade-in duration-300">
           {/* Header & Back Button to Matières */}
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200/80 pb-5 dark:border-white/10">
@@ -4166,7 +4175,7 @@ export function CourseExerciseQcmDoubleMode({
 
             <div className="flex items-center gap-2">
               <span className="rounded-full bg-[#3978F6]/15 px-3 py-1 text-xs font-bold text-[#2866dc] dark:bg-[#3978F6]/30 dark:text-[#9cc0ff]">
-                {activeSubjectCourses.length} chapitre{activeSubjectCourses.length > 1 ? 's' : ''} disponible{activeSubjectCourses.length > 1 ? 's' : ''}
+                {activeSubjectCourses.length + pdfChapters.length} chapitres
               </span>
             </div>
           </div>
@@ -4182,6 +4191,12 @@ export function CourseExerciseQcmDoubleMode({
 
           {/* GRID OF COURSES CHAPTERS */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
+            {pdfChapters.map(chapter => (
+              <PdfCourseChapterCard key={chapter.id} chapter={chapter} onOpen={document => {
+                setSelectedPdfDocument(document)
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }} />
+            ))}
             {activeSubjectCourses.map((c) => (
               <div
                 key={c.id}

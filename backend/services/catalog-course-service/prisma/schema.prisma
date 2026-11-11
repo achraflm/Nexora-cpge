@@ -24,6 +24,30 @@ enum StudyLevel {
   SPE
 }
 
+enum ExternalResourceType {
+  COURSE
+  TD
+}
+
+/// Documents du catalogue, avec PDF local lorsque le fichier a pu etre importe.
+model ExternalResource {
+  id         String               @id @default(uuid()) @db.Uuid
+  subject    SubjectCode
+  level      StudyLevel
+  type       ExternalResourceType
+  category   String
+  title      String
+  sourceUrl  String               @unique
+  sourceName String
+  orderIndex Int
+  localPdfUrl String?
+  pdfSourceUrl String?
+  downloadStatus String @default("unavailable")
+
+  @@index([subject, level, type])
+  @@map("external_resources")
+}
+
 enum BookLevel {
   SUP
   SPE

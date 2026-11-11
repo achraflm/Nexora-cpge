@@ -17,6 +17,7 @@ interface PdfPageViewProps {
   /** Rendre réellement la page (sinon simple emplacement réservé) */
   active: boolean
   textLayer: boolean
+  rotation?: number
   highlight?: string
   className?: string
   registerRef?: (page: number, el: HTMLDivElement | null) => void
@@ -31,6 +32,7 @@ function PdfPageViewBase({
   size,
   active,
   textLayer,
+  rotation = 0,
   highlight,
   className = "",
   registerRef,
@@ -63,7 +65,7 @@ function PdfPageViewBase({
       try {
         const page = await doc.getPage(pageNumber)
         if (cancelled) return
-        const viewport = page.getViewport({ scale })
+        const viewport = page.getViewport({ scale, rotation: (page.rotate + rotation) % 360 })
         const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1
         let outputScale = Math.min(dpr, 2.5)
         const pixels = viewport.width * viewport.height * outputScale * outputScale
@@ -104,7 +106,7 @@ function PdfPageViewBase({
       task?.cancel()
       textLayerInstance?.cancel()
     }
-  }, [doc, pageNumber, scale, active, textLayer])
+  }, [doc, pageNumber, scale, active, textLayer, rotation])
 
   // Surlignage des occurrences de la recherche dans la couche texte
   useEffect(() => {
