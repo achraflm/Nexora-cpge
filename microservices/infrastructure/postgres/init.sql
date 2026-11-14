@@ -1,0 +1,18 @@
+CREATE ROLE identity LOGIN PASSWORD 'local_dev_only';
+CREATE DATABASE identity OWNER identity;
+REVOKE CONNECT ON DATABASE identity FROM PUBLIC;
+CREATE ROLE academic_content LOGIN PASSWORD 'local_dev_only';
+CREATE DATABASE academic_content OWNER academic_content;
+REVOKE CONNECT ON DATABASE academic_content FROM PUBLIC;
+CREATE ROLE communication LOGIN PASSWORD 'local_dev_only';
+CREATE DATABASE communication OWNER communication;
+REVOKE CONNECT ON DATABASE communication FROM PUBLIC;
+CREATE ROLE student_analytics LOGIN PASSWORD 'local_dev_only';
+CREATE DATABASE student_analytics OWNER student_analytics;
+REVOKE CONNECT ON DATABASE student_analytics FROM PUBLIC;
+CREATE ROLE document_processing LOGIN PASSWORD 'local_dev_only';
+CREATE DATABASE document_processing OWNER document_processing;
+REVOKE CONNECT ON DATABASE document_processing FROM PUBLIC;
+CREATE ROLE adaptive_qcm LOGIN PASSWORD 'local_dev_only';
+CREATE DATABASE adaptive_qcm OWNER adaptive_qcm;
+REVOKE CONNECT ON DATABASE adaptive_qcm FROM PUBLIC;

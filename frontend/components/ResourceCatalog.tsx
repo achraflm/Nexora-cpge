@@ -8,7 +8,7 @@ const ResourceReader = dynamic(() => import('./ResourceReader').then(m => m.Reso
   loading: () => <p role="status" className="px-5 py-8">Ouverture du document…</p>,
 })
 
-export function ResourceCatalog() {
+export function ResourceCatalog({ onReport }: { onReport?: (reference: { ref: string; title: string }) => void }) {
   const [track,setTrack]=useState(''),[subject,setSubject]=useState(''),[type,setType]=useState(''),[q,setQ]=useState(''),[sort,setSort]=useState('desc')
   const [items,setItems]=useState<EducationalResource[]>([]),[loading,setLoading]=useState(true),[error,setError]=useState(''),[selected,setSelected]=useState<EducationalResource|null>(null),[retry,setRetry]=useState(0)
   const [search, setSearch] = useState('')
@@ -32,7 +32,7 @@ export function ResourceCatalog() {
       .finally(() => { if (!controller.signal.aborted) setLoading(false) })
     return () => controller.abort()
   }, [track, subject, type, search, sort, retry])
-  if(selected)return <ResourceReader resource={selected} onBack={()=>setSelected(null)}/>
+  if(selected)return <ResourceReader resource={selected} onBack={()=>setSelected(null)} onReport={onReport && (() => onReport({ ref: 'RES-' + selected.id, title: selected.title }))}/>
   return <section className="mx-auto max-w-[1440px] px-5 py-8 lg:px-8">
     <p className="ui-eyebrow">Bibliothèque pédagogique</p><h1 className="mt-2 text-3xl font-bold">Cours & travaux dirigés</h1><p className="ui-page-description">Les documents publiés par vos enseignants, à consulter directement ici.</p>
     <div className="glowing-card my-6 grid gap-4 rounded-2xl p-5 md:grid-cols-3 xl:grid-cols-5">

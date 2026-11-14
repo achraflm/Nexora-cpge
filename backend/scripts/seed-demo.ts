@@ -4,16 +4,14 @@ import bcrypt from 'bcrypt'
 import { PrismaClient as AuthClient } from '../services/auth-user-service/src/generated/prisma'
 import { PrismaClient as CatalogClient } from '../services/catalog-course-service/src/generated/prisma'
 import { PrismaClient as AnalyticsClient } from '../services/analytics-streak-service/src/generated/prisma'
-import { PrismaClient as ContactClient } from '../services/admin-contact-service/src/generated/prisma'
 import { PrismaClient as QcmClient } from '../services/adaptive-qcm-service/src/generated/prisma'
 import { localDate, updateStreak } from '../services/analytics-streak-service/src/streak'
 
 const auth = new AuthClient()
 const catalog = new CatalogClient()
 const analytics = new AnalyticsClient()
-const contact = new ContactClient()
 const qcm = new QcmClient()
-const clients = [auth, catalog, analytics, contact, qcm]
+const clients = [auth, catalog, analytics, qcm]
 
 // Identifiants stables pour rendre les relances sans doublons et préserver les modifications.
 function id(name: string) {
@@ -25,7 +23,7 @@ async function main() {
   if (process.env.NODE_ENV === 'production') throw new Error('Données de démonstration réservées au développement local.')
   const studentHash = await bcrypt.hash('Nexora-Etudiant-2026!', 12)
   const adminHash = await bcrypt.hash('Nexora-Admin-2026!', 12)
-  const admin = await auth.user.upsert({
+  await auth.user.upsert({
     where: { email: 'admin.demo@example.test' }, update: {},
     create: { id: id('admin'), firstName: 'Samir', lastName: 'Démo', email: 'admin.demo@example.test', passwordHash: adminHash, role: 'ADMIN', administrator: { create: { privilegeLevel: 3, assignedSubjects: ['MATH', 'PHYS', 'SI', 'INFO'], department: 'Équipe pédagogique fictive' } } },
   })
@@ -67,11 +65,10 @@ async function main() {
     for (const day of days) streak = updateStreak(streak, day)
     await analytics.userStreak.upsert({ where: { userId: user.id }, update: {}, create: { userId: user.id, currentStreak: streak.currentStreak, longestStreak: streak.longestStreak, lastActiveDate: new Date(`${today}T00:00:00Z`) } })
     await catalog.exerciseAttempt.upsert({ where: { id: id(`attempt-${slug}`) }, update: {}, create: { id: id(`attempt-${slug}`), userId: user.id, exerciseId: id(`exercise-MATH-${enrolledYear}`), usedMode: 'BIBMATH', hintUsed: true, resolutionStatus: 'WITH_HINT', timeSpentSec: 300 } })
-    await contact.contactMessage.upsert({ where: { id: id(`ticket-${slug}`) }, update: {}, create: { id: id(`ticket-${slug}`), userId: user.id, category: 'PEDAGOGICAL_QUESTION', messageBody: 'Ticket fictif pour tester le suivi pédagogique.', status: 'RESOLVED', adminReply: 'Exemple de réponse pédagogique.', repliedBy: admin.id, resolvedAt: new Date(), notifications: { create: { id: id(`notification-${slug}`), userId: user.id, message: 'Une réponse de démonstration est disponible.' } } } })
     await qcm.qcmMastery.upsert({ where: { userId_chapterId: { userId: user.id, chapterId: id(`chapter-MATH-${enrolledYear}`) } }, update: {}, create: { userId: user.id, chapterId: id(`chapter-MATH-${enrolledYear}`), masteryScore: 50 + index * 5 } })
   }
   // Les sujets publics existants restent référencés par le catalogue local de l'interface.
-  console.log('Base fictive prête : 7 comptes, 4 matières, 8 chapitres/leçons/exercices/QCM, 4 ouvrages, activités et tickets.')
+  console.log('Base fictive prête : 7 comptes, 4 matières, 8 chapitres/leçons/exercices/QCM, 4 ouvrages, activités. Aucune conversation fictive créée.')
 }
 
 main().catch(error => { console.error(error); process.exitCode = 1 }).finally(async () => { await Promise.all(clients.map(client => client.$disconnect())) })

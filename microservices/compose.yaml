@@ -1,0 +1,198 @@
+name: cnc-foundation
+x-environment: &environment
+  SERVICE_HOST_MODE: docker
+  REDIS_URL: redis://redis:6379
+  RABBITMQ_URL: amqp://cnc:${RABBITMQ_PASSWORD:-local_dev_only}@rabbitmq:5672
+  MINIO_ENDPOINT: http://minio:9000
+  MINIO_ACCESS_KEY: cnc
+  MINIO_SECRET_KEY: ${MINIO_PASSWORD:-local_dev_only}
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local_dev_only}
+    ports: ["127.0.0.1:5544:5432"]
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infrastructure/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  redis:
+    image: redis:7-alpine
+    ports: ["127.0.0.1:6389:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: cnc
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-local_dev_only}
+    ports: ["127.0.0.1:5682:5672", "127.0.0.1:15682:15672"]
+    volumes: ["rabbitmq-data:/var/lib/rabbitmq"]
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  minio:
+    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: cnc
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD:-local_dev_only}
+    ports: ["127.0.0.1:9100:9000", "127.0.0.1:9101:9001"]
+    volumes: ["minio-data:/data"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  gateway:
+    build:
+      context: .
+      args:
+        SERVICE: gateway
+    environment:
+      <<: *environment
+      PORT: 5100
+    ports: ["127.0.0.1:5100:5100"]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      rabbitmq: {condition: service_healthy}
+      minio: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5100/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  identity:
+    build:
+      context: .
+      args:
+        SERVICE: services/identity
+    environment:
+      <<: *environment
+      PORT: 5101
+      DATABASE_URL: postgresql://identity:local_dev_only@postgres:5432/identity
+    ports: ["127.0.0.1:5101:5101"]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      rabbitmq: {condition: service_healthy}
+      minio: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5101/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  academic-content:
+    build:
+      context: .
+      args:
+        SERVICE: services/academic-content
+    environment:
+      <<: *environment
+      PORT: 5102
+      DATABASE_URL: postgresql://academic_content:local_dev_only@postgres:5432/academic_content
+    ports: ["127.0.0.1:5102:5102"]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      rabbitmq: {condition: service_healthy}
+      minio: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5102/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  communication:
+    build:
+      context: .
+      args:
+        SERVICE: services/communication
+    environment:
+      <<: *environment
+      PORT: 5103
+      DATABASE_URL: postgresql://communication:local_dev_only@postgres:5432/communication
+    ports: ["127.0.0.1:5103:5103"]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      rabbitmq: {condition: service_healthy}
+      minio: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5103/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  student-analytics:
+    build:
+      context: .
+      args:
+        SERVICE: services/student-analytics
+    environment:
+      <<: *environment
+      PORT: 5104
+      DATABASE_URL: postgresql://student_analytics:local_dev_only@postgres:5432/student_analytics
+    ports: ["127.0.0.1:5104:5104"]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      rabbitmq: {condition: service_healthy}
+      minio: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5104/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  document-processing:
+    build:
+      context: .
+      args:
+        SERVICE: services/document-processing
+    environment:
+      <<: *environment
+      PORT: 5105
+      DATABASE_URL: postgresql://document_processing:local_dev_only@postgres:5432/document_processing
+    ports: ["127.0.0.1:5105:5105"]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      rabbitmq: {condition: service_healthy}
+      minio: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5105/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  adaptive-qcm:
+    build:
+      context: .
+      args:
+        SERVICE: services/adaptive-qcm
+    environment:
+      <<: *environment
+      PORT: 5106
+      DATABASE_URL: postgresql://adaptive_qcm:local_dev_only@postgres:5432/adaptive_qcm
+    ports: ["127.0.0.1:5106:5106"]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      rabbitmq: {condition: service_healthy}
+      minio: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5106/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+volumes:
+  postgres-data:
+  rabbitmq-data:
+  minio-data:

@@ -1,0 +1,20 @@
+{
+  "name": "cnc-microservices-foundation",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "gateway",
+    "services/*"
+  ],
+  "scripts": {
+    "pretypecheck": "npm run build -w @cnc/runtime",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "up": "docker compose up -d --build --wait",
+    "down": "docker compose down",
+    "check": "node scripts/check.mjs"
+  },
+  "engines": {
+    "node": ">=22.12"
+  }
+}

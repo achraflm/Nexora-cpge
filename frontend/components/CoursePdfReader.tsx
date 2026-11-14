@@ -6,7 +6,7 @@ import { openPdf, describePdfError, type PDFDocumentProxy } from './document-stu
 import { PdfPageView, type PageSize } from './document-studio/PdfPageView'
 import type { CourseDocument } from '@/lib/pdf-course-chapters'
 
-export function CoursePdfReader({ document, onBack, allowDownload = true, downloadUrl }: { document: CourseDocument; onBack: () => void; allowDownload?: boolean; downloadUrl?: string }) {
+export function CoursePdfReader({ document, onBack, onReport, allowDownload = true, downloadUrl }: { document: CourseDocument; onBack: () => void; onReport?: () => void; allowDownload?: boolean; downloadUrl?: string }) {
   const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null)
   const [error, setError] = useState('')
   const [page, setPage] = useState(1)
@@ -65,6 +65,7 @@ export function CoursePdfReader({ document, onBack, allowDownload = true, downlo
         <h1 className="mt-2 text-xl font-bold text-slate-900 sm:text-2xl dark:text-white">{document.title}</h1>
         <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Source : {document.sourceName}</p>
         <div className="mt-5 flex flex-wrap items-center gap-3">
+          {onReport && <button type="button" className="ui-button-secondary" onClick={onReport}>Signaler une erreur</button>}
           <div className="flex items-center gap-3">
             <button type="button" aria-label="Page précédente" disabled={!pdf || page <= 1} onClick={() => setPage(value => value - 1)} className="rounded-lg border p-2 disabled:opacity-30"><ChevronLeft size={18} /></button>
             <span aria-live="polite" className="text-sm">Page {page} / {pdf?.numPages ?? '…'}</span>

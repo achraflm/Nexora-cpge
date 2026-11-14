@@ -13,7 +13,6 @@ import {
   Trash,
   Check,
   CheckCircle,
-  Buildings,
   Trophy,
   ArrowLeft,
   FloppyDisk,
@@ -22,49 +21,15 @@ import {
   Eye,
   EyeSlash,
 } from '@phosphor-icons/react'
+import { CpgeBadge, cpgeBadges, readCpgeBadge, saveCpgeBadge, type CpgeBadgeId } from '@/components/CpgeBadge'
 import { Navbar } from '@/components/Navbar'
 import {
   UserProfile,
   DEMO_STUDENT,
-  CPGE_CENTERS,
-  CpgeStream,
   CpgeYear,
   getStoredUser,
   saveUserSession,
 } from '@/lib/auth'
-
-const PRESET_AVATARS = [
-  {
-    id: 'avatar-major',
-    label: 'Major MP*',
-    emoji: 'MP',
-    bg: 'from-blue-600 via-indigo-600 to-purple-600',
-  },
-  {
-    id: 'avatar-phys',
-    label: 'Physicienne',
-    emoji: 'PC',
-    bg: 'from-cyan-500 via-blue-600 to-indigo-700',
-  },
-  {
-    id: 'avatar-dev',
-    label: 'Informatique',
-    emoji: 'INF',
-    bg: 'from-emerald-500 via-teal-600 to-cyan-700',
-  },
-  {
-    id: 'avatar-sii',
-    label: 'Ingénieur SII',
-    emoji: 'SII',
-    bg: 'from-amber-500 via-orange-600 to-rose-600',
-  },
-  {
-    id: 'avatar-laureat',
-    label: 'Lauréat CNC',
-    emoji: 'CNC',
-    bg: 'from-fuchsia-600 via-purple-600 to-indigo-800',
-  },
-]
 
 const ALL_CONCOURS = [
   'CNC Maroc',
@@ -96,9 +61,8 @@ export default function ParametresPage() {
   const [email, setEmail] = useState('')
   const [bio, setBio] = useState('')
   const [avatarUrl, setAvatarUrl] = useState('')
+  const [badge, setBadge] = useState<CpgeBadgeId | ''>('')
   const [year, setYear] = useState<CpgeYear>('2e année Spé')
-  const [stream, setStream] = useState<CpgeStream>('MP*')
-  const [center, setCenter] = useState('')
   const [targetConcours, setTargetConcours] = useState<string[]>([
     'CNC Maroc',
     'Mines-Ponts',
@@ -129,10 +93,10 @@ export default function ParametresPage() {
     setUsername(user.username || (user.name ? user.name.split(' ')[0].toLowerCase() : 'achraf'))
     setEmail(user.email || '')
     setBio(user.bio || 'Objectif Concours CNC 2026 — Filière MP*')
-    setAvatarUrl(user.avatarUrl || '')
+    const previousBadge = user.avatarUrl?.startsWith('data:image/svg+xml;utf8,<svg xmlns=') && cpgeBadges.find(option => user.avatarUrl?.endsWith('>' + option.id + '</text></svg>'))
+    setAvatarUrl(previousBadge ? '' : user.avatarUrl || '')
+    setBadge(readCpgeBadge(user.id) || (previousBadge ? previousBadge.id : ''))
     setYear(user.year || '2e année Spé')
-    setStream((user.stream as CpgeStream) || 'MP*')
-    setCenter(user.center || 'Lycée Moulay Youssef (Rabat)')
     if (user.targetConcours && user.targetConcours.length > 0) {
       setTargetConcours(user.targetConcours)
     }
@@ -162,13 +126,6 @@ export default function ParametresPage() {
       }
     }
     reader.readAsDataURL(file)
-  }
-
-  // Handle preset avatar selection
-  const handleSelectPreset = (preset: (typeof PRESET_AVATARS)[number]) => {
-    const svgPreset = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="%232563eb"/><stop offset="100%" stop-color="%234f46e5"/></linearGradient></defs><rect width="100%" height="100%" rx="26" fill="url(%23g)"/><text x="50%" y="55%" font-family="system-ui, sans-serif" font-weight="900" font-size="30" fill="%23ffffff" dominant-baseline="middle" text-anchor="middle">${preset.emoji}</text></svg>`
-    setAvatarUrl(svgPreset)
-    showToast(`Avatar « ${preset.label} » sélectionné !`)
   }
 
   const handleRemovePhoto = () => {
@@ -229,12 +186,16 @@ export default function ParametresPage() {
       bio: bio.trim(),
       avatarUrl,
       year,
-      stream,
-      center,
       targetConcours,
     }
 
-    // Persist
+    try {
+      saveCpgeBadge(currentUser.id, badge)
+    } catch {
+      setIsSaving(false)
+      showToast('Impossible d’enregistrer le badge sur cet appareil.')
+      return
+    }
     saveUserSession(updatedUser)
     setCurrentUser(updatedUser)
 
@@ -359,19 +320,15 @@ export default function ParametresPage() {
                   displayInitials
                 )}
               </div>
-              <h2 className="mt-3 text-base font-bold text-slate-900 dark:text-white truncate">
-                {name || 'Achraf Lemrani'}
+              <h2 className="mt-3 flex flex-wrap items-center justify-center gap-2 text-base font-bold text-slate-900 dark:text-white">
+                {name || currentUser.name} <CpgeBadge badge={badge} />
               </h2>
               <p className="text-xs font-mono text-indigo-600 dark:text-indigo-400 font-semibold">
                 @{username || 'achraf'}
               </p>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 truncate">
-                {center || 'Lycée Moulay Youssef (Rabat)'}
-              </p>
-
               <div className="mt-4 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-center gap-2">
                 <span className="rounded-full bg-indigo-500/10 text-indigo-600 border border-indigo-500/20 px-3 py-1 font-mono text-xs font-bold dark:bg-indigo-500/20 dark:text-indigo-400">
-                  {stream} • {year}
+                  {year === '1re année Sup' ? 'MPSI' : 'MP'} · {year}
                 </span>
               </div>
             </div>
@@ -380,7 +337,7 @@ export default function ParametresPage() {
             <nav className="rounded-3xl border border-slate-200/90 bg-white p-2.5 shadow-sm dark:border-white/10 dark:bg-[#0d1322] space-y-1">
               {[
                 { id: 'profile', label: 'Photo & Identité', icon: User, desc: 'Nom, avatar, bio & email' },
-                { id: 'academic', label: 'Cursus & Filière CPGE', icon: GraduationCap, desc: 'Niveau, stream & concours' },
+                { id: 'academic', label: 'Cursus CPGE', icon: GraduationCap, desc: 'Année et concours' },
                 { id: 'security', label: 'Sécurité & Mot de passe', icon: Lock, desc: 'Authentification & clé d’accès' },
                 { id: 'notifications', label: 'Alertes & Préférences', icon: Bell, desc: 'Gestion des emails & rappels' },
               ].map((item) => {
@@ -500,26 +457,19 @@ export default function ParametresPage() {
                     </div>
                   </div>
 
-                  {/* Preset Avatars Selection */}
-                  <div className="mt-5 pt-4 border-t border-slate-200/80 dark:border-white/10">
-                    <span className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-2">
-                      Ou choisir un avatar CPGE officiel stylisé :
-                    </span>
-                    <div className="flex flex-wrap items-center gap-2">
-                      {PRESET_AVATARS.map((p) => (
-                        <button
-                          key={p.id}
-                          type="button"
-                          onClick={() => handleSelectPreset(p)}
-                          className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:border-indigo-400 hover:bg-indigo-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10 transition cursor-pointer"
-                        >
-                          <span className="font-mono text-[10px] font-black px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">{p.emoji}</span>
-                          <span>{p.label}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
                 </div>
+
+                <fieldset className="space-y-2">
+                  <legend className="text-xs font-bold text-slate-700 dark:text-slate-300">Badge à côté de votre nom</legend>
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" aria-pressed={!badge} onClick={() => setBadge('')} className="ui-button-secondary aria-pressed:bg-indigo-500/15">Aucun</button>
+                    {cpgeBadges.map(option => (
+                      <button key={option.id} type="button" aria-pressed={badge === option.id} onClick={() => setBadge(option.id)} className="ui-button-secondary aria-pressed:bg-indigo-500/15">
+                        <CpgeBadge badge={option.id} /> {option.label}
+                      </button>
+                    ))}
+                  </div>
+                </fieldset>
 
                 {/* Identity Form Fields */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -594,10 +544,10 @@ export default function ParametresPage() {
                 <div>
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <GraduationCap size={20} weight="fill" className="text-indigo-600 dark:text-indigo-400" />
-                    <span>Cursus Académique CPGE (Niveau &amp; Filière)</span>
+                    <span>Cursus CPGE</span>
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    Définissez votre année de prépa et votre filière pour adapter vos annales CNC et devoirs surveillés.
+                    Choisissez votre année dans le parcours MPSI → MP.
                   </p>
                 </div>
 
@@ -611,20 +561,22 @@ export default function ParametresPage() {
                       {
                         id: '1re année Sup' as CpgeYear,
                         title: '1ère année — SUP',
-                        subtitle: 'MPSI / PCSI / TSI 1 (Acquisition des fondamentaux)',
+                        subtitle: 'MPSI · Acquisition des fondamentaux',
                       },
                       {
                         id: '2e année Spé' as CpgeYear,
                         title: '2ème année — SPÉ',
-                        subtitle: 'MP / MP* / PSI / TSI 2 (Préparation aux concours CNC)',
+                        subtitle: 'MP · Préparation aux concours CNC',
                       },
                     ].map((card) => {
                       const isSelected = year === card.id
                       return (
-                        <div
+                        <button
                           key={card.id}
+                          type="button"
+                          aria-pressed={isSelected}
                           onClick={() => setYear(card.id)}
-                          className={`rounded-2xl border p-4 cursor-pointer transition select-none ${
+                          className={`rounded-2xl border p-4 text-left cursor-pointer transition select-none ${
                             isSelected
                               ? 'border-indigo-600 bg-indigo-50/70 dark:border-indigo-500 dark:bg-indigo-500/10 shadow-sm'
                               : 'border-slate-200 bg-slate-50 hover:border-slate-300 dark:border-white/10 dark:bg-black/30 dark:hover:border-white/20'
@@ -647,55 +599,10 @@ export default function ParametresPage() {
                           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                             {card.subtitle}
                           </p>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-
-                {/* Filière Précise Selector */}
-                <div>
-                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-2">
-                    Filière CPGE Précise *
-                  </label>
-                  <div className="flex flex-wrap items-center gap-2.5">
-                    {(['MP*', 'MP', 'PSI*', 'PSI', 'TSI'] as CpgeStream[]).map((st) => {
-                      const isSelected = stream === st
-                      return (
-                        <button
-                          key={st}
-                          type="button"
-                          onClick={() => setStream(st)}
-                          className={`rounded-xl px-4 py-2 font-mono text-xs font-bold transition cursor-pointer ${
-                            isSelected
-                              ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                              : 'border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10'
-                          }`}
-                        >
-                          Filière {st}
                         </button>
                       )
                     })}
                   </div>
-                </div>
-
-                {/* Établissement / Centre CPGE */}
-                <div>
-                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5 flex items-center gap-1.5">
-                    <Buildings size={15} weight="bold" className="text-indigo-600 dark:text-indigo-400" />
-                    <span>Lycée ou Centre Préparatoire CPGE</span>
-                  </label>
-                  <select
-                    value={center}
-                    onChange={(e) => setCenter(e.target.value)}
-                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none dark:border-white/10 dark:bg-black/40 dark:text-white transition"
-                  >
-                    {CPGE_CENTERS.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
                 </div>
 
                 {/* Objectifs Concours Cibles */}

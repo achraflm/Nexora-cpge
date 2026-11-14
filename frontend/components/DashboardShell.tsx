@@ -1,5 +1,6 @@
 'use client'
 
+import type { ResourceReference } from '@/components/TicketInbox'
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { Footer } from '@/components/Footer'
@@ -15,7 +16,7 @@ function TabLoading() {
 const loadCourses = () => import('@/components/CourseExerciseQcmDoubleMode')
 const CourseExerciseQcmDoubleMode = dynamic(() => loadCourses().then(m => m.CourseExerciseQcmDoubleMode), { loading: TabLoading })
 const ExercisePdfTemplate = dynamic(() => import('@/components/ExercisePdfTemplate').then(m => m.ExercisePdfTemplate), { loading: TabLoading })
-const ContactAdminTemplate = dynamic(() => import('@/components/ContactAdminTemplate').then(m => m.ContactAdminTemplate), { loading: TabLoading })
+const TicketInbox = dynamic(() => import('@/components/TicketInbox').then(m => m.TicketInbox), { loading: TabLoading })
 const PersonalReportsHub = dynamic(() => import('@/components/PersonalReportsHub').then(m => m.PersonalReportsHub), { loading: TabLoading })
 
 const navItems = [
@@ -31,6 +32,7 @@ const navItems = [
 export type StudentTabId = (typeof navItems)[number]['id'] | 'fiches'
 
 export default function DashboardShell({ initialUser, dashboard }: { initialUser: UserProfile; dashboard: DashboardData | null }) {
+  const [reference, setReference] = useState<ResourceReference>()
   const [activeTab, setActiveTab] = useState<StudentTabId>('dashboard')
   const [currentUser, setCurrentUser] = useState(initialUser)
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }) }, [activeTab])
@@ -44,11 +46,17 @@ export default function DashboardShell({ initialUser, dashboard }: { initialUser
   }, [])
 
   const navigateToTab = (tabId: StudentTabId) => {
+    setReference(undefined)
     setActiveTab(tabId)
     const url = new URL(window.location.href)
     if (tabId === 'dashboard') url.searchParams.delete('tab')
     else url.searchParams.set('tab', tabId)
     if (url.href !== window.location.href) window.history.pushState(null, '', url)
+  }
+
+  function reportResource(reference: ResourceReference) {
+    navigateToTab('contact')
+    setReference(reference)
   }
 
   // Load and sync user profile & avatar across the app, and handle URL tab param
@@ -97,7 +105,7 @@ export default function DashboardShell({ initialUser, dashboard }: { initialUser
 
       {activeTab === 'dashboard' && <HomeDashboard user={initialUser} data={dashboard} onNavigate={navigateToTab} />}
 
-      {activeTab === 'ressources' && <ResourceCatalog />}
+      {activeTab === 'ressources' && <ResourceCatalog onReport={reportResource} />}
       {/* Tab: Cours & Exercices (Double Mode) */}
       {(activeTab === 'cours' || activeTab === 'annales' || activeTab === 'qcm') && (
         <CourseExerciseQcmDoubleMode
@@ -106,6 +114,7 @@ export default function DashboardShell({ initialUser, dashboard }: { initialUser
           initialSection={activeTab}
           onNavigateToDashboard={() => navigateToTab('dashboard')}
           onNavigateToContact={() => navigateToTab('contact')}
+          onReport={reportResource}
           onNavigateToLogin={() => window.location.assign('/login')}
         />
       )}
@@ -128,12 +137,7 @@ export default function DashboardShell({ initialUser, dashboard }: { initialUser
       )}
 
       {/* Tab: Contact Administration */}
-      {activeTab === 'contact' && (
-        <ContactAdminTemplate
-          hideHeader
-          onBackToDashboard={() => navigateToTab('dashboard')}
-        />
-      )}
+      {activeTab === 'contact' && <TicketInbox key={reference?.ref || 'inbox'} reference={reference} />}
 
       {/* Footer featuring Learning branding */}
       <Footer

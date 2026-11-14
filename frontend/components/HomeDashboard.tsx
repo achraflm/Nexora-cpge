@@ -2,6 +2,7 @@
 import { Zap, ArrowRight, Clock, PenTool, Sparkles, CheckCircle2, Award, Layers3, CalendarCheck, PenLine, Sigma } from 'lucide-react'
 import { AchievementBadgesCard } from './AchievementBadgesCard'
 import { ActivityBar } from './ActivityBar'
+import { CpgeBadge } from './CpgeBadge'
 import { StreakBadge } from './ui/streak-badge'
 import type { UserProfile } from '@/lib/auth'
 export interface DashboardData {
@@ -34,31 +35,50 @@ function SectionHeading({ title, action, onAction }: { title: string; action?: s
 function RevisionChart({data}:{data:DashboardData|null}) {
   const axes=[{code:'MATH',name:'Mathématiques'},{code:'PHYS',name:'Physique-Chimie'},{code:'SI',name:'SII'},{code:'INFO',name:'Informatique'}].map(axis=>({...axis,minutes:data?.subjects.find(s=>s.code===axis.code)?.studyMinutes || 0}))
   const maximum=Math.max(60,Math.ceil(Math.max(...axes.map(a=>a.minutes))/60)*60)
-  const point=(index:number,ratio:number)=>{const angle=-Math.PI/2+index*Math.PI/2;return [200+Math.cos(angle)*108*ratio,150+Math.sin(angle)*108*ratio]}
+  const center = { x: 135, y: 86 }
+  const radius = 62
+  const point = (index: number, ratio: number) => {
+    const angle = -Math.PI / 2 + index * Math.PI / 2
+    return [center.x + Math.cos(angle) * radius * ratio, center.y + Math.sin(angle) * radius * ratio]
+  }
   const polygon=(ratio:number)=>axes.map((_,i)=>point(i,ratio).join(',')).join(' ')
   const duration=(minutes:number)=>`${Math.floor(minutes/60)} h ${String(minutes%60).padStart(2,'0')}`
-  return <div className="mt-4">
-    <div className="flex items-baseline gap-2"><strong className="text-3xl font-bold">{duration(data?.totals.studyMinutes || 0)}</strong><span className="text-xs text-slate-500 dark:text-slate-400">cette année</span></div>
-    <svg viewBox="0 0 400 310" className="mx-auto w-full max-w-[420px] text-slate-500 dark:text-slate-400" role="img" aria-label={`Diagramme radar du temps de révision : ${axes.map(a=>`${a.name} ${duration(a.minutes)}`).join(', ')}`}>
-      {[0.25,0.5,0.75,1].map(r=><polygon key={r} points={polygon(r)} fill="none" stroke="currentColor" strokeOpacity="0.2"/>)}
-      {axes.map((a,i)=>{const [x,y]=point(i,1);return <line key={a.code} x1="200" y1="150" x2={x} y2={y} stroke="currentColor" strokeOpacity="0.25"/>})}
-      {[0.5,1].map(r=><text key={r} x="205" y={150-108*r+12} fontSize="9" fill="currentColor">{maximum*r/60} h</text>)}
-      <polygon points={axes.map((a,i)=>point(i,a.minutes/maximum).join(',')).join(' ')} fill="#3978f6" fillOpacity="0.2" stroke="#6096ff" strokeWidth="2.5" strokeLinejoin="round"/>
-      {axes.map((axis, index) => {
-        const [x, y] = point(index, axis.minutes / maximum)
-        return (
-          <circle key={axis.code} cx={x} cy={y} r="4" fill="#6096ff" stroke="white" strokeWidth="1.5">
-            <title>{`${axis.name} : ${duration(axis.minutes)}`}</title>
-          </circle>
-        )
-      })}
-      <text x="200" y="21" textAnchor="middle" fontSize="12" fill="currentColor">Mathématiques</text>
-      <text x="318" y="146" fontSize="11" fill="currentColor"><tspan x="318">Physique</tspan><tspan x="318" dy="15">Chimie</tspan></text>
-      <text x="200" y="285" textAnchor="middle" fontSize="12" fill="currentColor">SII</text>
-      <text x="82" y="153" textAnchor="end" fontSize="11" fill="currentColor">Informatique</text>
-    </svg>
-    <div className="grid grid-cols-2 gap-x-5 gap-y-2 text-xs">{axes.map(a=><div key={a.code} className="flex justify-between gap-2"><span className="text-slate-500 dark:text-slate-400">{a.name}</span><strong>{duration(a.minutes)}</strong></div>)}</div>
-    <p className="mt-4 text-[11px] text-slate-500 dark:text-slate-400">Même échelle sur les quatre axes · 0 à {maximum/60} h</p>
+  return <div className="@container mt-2">
+    <div className="grid items-center gap-4 @[410px]:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+      <svg viewBox="0 0 270 174" className="mx-auto w-full max-w-[280px] text-slate-500 dark:text-slate-400" role="img" aria-label={`Diagramme radar du temps de révision : ${axes.map(a=>`${a.name} ${duration(a.minutes)}`).join(', ')}`}>
+        {[0.25,0.5,0.75,1].map(r=><polygon key={r} points={polygon(r)} fill="none" stroke="currentColor" strokeOpacity="0.2"/>)}
+        {axes.map((a,i)=>{const [x,y]=point(i,1);return <line key={a.code} x1={center.x} y1={center.y} x2={x} y2={y} stroke="currentColor" strokeOpacity="0.25"/>})}
+        {[0.5,1].map(r=><text key={r} x={center.x+7} y={center.y-radius*r+8} fontSize="11" fill="currentColor">{maximum*r/60} h</text>)}
+        <polygon points={axes.map((a,i)=>point(i,a.minutes/maximum).join(',')).join(' ')} fill="#3978f6" fillOpacity="0.2" stroke="#6096ff" strokeWidth="2.5" strokeLinejoin="round"/>
+        {axes.map((axis, index) => {
+          const [x, y] = point(index, axis.minutes / maximum)
+          return (
+            <circle key={axis.code} cx={x} cy={y} r="4" fill="#6096ff" stroke="white" strokeWidth="1.5">
+              <title>{`${axis.name} : ${duration(axis.minutes)}`}</title>
+            </circle>
+          )
+        })}
+        <text x={center.x} y="14" textAnchor="middle" fontSize="12" fill="currentColor">Mathématiques</text>
+        <text x="205" y="82" fontSize="11" fill="currentColor"><tspan x="205">Physique</tspan><tspan x="205" dy="14">Chimie</tspan></text>
+        <text x={center.x} y="167" textAnchor="middle" fontSize="12" fill="currentColor">SII</text>
+        <text x="65" y="90" textAnchor="end" fontSize="11" fill="currentColor">Informatique</text>
+      </svg>
+      <div className="grid min-w-0 gap-2.5">
+        <p className="flex flex-wrap items-baseline gap-x-2">
+          <strong className="text-3xl font-bold">{duration(data?.totals.studyMinutes || 0)}</strong>
+          <span className="text-xs text-slate-500 dark:text-slate-400">cette année</span>
+        </p>
+        <dl className="grid gap-1.5 text-xs">
+          {axes.map(axis => (
+            <div key={axis.code} className="flex justify-between gap-2">
+              <dt className="text-slate-500 dark:text-slate-400">{axis.name}</dt>
+              <dd className="whitespace-nowrap font-bold tabular-nums">{duration(axis.minutes)}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="text-[11px] text-slate-500 dark:text-slate-400">Même échelle sur les quatre axes · 0 à {maximum/60} h</p>
+      </div>
+    </div>
   </div>
 }
 
@@ -76,7 +96,7 @@ function StatCard({ icon: Icon, label, value }: { icon: React.ComponentType<{ cl
 
 export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:DashboardData|null; onNavigate:(tab:'cours'|'annales'|'problemes'|'qcm')=>void}) {
  const progress=Math.min(100,Math.round((data?.totals.lessonsRead || 0)/40*100))
- const recentActivities=(data?.recent || []).map(d=>({subject:d.subject,title:d.date,type:`${d.lessons} leçons · ${d.exercises} exercices · ${d.minutes} min`,status:'Enregistré',tone:'green'}))
+ const recentActivities=(data?.recent || []).slice(0, 4).map(d=>({subject:d.subject,title:d.date,type:`${d.lessons} leçons · ${d.exercises} exercices · ${d.minutes} min`,status:'Enregistré',tone:'green'}))
  const goals=[
  {id:'lessons',title:'Approfondir les cours',detail:`${data?.totals.lessonsRead || 0} leçons sur 40`,progress,icon:Layers3},
  {id:'regularity',title:'Objectif régularité',detail:`${data?.streak.current || 0} jours sur 20`,progress:Math.min(100,(data?.streak.current || 0)*5),icon:CalendarCheck},
@@ -118,13 +138,13 @@ export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:Da
                 />
                 <div className="profile-card-overlay" aria-hidden="true" />
 
-                <div className="relative">
+                <div className="profile-card-content relative">
                   <p className="text-xs font-medium text-[#aab8d0]">Ma progression</p>
-                  <h2 className="mt-1 text-xl font-bold">{user?.name || user.name}</h2>
+                  <h2 className="mt-1 flex flex-wrap items-center gap-2 text-xl font-bold">{user.name} <CpgeBadge userId={user.id} /></h2>
                   <p className="mt-0.5 text-xs text-[#aab8d0]">CPGE · {user?.stream || 'MP'} · {user?.year || '2e année Spé'}</p>
 
-                  <div className="mt-9 flex items-center gap-4">
-                    <div className="relative flex size-[64px] items-center justify-center rounded-full border border-[#729bf2] text-xs font-bold shadow-none">
+                  <div className="mt-4 flex items-center gap-4">
+                    <div className="relative flex size-[64px] shrink-0 items-center justify-center rounded-full border border-[#729bf2] text-xs font-bold shadow-none">
                       <svg className="absolute inset-[-4px] size-[70px] -rotate-90">
                         <circle
                           cx="35"
@@ -146,7 +166,7 @@ export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:Da
                     </div>
                   </div>
 
-                  <div className="mt-8 grid grid-cols-3 divide-x divide-white/15">
+                  <div className="mt-4 grid grid-cols-3 divide-x divide-white/15">
                     <StreakBadge
                       length={data?.streak.current || 0}
                       frequency="daily"
@@ -176,7 +196,7 @@ export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:Da
               </section>
 
               {/* Thematic Achievement Badges Card (Linear / Raycast / Duolingo Pro Style) */}
-              <AchievementBadgesCard items={goals} />
+              <AchievementBadgesCard items={goals} className="student-goals-card" />
             </div>
 
             <div className="my-6" />

@@ -2816,6 +2816,7 @@ function getEpreuveBadgeStyle(badge: string) {
 export function CourseExerciseQcmDoubleMode({
   onNavigateToDashboard,
   onNavigateToContact,
+  onReport,
   onNavigateToLogin,
   hideNavbar = false,
   initialSection = 'cours',
@@ -2825,6 +2826,7 @@ export function CourseExerciseQcmDoubleMode({
 }: {
   onNavigateToDashboard: () => void
   onNavigateToContact: () => void
+  onReport?: (reference: { ref: string; title: string }) => void
   onNavigateToLogin?: () => void
   hideNavbar?: boolean
   initialSection?: 'cours' | 'annales' | 'qcm' | 'concours' | 'matieres'
@@ -2903,7 +2905,6 @@ export function CourseExerciseQcmDoubleMode({
   const [exerciseEvaluations, setExerciseEvaluations] = useState<Record<string, 'mastered' | 'with_help' | 'review'>>({
     'exo-math-1': 'mastered',
   })
-  const [reportedErratum, setReportedErratum] = useState<string | null>(null)
 
   // QCM Flash Adaptatif State (Projet 15)
   const [currentQcmIdx, setCurrentQcmIdx] = useState<number>(0)
@@ -4151,7 +4152,10 @@ export function CourseExerciseQcmDoubleMode({
       {/* PAGE 2 : LISTE DES CHAPITRES DE COURS PAR MATIÈRE                      */}
       {/* ====================================================================== */}
       {currentPage === 'courses' && selectedPdfDocument && (
-        <DeferredCoursePdfReader key={selectedPdfDocument.sourceUrl} document={selectedPdfDocument} onBack={() => setSelectedPdfDocument(null)} />
+        <DeferredCoursePdfReader key={selectedPdfDocument.sourceUrl} document={selectedPdfDocument} onBack={() => setSelectedPdfDocument(null)} onReport={onReport && (() => onReport({
+          ref: selectedPdfDocument.sourceUrl,
+          title: selectedPdfDocument.title,
+        }))} />
       )}
       {currentPage === 'courses' && !selectedPdfDocument && (
         <main className="relative mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8 animate-in fade-in duration-300">
@@ -4644,14 +4648,11 @@ export function CourseExerciseQcmDoubleMode({
 
                         <button
                           type="button"
-                          onClick={() => {
-                            setReportedErratum(exo.id)
-                            setTimeout(() => setReportedErratum(null), 3000)
-                          }}
+                          onClick={() => onReport ? onReport({ ref: exo.id, title: exo.title }) : onNavigateToContact()}
                           className="flex items-center gap-1 rounded-lg border border-slate-200 px-2 py-1 text-xs font-medium text-[#71809A] transition hover:border-rose-400 hover:text-rose-600 dark:border-white/10 dark:text-[#91a9c8] dark:hover:text-rose-400"
                         >
                           <Flag size={12} weight="bold" />
-                          <span>{reportedErratum === exo.id ? 'Erratum transmis !' : 'Signaler'}</span>
+                          <span>Signaler une erreur</span>
                         </button>
                       </div>
                     </div>
@@ -5276,6 +5277,10 @@ export function CourseExerciseQcmDoubleMode({
           <ConcoursPdfExamViewer
             exam={selectedConcoursExamItem ?? currentExam}
             initialMode={examInitialMode}
+            onReport={onReport && (() => {
+              const exam = selectedConcoursExamItem ?? currentExam
+              onReport({ ref: exam.id, title: exam.title })
+            })}
             onBack={() => {
               setCurrentPage('concours_detail')
               window.scrollTo({ top: 0, behavior: 'smooth' })

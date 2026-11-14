@@ -133,6 +133,7 @@ export interface ConcoursExamItem {
 
 export interface ConcoursPdfExamViewerProps {
   onBack?: () => void
+  onReport?: () => void
   initialMode?: ExamViewerMode
   candidateName?: string
   tableNumber?: string
@@ -142,6 +143,7 @@ export interface ConcoursPdfExamViewerProps {
 
 export function ConcoursPdfExamViewer({
   onBack,
+  onReport,
   initialMode = "normal",
   candidateName = "Achraf Lemrani",
   tableNumber = "2024-MP-0428",
@@ -406,6 +408,7 @@ export function ConcoursPdfExamViewer({
         <div className="mx-auto flex h-16 max-w-[1700px] items-center justify-between gap-3 px-3 sm:px-6">
           {/* Left: Back & Title */}
           <div className="flex min-w-0 items-center gap-3">
+            {onReport && viewerMode === "normal" && <button type="button" onClick={onReport} className="ui-button-secondary shrink-0">Signaler une erreur</button>}
             {onBack && viewerMode === "normal" && (
               <button
                 type="button"

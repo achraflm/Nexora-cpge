@@ -25,12 +25,13 @@ enum TicketStatus {
   RESOLVED
 }
 
-model ContactMessage {
+model ContactTicket {
   id              String         @id @default(uuid()) @db.Uuid
   userId          String         @db.Uuid
   category        TicketCategory
   targetEntityRef String?        /// ex. EXO-MP-MATH-204 (pre-rempli)
   messageBody     String
+  title           String         @default("Demande de contact")
   status          TicketStatus   @default(OPEN)
   adminReply      String?
   repliedBy       String?        @db.Uuid
@@ -38,10 +39,30 @@ model ContactMessage {
   updatedAt       DateTime       @updatedAt
   resolvedAt      DateTime?
   notifications   Notification[]
+  messages        ContactMessage[]
 
   @@index([userId])
   @@index([status])
   @@map("contact_messages")
+}
+
+enum ContactRole {
+  STUDENT
+  ADMIN
+}
+
+model ContactMessage {
+  id         String        @id @default(uuid()) @db.Uuid
+  ticketId   String        @db.Uuid
+  senderId   String        @db.Uuid
+  senderRole ContactRole
+  content    String
+  createdAt  DateTime      @default(now())
+  readAt     DateTime?
+  ticket     ContactTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId, createdAt, id])
+  @@map("contact_thread_messages")
 }
 
 model Notification {
@@ -51,7 +72,7 @@ model Notification {
   message   String
   readAt    DateTime?
   createdAt DateTime       @default(now())
-  ticket    ContactMessage @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticket    ContactTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 
   @@index([userId, readAt])
   @@map("notifications")

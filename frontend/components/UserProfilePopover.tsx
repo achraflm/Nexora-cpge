@@ -1,5 +1,7 @@
 'use client'
 
+import { CpgeBadge } from './CpgeBadge'
+
 import { useSessionUser } from '@/components/SessionProvider'
 import { logout } from '@/lib/auth'
 
@@ -186,8 +188,8 @@ export function UserProfilePopover({
             )}
           </div>
           <div className="min-w-0 truncate">
-            <p className="text-sm font-bold text-slate-900 dark:text-zinc-100 truncate">
-              {currentUser.username || (currentUser.name ? currentUser.name.split(' ')[0].toLowerCase() : 'achraf')}
+            <p className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-zinc-100">
+              <span className="truncate">{currentUser.name}</span> <CpgeBadge userId={currentUser.id} />
             </p>
             <p className="text-xs text-slate-500 dark:text-zinc-400 font-mono truncate">
               {currentUser.email}
