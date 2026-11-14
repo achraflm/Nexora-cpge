@@ -1,0 +1,18 @@
+\chapter{Architecture et circulation des requêtes}
+\section{Organisation par domaines}
+Next.js utilise des composants serveur pour la session et des composants client pour l’interaction. Le backend est un workspace npm contenant une gateway et six services Express. Chaque service possède son client Prisma et son schéma PostgreSQL. La séparation est logique dans une base unique ; elle ne prouve pas un déploiement distribué. common mutualise les erreurs, le contexte utilisateur et le démarrage HTTP.
+
+\begin{figure}[ht]\centering\begin{tikzpicture}[node distance=10mm,box/.style={draw=nexora,rounded corners,fill=blue!3,minimum width=10cm,minimum height=9mm,align=center},>=Stealth]
+\node[box](b){Navigateur : React, état local, PDF.js};\node[box,below=of b](n){Next.js : pages serveur et routes API};\node[box,below=of n](g){Gateway : JWT, rôles, limitation de débit};\node[box,below=of g](s){Services : auth, catalogue, examens, analytics, contact, QCM};\node[box,below=of s](d){Prisma / PostgreSQL : six schémas métier};\node[box,below=of d](c){Stockage privé et conversions Docker isolées};\draw[->](b)--(n);\draw[->](n)--(g);\draw[->](g)--(s);\draw[->](s)--(d);\draw[->](s.east)--++(0.6,0)|-(c.east);\end{tikzpicture}\caption{Architecture des parcours reliés}\end{figure}
+\section{Couches et responsabilités}
+Les Route Handlers Next sont un backend pour le frontend : lecture du cookie, obtention d’un access token et relais autorisé. La gateway transmet le multipart sans le parser. Les routes catalogue valident les données et le rôle. resource-files.ts vérifie et stocke les octets ; resource-converter.ts traite les conversions. Prisma traduit les appels typés en SQL. Il n’existe pas de Repository/DAO uniforme ni de MVC Java à inventer.
+
+\paragraph{Code observé} backend/gateway/src/routes.ts (lignes 25 à 36).
+\lstinputlisting{extraits/routing.txt}
+Lecture : la fonction construit une URL depuis la configuration. Chaque objet associe un préfixe public à un service ; /api est retiré avant transfert. Le navigateur ignore les ports internes, mais la gateway devient un point de dépendance commun.
+
+\section{Frontières de confiance}
+Le navigateur est non fiable même s’il affiche ADMIN. Le relais Next vérifie la session et le service vérifie encore le rôle. x-user-id et x-user-role ne sont fiables que reconstruits par la gateway après vérification du JWT, avec refus des appels directs sans secret interne. Un secret partagé ne chiffre pas le réseau ; les ports internes doivent rester isolés en production.
+
+\section{Lecture d’un document}
+ResourceReader suit l’état de préparation. Après READY, CoursePdfReader charge une URL privée via PDF.js. Le serveur réévalue les droits avant de servir les octets. Dépublier empêche les requêtes suivantes d’un étudiant, mais ne retire pas les octets déjà transmis à son navigateur.

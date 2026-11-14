@@ -1,0 +1,17 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx,microtype,geometry,xcolor,graphicx,booktabs,longtable,array,tabularx}
+\geometry{a4paper,margin=24mm,headheight=15pt}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+\usepackage[most]{tcolorbox}
+\usepackage{listings,fancyhdr,hyperref}
+\definecolor{nexora}{HTML}{285FCA}
+\hypersetup{colorlinks=true,linkcolor=nexora,urlcolor=nexora,citecolor=nexora,pdftitle={Nexora : documentation technique et pédagogique}}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small Nexora / CNC Platform}\fancyhead[R]{\small Documentation technique}\fancyfoot[C]{\thepage}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}\setcounter{tocdepth}{1}
+\renewcommand{\contentsname}{Table des matières}\renewcommand{\listfigurename}{Liste des figures}\renewcommand{\listtablename}{Liste des tableaux}\renewcommand{\bibname}{Références officielles}\renewcommand{\chaptername}{Chapitre}
+\newtcolorbox{concept}[1]{breakable,colback=blue!3,colframe=nexora,title=#1,fonttitle=\bfseries}
+\lstdefinelanguage{TypeScript}{keywords={import,from,export,async,await,const,let,return,if,else,throw,new,function,interface,type,try,catch},sensitive=true,morecomment=[l]{//},morestring=[b]',morestring=[b]"}
+\lstset{language=TypeScript,basicstyle=\ttfamily\scriptsize,breaklines=true,columns=fullflexible,keepspaces=true,numbers=left,numberstyle=\tiny\color{gray},numbersep=7pt,frame=single,rulecolor=\color{blue!15},keywordstyle=\color{nexora},commentstyle=\color{gray},showstringspaces=false,extendedchars=true,literate={é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {à}{{\`a}}1 {â}{{\^a}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1 {ù}{{\`u}}1 {ç}{{\c c}}1 {É}{{\'E}}1 {œ}{{\oe}}1 {’}{{'}}1 {—}{{---}}1 {→}{{$\rightarrow$}}1 {…}{{...}}1 {·}{{$\cdot$}}1 {”}{{"}}1 {€}{{EUR}}1}
+\emergencystretch=3em

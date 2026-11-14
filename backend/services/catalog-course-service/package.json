@@ -14,10 +14,14 @@
   "dependencies": {
     "@cnc/common": "*",
     "@prisma/client": "^6.19.0",
+    "cfb": "^1.2.2",
     "express": "^5.1.0",
+    "file-type": "^22.3.0",
+    "multer": "^2.5.0",
     "zod": "^4.1.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0"
+    "@types/express": "^5.0.0",
+    "@types/multer": "^2.3.0"
   }
 }

@@ -6,6 +6,12 @@
 
 Elle couvre les filières **MP**, **PSI** et **TSI** (1re année *Sup* et 2e année *Spé*) et les matières **Mathématiques**, **Physique-Chimie**, **Sciences de l'Ingénieur** et **Informatique**.
 
+Le catalogue de ressources publiées couvre **MPSI/SUP** et **MP/SPÉ**. Les comptes de démonstration, l’import des ressources et le périmètre des modules sont documentés ici.
+
+- [Connexion et comptes de démonstration](docs/README-authentification.md)
+- [Gestion des ressources pédagogiques](docs/README-ressources.md)
+- [Rapport technique et pédagogique (PDF)](documentation/main.pdf) · [Sources LaTeX](documentation/README.md)
+
 ---
 
 ## Sommaire

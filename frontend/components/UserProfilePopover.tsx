@@ -1,5 +1,8 @@
 'use client'
 
+import { useSessionUser } from '@/components/SessionProvider'
+import { logout } from '@/lib/auth'
+
 import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
@@ -34,14 +37,15 @@ export function UserProfilePopover({
   onLogout,
 }: UserProfilePopoverProps) {
   const router = useRouter()
+  const sessionUser = useSessionUser()
   const popoverRef = useRef<HTMLDivElement>(null)
 
   // User Profile state
   const [currentUser, setCurrentUser] = useState<UserProfile>(() => {
     if (typeof window !== 'undefined') {
-      return getStoredUser() || DEMO_STUDENT
+      return sessionUser
     }
-    return DEMO_STUDENT
+    return sessionUser
   })
 
   // Theme mode internal state
@@ -266,7 +270,7 @@ export function UserProfilePopover({
           <CaretRight size={12} className="text-slate-400 dark:text-zinc-500" />
         </button>
 
-        {onNavigateToAdmin && (
+        {sessionUser.role === 'ADMIN' && onNavigateToAdmin && (
           <button
             type="button"
             onClick={() => {
@@ -280,7 +284,7 @@ export function UserProfilePopover({
               <span>Espace administrateur</span>
             </div>
             <span className="rounded bg-indigo-500/10 border border-indigo-500/20 px-1.5 py-0.5 text-[9.5px] font-bold text-indigo-600 dark:bg-indigo-500/15 dark:border-indigo-500/30 dark:text-indigo-300">
-              Démo
+              Admin
             </span>
           </button>
         )}
@@ -338,8 +342,7 @@ export function UserProfilePopover({
           type="button"
           onClick={() => {
             onClose()
-            if (onLogout) onLogout()
-            else router.push('/login')
+            void logout()
           }}
           className="flex items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40 dark:hover:text-rose-300 transition cursor-pointer"
         >

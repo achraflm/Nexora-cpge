@@ -9,6 +9,11 @@ import * as users from './users.service'
  * Chemins vus par le frontend (via la gateway) : /api/auth/... et /api/users/...
  */
 export const router = Router()
+router.use((_req, res, next) => { res.setHeader('Cache-Control', 'no-store'); next() })
+
+router.post('/auth/session', async (req, res) => {
+  res.json(await auth.getSession(refreshSchema.parse(req.body).refreshToken))
+})
 
 // ---- Authentification (publique) ------------------------------------------
 router.post('/auth/register', async (req, res) => {

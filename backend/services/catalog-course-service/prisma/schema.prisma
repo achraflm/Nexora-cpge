@@ -75,8 +75,57 @@ model Subject {
   coeffTSI Float
   chapters Chapter[]
   books    ReferenceBook[]
+  resources EducationalResource[]
 
   @@map("subjects")
+}
+
+enum ResourceTrack {
+  MPSI
+  MP
+}
+
+enum PublicationStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ConversionStatus {
+  PENDING
+  PROCESSING
+  READY
+  FAILED
+}
+
+model EducationalResource {
+  id String @id @default(uuid()) @db.Uuid
+  title String @db.VarChar(200)
+  description String @default("") @db.VarChar(4000)
+  track ResourceTrack
+  level StudyLevel
+  subjectId Int
+  subject Subject @relation(fields: [subjectId], references: [id])
+  type ExternalResourceType
+  status PublicationStatus @default(DRAFT)
+  allowDownload Boolean @default(true)
+  importedBy String @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  originalName String
+  format String
+  mime String
+  bytes Int
+  storageKey String @unique
+  companions Json @default("[]")
+  sourceHash String
+  revision Int @default(1)
+  conversion ConversionStatus @default(PENDING)
+  conversionError String?
+  convertedAt DateTime?
+  outputKey String?
+
+  @@index([status, track, subjectId, type, createdAt])
+  @@map("educational_resources")
 }
 
 /// studyLevel SUP | SPE : sert au filtrage, jamais a restreindre l'acces.

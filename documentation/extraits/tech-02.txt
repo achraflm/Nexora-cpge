@@ -1,0 +1,22 @@
+'use client'
+import { useEffect,useState } from 'react'
+import { BookOpen,NotebookPen,Search,FileText,ArrowRight } from 'lucide-react'
+import { RESOURCE_SUBJECTS,resourceRequest,type EducationalResource } from '@/lib/educational-resources'
+import dynamic from 'next/dynamic'
+
+const ResourceReader = dynamic(() => import('./ResourceReader').then(m => m.ResourceReader), {
+  loading: () => <p role="status" className="px-5 py-8">Ouverture du document…</p>,
+})
+
+export function ResourceCatalog() {
+  const [track,setTrack]=useState(''),[subject,setSubject]=useState(''),[type,setType]=useState(''),[q,setQ]=useState(''),[sort,setSort]=useState('desc')
+  const [items,setItems]=useState<EducationalResource[]>([]),[loading,setLoading]=useState(true),[error,setError]=useState(''),[selected,setSelected]=useState<EducationalResource|null>(null),[retry,setRetry]=useState(0)
+  const [search, setSearch] = useState('')
+  useEffect(() => {
+    const timer = setTimeout(() => setSearch(q.trim()), 150)
+    return () => clearTimeout(timer)
+  }, [q])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    setLoading(true)

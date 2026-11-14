@@ -6,15 +6,17 @@ import { openPdf, describePdfError, type PDFDocumentProxy } from './document-stu
 import { PdfPageView, type PageSize } from './document-studio/PdfPageView'
 import type { CourseDocument } from '@/lib/pdf-course-chapters'
 
-export function CoursePdfReader({ document, onBack }: { document: CourseDocument; onBack: () => void }) {
+export function CoursePdfReader({ document, onBack, allowDownload = true, downloadUrl }: { document: CourseDocument; onBack: () => void; allowDownload?: boolean; downloadUrl?: string }) {
   const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null)
   const [error, setError] = useState('')
   const [page, setPage] = useState(1)
   const [size, setSize] = useState<PageSize | null>(null)
   const [width, setWidth] = useState(320)
   const host = useRef<HTMLDivElement>(null)
+  const shell = useRef<HTMLElement>(null)
   const url = document.localPdfUrl
   const [rotation, setRotation] = useState(0)
+  const [zoom, setZoom] = useState(1)
 
   useEffect(() => {
     const element = host.current
@@ -56,7 +58,7 @@ export function CoursePdfReader({ document, onBack }: { document: CourseDocument
   }, [pdf, page, rotation])
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+    <main ref={shell} className="mx-auto max-w-6xl overflow-auto bg-white px-4 py-6 sm:px-6 dark:bg-slate-950">
       <button type="button" onClick={onBack} className="mb-5 flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 dark:border-white/10 dark:text-slate-200"><ArrowLeft size={16} />Retour aux chapitres</button>
       <div className="glowing-card mb-5 rounded-2xl border border-slate-200 p-5 dark:border-white/10">
         <p className="flex items-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-300"><FileText size={16} />{document.type === 'TD' ? 'Travaux dirigés' : 'Cours'} · {document.level === 'SUP' ? 'Sup' : 'Spé'} · PDF</p>
@@ -69,11 +71,13 @@ export function CoursePdfReader({ document, onBack }: { document: CourseDocument
             <button type="button" aria-label="Page suivante" disabled={!pdf || page >= pdf.numPages} onClick={() => setPage(value => value + 1)} className="rounded-lg border p-2 disabled:opacity-30"><ChevronRight size={18} /></button>
           </div>
           <button type="button" disabled={!pdf} onClick={() => setRotation(value => (value + 90) % 360)} className="flex items-center gap-2 rounded-xl border px-3 py-2 text-sm disabled:opacity-40"><RotateCw size={16} />Pivoter</button>
-          {url && <a href={url} download className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white"><Download size={16} />Télécharger le PDF</a>}
+          <label className="text-sm">Zoom <select aria-label="Zoom" value={zoom} onChange={e => setZoom(Number(e.target.value))} className="rounded-lg border bg-white p-2 dark:bg-slate-900">{[0.75,1,1.25,1.5,2].map(value=><option key={value} value={value}>{value*100}%</option>)}</select></label>
+          <button className="rounded-lg border p-2 text-sm" onClick={() => { void shell.current?.requestFullscreen().catch(() => setError('Le plein écran est indisponible dans ce navigateur.')) }}>Plein écran</button>
+          {url && allowDownload && <a href={downloadUrl || url} download className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white"><Download size={16} />Télécharger le PDF</a>}
         </div>
       </div>
-      <div ref={host} aria-label="Document du chapitre" className="min-w-0 rounded-xl bg-slate-200/70 p-2 sm:p-4 dark:bg-slate-950">
-        {error ? <p role="alert" className="p-5 text-sm">{error} Utilisez le bouton de téléchargement pour ouvrir le fichier.</p> : pdf && size ? <div className="mx-auto w-fit"><PdfPageView key={`${url}-${page}-${rotation}`} doc={pdf} pageNumber={page} size={size} rotation={rotation} scale={Math.min(1.5, Math.max(0.1, (width - 32) / size.width))} active textLayer={false} /></div> : <p role="status" className="p-5">Chargement du PDF…</p>}
+      <div ref={host} aria-label="Document du chapitre" className="min-w-0 overflow-auto rounded-xl bg-slate-200/70 p-2 sm:p-4 dark:bg-slate-950">
+        {error ? <p role="alert" className="p-5 text-sm">{error}</p> : pdf && size ? <div className="mx-auto w-fit"><PdfPageView key={`${url}-${page}-${rotation}`} doc={pdf} pageNumber={page} size={size} rotation={rotation} scale={zoom * Math.min(1.5, Math.max(0.1, (width - 32) / size.width))} active textLayer={false} /></div> : <p role="status" className="p-5">Chargement du PDF…</p>}
       </div>
     </main>
   )

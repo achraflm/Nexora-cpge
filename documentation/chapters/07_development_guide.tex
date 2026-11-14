@@ -1,0 +1,23 @@
+\chapter{Guide de développement et exploitation}
+\section{Démarrage}
+Configurer backend/.env depuis .env.example avec URL PostgreSQL et secrets aléatoires. Démarrer la base, générer Prisma, appliquer les schémas puis resource-constraints.sql. Construire nexora-converter:local depuis backend/converter. Lancer npm run dev dans backend et frontend. Ports : 3000, 4000 et 4001 à 4006 ; ne pas exposer les services internes publiquement.
+
+\section{Ajouter une fonctionnalité}
+Décrire entrée, sortie, rôle et invariants. Ajouter modèle et validation Zod, route dans le service propriétaire, relais Next puis composant. Pour un document privé, contrôler aussi son URL de fichier. Réutiliser cartes, boutons et lecteur au lieu de remplacer la page entière.
+
+\section{Modifier une entité}
+Définir nullabilité, valeurs par défaut et index selon les requêtes. Préciser si une suppression cascade ou est refusée. Générer le client et appliquer une migration contrôlée. Rendre un champ obligatoire exige une reprise des anciennes données.
+
+\section{Exemple CRUD}
+Publier envoie PATCH avec les métadonnées complètes. La route exige ADMIN, valide filière/année, retrouve la matière et met à jour la ligne. Le test publie, vérifie la visibilité comme étudiant, dépublie puis exige 404 par identifiant : ce dernier contrôle protège les liens conservés.
+
+\section{Déboguer}
+Une page vide demande le journal frontend. 401 concerne la session ; 403 le rôle ou l’origine ; 503 un service absent. Pour convertir, vérifier Docker, image, packages et limites sans exécuter le document sur l’hôte. Une DLL Prisma verrouillée sous Windows demande l’arrêt du service avant génération.
+
+\section{Tester}
+npm test vérifie les moteurs et fichiers ; npm run typecheck valide les workspaces. frontend utilise npx tsc --noEmit. scripts/check-resources.mjs traverse HTTP et --conversions ajoute Office/TEX. create-resource-fixtures.py produit les documents jetables. Les contrôles locaux ont vérifié les six extensions, les brouillons, rôles, filtres, téléchargements et CSRF.
+
+\section{Sauvegarder et déployer}
+Sauvegarder base et dossier privé ensemble. Garder les secrets hors de Git ; réserver les comptes publics à la démo. Configurer HTTPS et APP\_ORIGIN. Avant diffusion, préparer supervision, rotation de logs et restauration testée. Ne pas déployer plusieurs convertisseurs avec la reprise actuelle.
+
+\begin{concept}{Erreur fréquente}TypeScript ne vérifie ni la disponibilité PostgreSQL ni la présence d’un binaire natif Tailwind. Une conversion réussie ne prouve pas les permissions : ces propriétés exigent des tests différents.\end{concept}

@@ -14,6 +14,7 @@
     "db:generate": "npm run db:generate --workspaces --if-present",
     "db:push": "npm run db:push --workspaces --if-present",
     "db:seed": "npm run db:seed --workspace=auth-user-service",
+    "db:seed:demo": "tsx scripts/seed-demo.ts",
     "dev": "concurrently -k -n gateway,auth,catalog,exam,analytics,contact,qcm -c blue,green,cyan,magenta,yellow,red,white \"npm:dev -w gateway\" \"npm:dev -w auth-user-service\" \"npm:dev -w catalog-course-service\" \"npm:dev -w exam-submission-service\" \"npm:dev -w analytics-streak-service\" \"npm:dev -w admin-contact-service\" \"npm:dev -w adaptive-qcm-service\"",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present"

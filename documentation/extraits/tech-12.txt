@@ -1,0 +1,17 @@
+export function MathFormula({ math, block = false, className = '' }: MathFormulaProps) {
+  const [rendered, setRendered] = useState<string>('')
+
+  useEffect(() => {
+    try {
+      const html = katex.renderToString(math, {
+        throwOnError: false,
+        displayMode: block,
+      })
+      setRendered(html)
+    } catch {
+      setRendered('')
+    }
+  }, [math, block])
+
+  if (!rendered) {
+    return <span className={`inline-block font-mono text-xs opacity-70 ${className}`}>{math}</span>

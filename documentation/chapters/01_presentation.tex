@@ -1,0 +1,18 @@
+\chapter{Présentation générale et périmètre vérifié}
+\section{Objectif et public}
+Nexora accompagne la préparation CPGE : cours, travaux dirigés, annales et suivi du travail. Le problème traité est la dispersion des documents et des activités de révision. Le projet combine une interface académique et un backend organisé par domaines. Le nouveau catalogue couvre exclusivement MPSI/SUP et MP/SPE, avec Mathématiques, Physique-Chimie, Informatique et SII. Les anciens modules et comptes peuvent encore utiliser MP, PSI et TSI : cette coexistence est visible dans le code.
+
+\section{Méthode de lecture}
+L’analyse porte sur les sources applicatives, manifestes de dépendances, six schémas Prisma, routes Express et Next.js, tests et configuration Docker. Les dépendances installées et archives ne sont pas des sources métier. Les extraits proviennent des fichiers réels et leurs lignes et empreintes sont conservées dans verification/extraits.json. Les raisons techniques proposées sont des analyses de compromis, pas des intentions historiques attribuées aux auteurs.
+
+\begin{table}[ht]\centering\small\begin{tabularx}{\textwidth}{lX}\toprule Fonction & État constaté \\\midrule
+Authentification & Inscription, connexion, cookie privé, rôles et révocation branchés au backend. \\
+Tableau de bord & Lecture réelle des activités ; radar, objectifs et calendrier. Activités artificielles pour les comptes démo. \\
+Ressources & Import, brouillons, publication, filtres, stockage privé et lecteur PDF opérationnels. \\
+Conversion & DOC, DOCX, PPT, PPTX et TEX convertis en conteneur isolé et testés. \\
+Cours historiques & Interfaces et catalogue externe ; plusieurs routes natives encore 501. \\
+Examens, contact & Modèles et interfaces présents ; routes métier principales encore 501. \\
+QCM adaptatif & Algorithme pur testé ; orchestration HTTP des sessions encore 501. \\
+Redis / MinIO & Infrastructure déclarée ; pas de cache ni de stockage S3 actif dans le nouveau parcours. \\\bottomrule\end{tabularx}\caption{État fonctionnel vérifié}\end{table}
+\section{Besoins non fonctionnels}
+La confidentialité des brouillons impose une autorisation sur les métadonnées et les octets. La réactivité impose de répondre à l’import avant la fin des conversions. La sécurité impose de ne pas compiler LaTeX dans le processus principal. Une erreur de compilation doit rester attachée à son document sans faire disparaître le catalogue. La maintenance demande de distinguer affichage, protocole HTTP, règles métier et persistance.

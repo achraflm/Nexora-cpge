@@ -2,6 +2,8 @@ import { createServiceApp, notImplemented, portEnv, requireEnv, requireUser, sta
 import { Router } from 'express'
 import { prisma } from './db'
 import { resourceFilters } from './external-resources'
+import { educationalResources } from './educational-resources'
+import { recoverConversions } from './resource-converter'
 
 /**
  * catalog-course-service (CDC 3.1 - service 2) — Sprint 2.
@@ -10,6 +12,7 @@ import { resourceFilters } from './external-resources'
  */
 const router = Router()
 const todo = notImplemented('Sprint 2')
+router.use('/catalog/educational-resources', educationalResources)
 
 // Consultation (tout etudiant connecte ; aucune restriction Sup/Spe).
 router.get('/catalog/resources', async (req, res) => {
@@ -37,3 +40,4 @@ router.delete('/catalog/:entity/:id', requireUser('ADMIN'), todo)
 
 const app = createServiceApp({ name: 'catalog-course-service', internalSecret: requireEnv('INTERNAL_SECRET'), router })
 startService(app, 'catalog-course-service', portEnv('CATALOG_PORT', 4002))
+void recoverConversions().catch(console.error)

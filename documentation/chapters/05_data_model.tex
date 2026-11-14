@@ -1,0 +1,36 @@
+\chapter{Modélisation et gestion des données}
+\section{Relations}
+User est la racine de l’identité ; Student et Administrator portent les profils et RefreshToken les sessions. Subject possède Chapter, puis Lesson et Exercise. ExerciseAttempt relie tentative, exercice et userId. Les identifiants interservices sont des références logiques : supprimer un compte demande une propagation explicite.
+
+\begin{figure}[ht]\centering\begin{tikzpicture}[node distance=13mm,box/.style={draw=nexora,rounded corners,minimum width=4cm,minimum height=8mm},>=Stealth]
+\node[box](s){Subject};\node[box,below left=of s](c){Chapter};\node[box,below right=of s](r){EducationalResource};\node[box,below=of c](l){Lesson};\node[box,below=of l](e){Exercise};\node[box,below=of e](a){ExerciseAttempt};\draw[->](s)--node[left]{1 / N}(c);\draw[->](s)--node[right]{1 / N}(r);\draw[->](c)--node[right]{1 / N}(l);\draw[->](l)--node[right]{1 / N}(e);\draw[->](e)--node[right]{1 / N}(a);\end{tikzpicture}\caption{Relations du domaine catalogue}\end{figure}
+\section{Métadonnées et fichiers}
+PostgreSQL conserve la description pédagogique et des clés opaques. SHA-256 identifie les sources ; ce n’est pas un hash de mot de passe. Le serveur peut contrôler un droit puis fournir un flux sans enregistrer les binaires en table. Publication et conversion sont indépendantes : un document publié peut être en préparation.
+
+\section{Transactions et cohérence}
+Inscription et rotation des jetons sont transactionnelles. Le disque ne participe pas à une transaction PostgreSQL : une panne entre écriture et insertion peut laisser un fichier orphelin. Réconciliation et purge sont donc nécessaires. revision protège la finalisation obsolète, sans constituer un verrou distribué complet.
+
+\section{adaptive-qcm-service}
+Modèles présents : QcmQuestion, QcmChoice, QcmMastery, QcmSession, QcmAnswer, QcmSpacedRepetition. Un schéma ne prouve pas l’achèvement des routes métier.
+
+\lstinputlisting[language={}]{extraits/schema-adaptive-qcm-service.txt}
+\section{admin-contact-service}
+Modèles présents : ContactMessage, Notification. Un schéma ne prouve pas l’achèvement des routes métier.
+
+\lstinputlisting[language={}]{extraits/schema-admin-contact-service.txt}
+\section{analytics-streak-service}
+Modèles présents : UserStreak, DailyActivityLog. Un schéma ne prouve pas l’achèvement des routes métier.
+
+\lstinputlisting[language={}]{extraits/schema-analytics-streak-service.txt}
+\section{auth-user-service}
+Modèles présents : User, Student, Administrator, RefreshToken. Un schéma ne prouve pas l’achèvement des routes métier.
+
+\lstinputlisting[language={}]{extraits/schema-auth-user-service.txt}
+\section{catalog-course-service}
+Modèles présents : ExternalResource, Subject, EducationalResource, Chapter, Lesson, Exercise, ExerciseAttempt, ReferenceBook. Un schéma ne prouve pas l’achèvement des routes métier.
+
+\lstinputlisting[language={}]{extraits/schema-catalog-course-service.txt}
+\section{exam-submission-service}
+Modèles présents : CncExam, ExamSession, WrittenSubmission. Un schéma ne prouve pas l’achèvement des routes métier.
+
+\lstinputlisting[language={}]{extraits/schema-exam-submission-service.txt}

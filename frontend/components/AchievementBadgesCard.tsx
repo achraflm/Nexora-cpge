@@ -44,9 +44,11 @@ const ACHIEVEMENTS_DATA: AchievementItem[] = [
 export function AchievementBadgesCard({
   onViewAll,
   className = '',
+  items = ACHIEVEMENTS_DATA,
 }: {
   onViewAll?: () => void
   className?: string
+  items?: AchievementItem[]
 }) {
   return (
     <section
@@ -70,7 +72,7 @@ export function AchievementBadgesCard({
 
       {/* List of Thematic Objectives */}
       <div className="mt-3 divide-y divide-slate-200/70 dark:divide-white/10">
-        {ACHIEVEMENTS_DATA.map((item) => (
+        {items.map((item) => (
           <div
             key={item.id}
             className="flex items-start gap-3 py-2.5 first:pt-0 last:pb-0"

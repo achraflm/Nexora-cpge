@@ -40,7 +40,7 @@ import {
 } from '@phosphor-icons/react'
 import { MathFormula } from './MathFormula'
 import { PdfCourseChapterCard } from './PdfCourseChapterCard'
-import { CoursePdfReader } from './CoursePdfReader'
+import dynamic from 'next/dynamic'
 import { getPdfCourseChapters, type CourseDocument } from '@/lib/pdf-course-chapters'
 import { ThemeToggle } from './ThemeToggle'
 import { NexoraLogo } from './NexoraLogo'
@@ -55,11 +55,16 @@ import {
   Trophy as LucideTrophy,
   Zap,
   BookOpen as LucideBookOpen,
+  NotebookPen,
   Award,
   Shield as LucideShield,
 } from 'lucide-react'
 import { ConcoursPdfExamViewer, type ExamViewerMode, type ConcoursExamItem } from './ConcoursPdfExamViewer'
 import { CONCOURS_ANNALES_DATABASE, type ConcoursEpreuveFull } from '@/lib/concours-annales-database'
+
+const DeferredCoursePdfReader = dynamic(() => import('./CoursePdfReader').then(m => m.CoursePdfReader), {
+  loading: () => <p role="status" className="p-6">Ouverture du document…</p>,
+})
 
 export interface CourseExercise {
   id: string
@@ -4146,7 +4151,7 @@ export function CourseExerciseQcmDoubleMode({
       {/* PAGE 2 : LISTE DES CHAPITRES DE COURS PAR MATIÈRE                      */}
       {/* ====================================================================== */}
       {currentPage === 'courses' && selectedPdfDocument && (
-        <CoursePdfReader key={selectedPdfDocument.sourceUrl} document={selectedPdfDocument} onBack={() => setSelectedPdfDocument(null)} />
+        <DeferredCoursePdfReader key={selectedPdfDocument.sourceUrl} document={selectedPdfDocument} onBack={() => setSelectedPdfDocument(null)} />
       )}
       {currentPage === 'courses' && !selectedPdfDocument && (
         <main className="relative mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8 animate-in fade-in duration-300">
@@ -4249,7 +4254,7 @@ export function CourseExerciseQcmDoubleMode({
                     onClick={() => handleOpenCoursePart(c.id, 'cours')}
                     className="flex items-center justify-center gap-2 rounded-xl border border-[#3978F6]/40 bg-[#3978F6]/10 px-4 py-3 text-xs font-bold text-[#2866dc] transition hover:bg-[#3978F6] hover:text-white dark:text-[#8db5ff]"
                   >
-                    <BookOpen size={16} weight="bold" />
+                    <LucideBookOpen size={20} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
                     <span>Ouvrir Partie Cours</span>
                   </button>
 
@@ -4258,7 +4263,7 @@ export function CourseExerciseQcmDoubleMode({
                     onClick={() => handleOpenCoursePart(c.id, 'td')}
                     className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#3978F6] to-[#2563eb] px-4 py-3 text-xs font-bold text-white shadow-md transition hover:brightness-110 active:scale-95"
                   >
-                    <Lightning size={16} weight="fill" className="text-amber-300" />
+                    <NotebookPen size={20} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
                     <span>Ouvrir Partie TD</span>
                   </button>
                 </div>

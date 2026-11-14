@@ -1,0 +1,8 @@
+  title:z.string().trim().min(1).max(200),description:z.string().trim().max(4000).default(''),
+  track:z.enum(['MPSI','MP']),level:z.enum(['SUP','SPE']),subject:z.enum(['MATH','PHYS','INFO','SI']),
+  type:z.enum(['COURSE','TD']),status:z.enum(['DRAFT','PUBLISHED']),allowDownload:z.boolean(),
+}).strict().refine(v=>v.level===(v.track==='MPSI'?'SUP':'SPE'),{message:'MPSI correspond à SUP ; MP correspond à SPE.',path:['level']})
+const filters=z.object({track:z.enum(['MPSI','MP']).optional(),subject:z.enum(['MATH','PHYS','INFO','SI']).optional(),type:z.enum(['COURSE','TD']).optional(),q:z.string().max(200).optional(),sort:z.enum(['asc','desc']).default('desc')}).strict()
+function id(value:unknown){return z.uuid().parse(value)}
+function serialize(row:any){const {storageKey,outputKey,sourceHash,companions,...publicData}=row;return {...publicData,companions:(companions as any[]).map(({name,bytes})=>({name,bytes}))}}
+async function permitted(req:any){

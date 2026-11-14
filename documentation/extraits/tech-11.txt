@@ -1,0 +1,13 @@
+}
+
+export async function openPdf(url: string, onProgress?: (ratio: number | null) => void): Promise<OpenedPdf> {
+  const pdfjs = await loadPdfJs()
+  const task = pdfjs.getDocument({
+    url,
+    cMapUrl: `${ASSETS}/cmaps/`,
+    cMapPacked: true,
+    standardFontDataUrl: `${ASSETS}/standard_fonts/`,
+    wasmUrl: `${ASSETS}/wasm/`,
+    iccUrl: `${ASSETS}/iccs/`,
+  })
+  if (onProgress) {

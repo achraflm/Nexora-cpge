@@ -51,33 +51,34 @@ export const CPGE_CENTERS = [
   'Autre centre CPGE',
 ]
 
-const AUTH_STORAGE_KEY = 'learning_cnc_user_session'
 
-export function getStoredUser(): UserProfile | null {
-  if (typeof window === 'undefined') return null
-  try {
-    const raw = localStorage.getItem(AUTH_STORAGE_KEY)
-    if (!raw) return null
-    return JSON.parse(raw) as UserProfile
-  } catch {
-    return null
-  }
-}
-
+// Ce cache ne sert qu'à l'affichage. La session et les rôles sont vérifiés côté serveur.
+let profileCache: UserProfile | null = null
+export function getStoredUser(): UserProfile | null { return profileCache }
 export function saveUserSession(user: UserProfile) {
-  if (typeof window === 'undefined') return
-  try {
-    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(user))
-  } catch (err) {
-    console.error('Failed to save session', err)
-  }
+  profileCache = { ...user, token: undefined }
+  if (typeof window !== 'undefined') window.localStorage.removeItem('learning_cnc_user_session')
+}
+export function clearUserSession() { profileCache = null }
+
+export async function authenticateBrowser(action: 'login' | 'register', input: Record<string, unknown>): Promise<UserProfile> {
+  const response = await fetch(`/api/auth/${action}`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(input),
+  })
+  const data = await response.json()
+  if (!response.ok) throw new Error(data.details?.[0]?.message || data.message || 'Connexion impossible.')
+  saveUserSession(data.user)
+  return data.user
 }
 
-export function clearUserSession() {
-  if (typeof window === 'undefined') return
-  try {
-    localStorage.removeItem(AUTH_STORAGE_KEY)
-  } catch (err) {
-    console.error('Failed to clear session', err)
+export async function logout() {
+  const response = await fetch('/api/auth/logout', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}',
+  })
+  if (!response.ok && response.status !== 401) {
+    window.alert('Déconnexion impossible. Réessayez lorsque le service sera disponible.')
+    return
   }
+  clearUserSession()
+  window.location.assign('/login')
 }

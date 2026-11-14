@@ -1,0 +1,12 @@
+  { prefix: '/api/contact', service: 'admin-contact-service', target: serviceUrl('CONTACT', 4005) },
+  { prefix: '/api/qcm', service: 'adaptive-qcm-service', target: serviceUrl('QCM', 4006) },
+]
+
+/** Routes accessibles sans access token (tout le reste exige un JWT valide). */
+export const PUBLIC_ROUTES: Array<{ method: string; path: string }> = [
+  { method: 'POST', path: '/api/auth/session' },
+  { method: 'POST', path: '/api/auth/register' },
+  { method: 'POST', path: '/api/auth/login' },
+  { method: 'POST', path: '/api/auth/refresh' },
+  { method: 'POST', path: '/api/auth/logout' },
+  { method: 'GET', path: '/api/health' },

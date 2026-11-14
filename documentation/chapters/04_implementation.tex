@@ -1,0 +1,28 @@
+\chapter{Implémentation fonctionnelle et scénarios}
+\section{Authentification}
+LoginPage et SignUpPage envoient les données vers Next. Le relais contrôle origine et taille puis appelle auth et fixe un cookie HttpOnly. register crée utilisateur, profil et jeton dans une transaction. Le client ne peut pas choisir ADMIN. Logout révoque la session et expire le cookie. Les comptes publics de docs/README-authentification.md sont réservés aux démonstrations locales.
+
+\section{Tableau de bord}
+HomeDashboard reçoit profil et résumé analytics. Le temps vient de studyMinutes et non de constantes. Les quatre axes du radar emploient une échelle commune arrondie à l’heure supérieure et une légende chiffrée. Les objectifs sont des seuils d’activité, pas une estimation de maîtrise. Les comptes artificiels sont signalés.
+
+\section{Importation et publication}
+ResourceAdmin verrouille l’année selon la filière et inspecte le fichier avant enregistrement. Le multipart traverse les contrôles d’autorisation. storeUpload choisit un UUID de dossier et conserve sources et compléments. Le PDF est immédiatement prêt ; Office/TEX passent par PENDING, PROCESSING, READY ou FAILED. Un brouillon reste caché même si son identifiant est connu.
+
+\section{Recherche et lecture}
+La loupe ouvre ResourceCatalog. Filière, matière, type, titre et tri sont combinés côté serveur ; les anciennes requêtes sont annulées. Une absence de résultat donne un état vide. La liste est actuellement limitée à 500 entrées : une diffusion massive nécessite une pagination et un total indépendant.
+
+\section{Remplacement et relance}
+Le remplacement est refusé durant une conversion active. Une mise à jour conditionnelle de revision détecte les changements concurrents. Un résultat n’est validé que pour sa révision. FAILED peut revenir à PENDING. Supprimer retire la ressource du catalogue ; les sources historiques restent privées pour récupération et nécessitent une purge différée.
+
+\section{Régularité et activité}
+Le résumé lit les journaux du compte sur l’année locale Africa/Casablanca. La série tombe à zéro si la dernière activité est trop ancienne. updateStreak est testé séparément. POST analytics/activities reste inachevé : une ouverture de cours ne garantit pas une nouvelle activité persistée.
+
+\section{QCM et autres modules}
+adaptive-engine.ts calcule une maîtrise bornée entre 0 et 100, pondère difficulté et vitesse, puis propose des intervalles 1, 3, 7 et 21 jours. Cette logique pure est testée ; les routes de sessions restent 501. Les écrans d’examens et tickets ne prouvent pas davantage leur persistance.
+
+\section{Gestion des erreurs}
+400 : données incompatibles ; 401 : connexion ; 403 : rôle ou téléchargement refusé ; 404 : ressource absente ou brouillon masqué ; 409 : document non prêt ou conflit ; 413 : taille dépassée. L’erreur de conversion est conservée sans exposer logs ou chemins internes.
+
+\begin{figure}[ht]\centering\begin{tikzpicture}[>=Stealth,font=\small]
+\foreach \x/\name in {0/Admin,3/Next.js,6/Catalogue,9/Convertisseur}{\node at (\x,0){\name};\draw[dashed,gray](\x,-0.3)--(\x,-5);}
+\draw[->](0,-0.8)--node[above]{Import multipart}(3,-0.8);\draw[->](3,-1.5)--node[above]{Identité vérifiée}(6,-1.5);\draw[->](6,-2.2)--node[above]{Source privée}(9,-2.2);\draw[->](6,-2.9)--node[above]{201 + PENDING}(3,-2.9);\draw[->](3,-3.5)--node[above]{Carte enregistrée}(0,-3.5);\draw[->](9,-4.2)--node[above]{PDF ou erreur}(6,-4.2);\draw[->](3,-4.8)--node[above]{Lecture de l’état}(6,-4.8);\end{tikzpicture}\caption{Séquence d’un import avec conversion différée}\end{figure}

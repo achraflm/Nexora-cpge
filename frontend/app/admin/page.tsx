@@ -1,16 +1,8 @@
-'use client'
+import { requireSession } from '@/lib/server-auth'
+import { SessionProvider } from '@/components/SessionProvider'
+import Screen from '@/components/AdminPage'
 
-import { AdminBackOffice } from '@/components/AdminBackOffice'
-
-export default function Page() {
-  return (
-    <AdminBackOffice
-      onNavigateToStudentView={() => {
-        window.location.href = '/'
-      }}
-      onLogout={() => {
-        window.location.href = '/login'
-      }}
-    />
-  )
+export default async function Page() {
+  const session = await requireSession('ADMIN')
+  return <SessionProvider user={session.user}><Screen /></SessionProvider>
 }

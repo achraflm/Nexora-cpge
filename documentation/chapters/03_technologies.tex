@@ -1,0 +1,315 @@
+\chapter{Cours pratique des technologies utilisées}
+\section{TypeScript}
+\subsection*{Définition}
+Un système de types statiques ajouté à JavaScript ; les types sont effacés à l’exécution.
+
+\subsection*{Fonctionnement interne et concepts}
+Une interface décrit une forme, une union les cas permis. Le compilateur vérifie les usages du programme, pas les valeurs envoyées par un attaquant.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : frontend/lib/educational-resources.ts.
+
+\paragraph{Code observé} frontend/lib/educational-resources.ts (lignes 1 à 10).
+\lstinputlisting{extraits/tech-01.txt}
+\subsection*{Lecture du code et exemple pratique}
+Les constantes fixent les quatre matières ; l’interface décrit le contrat de lecture ; la fonction centralise les erreurs HTTP.
+
+\subsection*{Interactions et justification technique}
+Les types structurels évitent une hiérarchie de classes sans comportement. Les données réseau exigent encore Zod.
+
+\subsection*{Limites et alternatives}
+Remplacer les any restants par des contrats précis ; JavaScript seul réduit les garanties préalables.
+
+\section{React et composants}
+\subsection*{Définition}
+Une description déclarative de l’interface à partir de propriétés et d’un état.
+
+\subsection*{Fonctionnement interne et concepts}
+Une mise à jour d’état recalcule la vue. Les effets synchronisent une ressource externe et leur nettoyage annule requêtes et temporisateurs devenus inutiles.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : frontend/components/ResourceCatalog.tsx.
+
+\paragraph{Code observé} frontend/components/ResourceCatalog.tsx (lignes 1 à 22).
+\lstinputlisting{extraits/tech-02.txt}
+\subsection*{Lecture du code et exemple pratique}
+Les filtres sont des états ; l’effet temporise la recherche ; AbortController empêche une réponse obsolète de modifier la vue.
+
+\subsection*{Interactions et justification technique}
+Séparer lecteur et catalogue permet de réutiliser le PDF sans dupliquer les comportements. Loading, erreur et état vide sont explicites.
+
+\subsection*{Limites et alternatives}
+Les composants historiques volumineux restent à découper ; une machine à états aiderait les parcours plus complexes.
+
+\section{Next.js App Router}
+\subsection*{Définition}
+Un framework liant routage par fichiers, rendu serveur et composants React interactifs.
+
+\subsection*{Fonctionnement interne et concepts}
+Les pages serveur s’exécutent avant l’envoi de la vue. Les composants client gèrent les événements ; une route API traite Request et Response sans être un composant visuel.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : frontend/app/page.tsx.
+
+\paragraph{Code observé} frontend/app/page.tsx (lignes 1 à 13).
+\lstinputlisting{extraits/tech-03.txt}
+\subsection*{Lecture du code et exemple pratique}
+La page exige une session, charge le résumé analytics puis fournit ses propriétés au DashboardShell. Une panne de statistiques ne supprime pas la session.
+
+\subsection*{Interactions et justification technique}
+Les jetons restent côté serveur. Les guides installés dans node\_modules correspondent à la version du dépôt et priment pour ses API.
+
+\subsection*{Limites et alternatives}
+Le rendu dépend de la disponibilité du service auth. Une SPA séparée demanderait une autre conservation des jetons.
+
+\section{Node.js et asynchronisme}
+\subsection*{Définition}
+Un environnement JavaScript serveur utilisé par Express, les scripts et le lancement des conversions.
+
+\subsection*{Fonctionnement interne et concepts}
+La boucle d’événements coordonne les entrées-sorties. Await suspend une fonction, pas tout le serveur ; un calcul CPU synchrone bloque néanmoins son thread. Spawn crée un processus distinct.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : backend/services/catalog-course-service/src/resource-converter.ts.
+
+\paragraph{Code observé} backend/services/catalog-course-service/src/resource-converter.ts (lignes 1 à 18).
+\lstinputlisting{extraits/tech-04.txt}
+\subsection*{Lecture du code et exemple pratique}
+La promesse observe stdout et le code de sortie ; le timer borne la durée ; la collecte du PDF est plafonnée. Les arguments ne passent pas par un shell hôte.
+
+\subsection*{Interactions et justification technique}
+LibreOffice et TeX travaillent hors du processus Node. Leur échec reste un résultat métier.
+
+\subsection*{Limites et alternatives}
+Une file de travaux dédiée sera nécessaire en multi-instance ; un worker thread ne suffit pas à isoler un compilateur hostile.
+
+\section{HTTP, REST et Express}
+\subsection*{Définition}
+HTTP échange méthodes, chemins, en-têtes et corps ; REST organise des ressources et leurs représentations.
+
+\subsection*{Fonctionnement interne et concepts}
+Express exécute les middlewares dans l’ordre. Un refus doit terminer le traitement. POST crée, PATCH modifie et GET consulte sans mutation métier volontaire.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : backend/packages/common/src/service-app.ts.
+
+\paragraph{Code observé} backend/packages/common/src/service-app.ts (lignes 20 à 38).
+\lstinputlisting{extraits/tech-05.txt}
+\subsection*{Lecture du code et exemple pratique}
+Le contrôle gateway précède le JSON puis les routes ; erreurs et routes inconnues sont traitées en dernier.
+
+\subsection*{Interactions et justification technique}
+Le multipart conserve son Content-Type et sa boundary. Les codes 401, 403, 404, 409 et 413 différencient les refus.
+
+\subsection*{Limites et alternatives}
+La relance est une commande métier plutôt qu’un REST pur. OpenAPI améliorerait la génération de clients.
+
+\section{PostgreSQL et SQL}
+\subsection*{Définition}
+Un système relationnel conservant les données indépendamment du processus applicatif.
+
+\subsection*{Fonctionnement interne et concepts}
+Une clé primaire identifie une ligne, une clé étrangère impose une référence, un index accélère des recherches au prix des écritures. Une transaction regroupe des changements atomiques.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : backend/services/catalog-course-service/prisma/resource-constraints.sql.
+
+\paragraph{Code observé} backend/services/catalog-course-service/prisma/resource-constraints.sql (lignes 1 à 6).
+\lstinputlisting{extraits/tech-06.txt}
+\subsection*{Lecture du code et exemple pratique}
+Le bloc vérifie la présence de la contrainte puis impose les associations filière/année. Même une écriture SQL directe respecte cette règle.
+
+\subsection*{Interactions et justification technique}
+PostgreSQL garantit les invariants ; Zod donne des erreurs précoces. Les binaires restent hors des tables.
+
+\subsection*{Limites et alternatives}
+Contains devient coûteux sur un grand corpus ; recherche plein texte et pagination seront nécessaires.
+
+\section{Prisma et persistance}
+\subsection*{Définition}
+Un ORM générant un client typé depuis un schéma de données.
+
+\subsection*{Fonctionnement interne et concepts}
+Le schéma décrit champs, relations, enums et index. La génération produit les méthodes ; findMany et update génèrent des requêtes paramétrées au lieu de concaténer du SQL utilisateur.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : backend/services/catalog-course-service/prisma/schema.prisma.
+
+\paragraph{Code observé} backend/services/catalog-course-service/prisma/schema.prisma (lignes 100 à 128).
+\lstinputlisting{extraits/tech-07.txt}
+\subsection*{Lecture du code et exemple pratique}
+Le modèle sépare métadonnées, stockage et conversion. subjectId matérialise la relation ; revision protège contre une ancienne conversion.
+
+\subsection*{Interactions et justification technique}
+Un client par service limite les dépendances. Les userId interservices ne sont pas tous des clés étrangères.
+
+\subsection*{Limites et alternatives}
+db push ne remplace pas un historique de migrations. La documentation en ligne peut concerner une version supérieure à Prisma 6.
+
+\section{Zod et validation}
+\subsection*{Définition}
+Une validation à l’exécution qui transforme des données inconnues en valeurs acceptées.
+
+\subsection*{Fonctionnement interne et concepts}
+Parse retourne une valeur validée ou lance une erreur ; strict refuse les propriétés supplémentaires ; refine exprime un invariant entre champs.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : backend/services/catalog-course-service/src/educational-resources.ts.
+
+\paragraph{Code observé} backend/services/catalog-course-service/src/educational-resources.ts (lignes 19 à 26).
+\lstinputlisting{extraits/tech-08.txt}
+\subsection*{Lecture du code et exemple pratique}
+Titre et description sont bornés ; track et level sont des enums ; refine lie MPSI/SUP et MP/SPE. Le rôle ne provient pas du formulaire.
+
+\subsection*{Interactions et justification technique}
+TypeScript protège le développement ; Zod protège la frontière réseau.
+
+\subsection*{Limites et alternatives}
+Un JSON valide ne prouve pas qu’un PDF est sain : les fichiers nécessitent une inspection distincte.
+
+\section{Bcrypt, JWT et sessions}
+\subsection*{Définition}
+Le hachage de mot de passe est irréversible, la signature JWT détecte la modification et un cookie transporte la session.
+
+\subsection*{Fonctionnement interne et concepts}
+Bcrypt emploie un coût et un sel. Le refresh token aléatoire est haché en base. Le serveur signe un jeton court et la gateway vérifie algorithme, émetteur et audience.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : backend/services/auth-user-service/src/auth.service.ts.
+
+\paragraph{Code observé} backend/services/auth-user-service/src/auth.service.ts (lignes 50 à 59).
+\lstinputlisting{extraits/tech-09.txt}
+\subsection*{Lecture du code et exemple pratique}
+La recherche est paramétrée ; compare emploie un hash factice si le compte manque ; l’erreur est générique ; les jetons suivent la vérification.
+
+\subsection*{Interactions et justification technique}
+HttpOnly empêche la lecture du cookie en JavaScript, pas toute XSS. SameSite et Origin réduisent CSRF ; HTTPS reste requis en production.
+
+\subsection*{Limites et alternatives}
+Révoquer le refresh token ne révoque pas immédiatement un access token déjà émis. MFA et récupération de compte ne sont pas implémentés.
+
+\section{HTML, CSS et Tailwind}
+\subsection*{Définition}
+HTML porte la sémantique, CSS la présentation et Tailwind des utilitaires de styles.
+
+\subsection*{Fonctionnement interne et concepts}
+Les classes responsive appliquent des règles selon la largeur ; dark change les couleurs. Labels et noms accessibles permettent clavier et lecteurs d’écran.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : frontend/components/CoursePdfReader.tsx.
+
+\paragraph{Code observé} frontend/components/CoursePdfReader.tsx (lignes 60 à 69).
+\lstinputlisting{extraits/tech-10.txt}
+\subsection*{Lecture du code et exemple pratique}
+Le retour est un bouton, le titre structure le document, les classes contrôlent bordures et tailles sans ajouter de logique métier.
+
+\subsection*{Interactions et justification technique}
+Réutiliser glowing-card et ui-button conserve l’identité visuelle. Le radar a une échelle commune et une description accessible.
+
+\subsection*{Limites et alternatives}
+Le JSX compact et les classes répétées nuisent à la revue ; extraire des composants lorsque les répétitions deviennent stables.
+
+\section{PDF.js}
+\subsection*{Définition}
+Un moteur interprétant les PDF et dessinant leurs pages dans le navigateur.
+
+\subsection*{Fonctionnement interne et concepts}
+Chargement, viewport et rendu canvas sont distincts. Un worker traite une partie du travail ; changer de page demande un nouvel objet de page et un rendu.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : frontend/components/document-studio/pdf-engine.ts.
+
+\paragraph{Code observé} frontend/components/document-studio/pdf-engine.ts (lignes 39 à 51).
+\lstinputlisting{extraits/tech-11.txt}
+\subsection*{Lecture du code et exemple pratique}
+Le document vient d’une URL privée ; les polices, CMaps et ressources WebAssembly sont fournies localement.
+
+\subsection*{Interactions et justification technique}
+CoursePdfReader gère page, rotation, zoom et erreurs. Office rejoint le même lecteur après conversion.
+
+\subsection*{Limites et alternatives}
+Les animations PowerPoint disparaissent. Sélection de texte et annotations exigent des couches dédiées.
+
+\section{KaTeX}
+\subsection*{Définition}
+Un moteur de formules pour HTML, distinct d’un compilateur LaTeX complet.
+
+\subsection*{Fonctionnement interne et concepts}
+Une expression est transformée en balisage. L’échec doit afficher du texte échappé plutôt que réinjecter la source comme HTML arbitraire.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : frontend/components/MathFormula.tsx.
+
+\paragraph{Code observé} frontend/components/MathFormula.tsx (lignes 12 à 28).
+\lstinputlisting{extraits/tech-12.txt}
+\subsection*{Lecture du code et exemple pratique}
+L’effet appelle renderToString avec displayMode ; le catch revient à une chaîne vide puis à un span texte.
+
+\subsection*{Interactions et justification technique}
+Les exercices interactifs utilisent KaTeX ; les documents TEX utilisent TeX dans Docker.
+
+\subsection*{Limites et alternatives}
+KaTeX ne supporte pas tous les packages de documents TeX.
+
+\section{Docker, LibreOffice et TeX}
+\subsection*{Définition}
+Docker encapsule un environnement ; LibreOffice interprète Office et TeX compose les sources en PDF.
+
+\subsection*{Fonctionnement interne et concepts}
+Racine en lecture seule, sources montées en lecture seule, tmpfs borné, réseau coupé et utilisateur non privilégié réduisent les capacités du contenu hostile.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : backend/converter/convert.sh.
+
+\paragraph{Code observé} backend/converter/convert.sh (lignes 1 à 21).
+\lstinputlisting{extraits/tech-13.txt}
+\subsection*{Lecture du code et exemple pratique}
+La branche TEX désactive shell escape et effectue plusieurs passes ; Office appelle LibreOffice ; seul le PDF régulier est transmis sur stdout.
+
+\subsection*{Interactions et justification technique}
+Node vérifie les octets reçus et les conserve. Le timeout interne subsiste même si le processus hôte s’arrête.
+
+\subsection*{Limites et alternatives}
+Un conteneur n’élimine pas toutes les vulnérabilités. Le moteur et l’image doivent être maintenus, le socket Docker reste privilégié.
+
+\section{npm et workspaces}
+\subsection*{Définition}
+Un gestionnaire de dépendances et de scripts reliant les packages du backend.
+
+\subsection*{Fonctionnement interne et concepts}
+Le lockfile fige le graphe résolu ; les workspaces relient les packages locaux. Les variables d’environnement fournissent ports et secrets hors du code.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : backend/package.json.
+
+\paragraph{Code observé} backend/package.json (lignes 1 à 23).
+\lstinputlisting{extraits/tech-14.txt}
+\subsection*{Lecture du code et exemple pratique}
+Workspaces inclut common, gateway et services ; les scripts coordonnent génération, tests et développement.
+
+\subsection*{Interactions et justification technique}
+Le frontend a son manifeste indépendant et déclare pnpm. Éviter deux installations concurrentes dans un même dossier.
+
+\subsection*{Limites et alternatives}
+Une dépendance déclarée n’est pas une preuve d’usage. Redis et MinIO sont configurés mais non reliés aux nouveaux parcours.
+
+\section{Tests et exceptions}
+\subsection*{Définition}
+Les tests contrôlent des propriétés observables ; les exceptions sont converties en réponses contrôlées.
+
+\subsection*{Fonctionnement interne et concepts}
+Les tests purs sont rapides et déterministes. Les tests d’intégration traversent HTTP, session, fichiers et conversion.
+
+\subsection*{Utilisation dans Nexora}
+Point d’entrée analysé : backend/services/catalog-course-service/test/resource-files.test.ts.
+
+\paragraph{Code observé} backend/services/catalog-course-service/test/resource-files.test.ts (lignes 1 à 17).
+\lstinputlisting{extraits/tech-15.txt}
+\subsection*{Lecture du code et exemple pratique}
+Un PDF valide, une extension incohérente et un faux document sont présentés ; assert.rejects exige le refus des cas invalides.
+
+\subsection*{Interactions et justification technique}
+check-resources vérifie les rôles avec les comptes locaux et retire ses ressources dans finally.
+
+\subsection*{Limites et alternatives}
+Des tests passants ne prouvent pas la sécurité globale ; charge, audit indépendant et multi-instance exigent d’autres campagnes.

@@ -26,7 +26,12 @@ export function authenticate(accessSecret: string, internalSecret: string): Requ
 
     if (token) {
       try {
-        const payload = jwt.verify(token, accessSecret) as AccessTokenPayload
+        const payload = jwt.verify(token, accessSecret, {
+          algorithms: ['HS256'], issuer: 'nexora-auth', audience: 'nexora-api',
+        }) as AccessTokenPayload
+        if (typeof payload.sub !== 'string' || !payload.sub || !['STUDENT', 'ADMIN'].includes(payload.role)) {
+          throw new Error('Invalid claims')
+        }
         req.headers[HEADER_USER_ID] = payload.sub
         req.headers[HEADER_USER_ROLE] = payload.role
       } catch {

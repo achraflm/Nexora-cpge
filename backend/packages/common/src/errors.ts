@@ -23,6 +23,14 @@ export const notFoundHandler: RequestHandler = (req, res) => {
  * promesses rejetees des handlers async ici.
  */
 export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+  if (err?.type === 'entity.parse.failed' || err?.type === 'entity.too.large') {
+    res.status(err.type === 'entity.too.large' ? 413 : 400).json({ error: 'INVALID_BODY', message: 'Corps JSON invalide ou trop volumineux' })
+    return
+  }
+  if (err?.code === 'P2002') {
+    res.status(409).json({ error: 'CONFLICT', message: 'Une valeur existe deja' })
+    return
+  }
   if (err instanceof HttpError) {
     res.status(err.status).json({ error: err.code, message: err.message })
     return

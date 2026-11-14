@@ -1,0 +1,18 @@
+\chapter{Analyse technique et compromis}
+\section{Décisions observables}
+L’organisation par domaines, les rôles, les clients Prisma distincts et le lecteur partagé sont observables. Aucune intention historique non enregistrée n’est attribuée à un auteur. La séparation des services favorise l’étude des domaines mais multiplie processus, ports et modes de panne.
+
+\section{Maintenabilité}
+Le tableau de bord conserve sa structure tout en recevant des propriétés serveur. Les anciens modules restent volumineux et mêlent données locales et UI. Les extraire progressivement doit conserver les comportements ; un redesign global pendant un branchement backend crée des régressions.
+
+\section{Sécurité de conversion}
+Le contenu importé reste hostile même transmis par un administrateur. Réseau, mémoire, processus et durée sont limités au niveau du moteur. Les sources sont montées en lecture seule ; le résultat transite par une sortie plafonnée. Les images et parsers doivent être actualisés.
+
+\section{Stockage et travaux}
+Le disque privé est utilisable sans bucket public mais exige sauvegardes et volume persistant. Le drapeau busy en mémoire et la reprise des travaux conviennent à une instance locale. Plusieurs réplicas nécessitent worker dédié, baux et tentatives bornées.
+
+\section{Dette technique}
+Examens, tickets et orchestration QCM restent incomplets ; certains réglages et pochettes sont locaux. Le résumé ne transforme pas toute interaction en événement. Un message de succès local ne doit jamais être présenté comme preuve d’écriture PostgreSQL.
+
+\section{Évolutions}
+Prioriser pagination, migrations versionnées, purge des orphelins, adaptateur MinIO privé et file robuste. Relier ensuite événements, sessions QCM, soumissions et tickets. Chaque évolution doit ajouter des tests de refus et de reprise, pas seulement un scénario heureux.

@@ -20,7 +20,7 @@ export function MathFormula({ math, block = false, className = '' }: MathFormula
       })
       setRendered(html)
     } catch {
-      setRendered(math)
+      setRendered('')
     }
   }, [math, block])
 

@@ -1,4 +1,5 @@
-import { createServiceApp, notImplemented, portEnv, requireEnv, startService } from '@cnc/common'
+import { createServiceApp, currentUser, requireUser, notImplemented, portEnv, requireEnv, startService } from '@cnc/common'
+import { dashboard } from './dashboard'
 import { Router } from 'express'
 
 /**
@@ -15,7 +16,10 @@ router.post('/analytics/activities', todo)
 router.get('/analytics/me/streak', todo) // currentStreak, longestStreak
 router.get('/analytics/me/heatmap', todo) // ?year=2026
 router.get('/analytics/me/subjects', todo) // radar + progression par matiere (Sup/Spe)
-router.get('/analytics/me/summary', todo) // compteurs du Dashboard
+router.get('/analytics/me/summary', requireUser(), async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store')
+  res.json(await dashboard(currentUser(req).id))
+})
 
 const app = createServiceApp({ name: 'analytics-streak-service', internalSecret: requireEnv('INTERNAL_SECRET'), router })
 startService(app, 'analytics-streak-service', portEnv('ANALYTICS_PORT', 4004))

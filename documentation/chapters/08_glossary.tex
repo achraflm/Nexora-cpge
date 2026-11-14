@@ -1,0 +1,69 @@
+\chapter{Glossaire et révision}
+\section*{API}
+Contrat d’échange. Utilité et exemple : /api/resources relie interface et catalogue.
+
+\section*{Middleware}
+Étape de traitement HTTP. Utilité et exemple : requireUser refuse un rôle insuffisant.
+
+\section*{DTO}
+Représentation de données pour un échange. Utilité et exemple : serialize omet les clés privées.
+
+\section*{ORM}
+Correspondance objets/tables. Utilité et exemple : Prisma fournit findMany.
+
+\section*{Transaction}
+Modifications atomiques. Utilité et exemple : Compte et jetons sont créés ensemble.
+
+\section*{Index}
+Structure accélérant une recherche. Utilité et exemple : Le catalogue indexe ses critères.
+
+\section*{Clé étrangère}
+Référence garantie par la base. Utilité et exemple : subjectId référence Subject.
+
+\section*{JWT}
+Assertions signées. Utilité et exemple : La gateway vérifie rôle et signature.
+
+\section*{Hash}
+Empreinte irréversible. Utilité et exemple : SHA-256 protège le refresh token stocké.
+
+\section*{Sel}
+Aléa du hachage de mot de passe. Utilité et exemple : Bcrypt produit des hashes distincts pour un même secret.
+
+\section*{CSRF}
+Requête indésirable utilisant la session. Utilité et exemple : Origin est vérifié sur les mutations.
+
+\section*{XSS}
+Exécution de contenu injecté. Utilité et exemple : MathFormula garde un fallback texte.
+
+\section*{CORS}
+Règles navigateur interorigines. Utilité et exemple : La gateway déclare les origines.
+
+\section*{Sandbox}
+Environnement à capacités limitées. Utilité et exemple : Le convertisseur n’a pas de réseau.
+
+\section*{Tmpfs}
+Espace temporaire en mémoire. Utilité et exemple : La conversion dispose de 256 Mo.
+
+\section*{Cache}
+Réutilisation d’un résultat. Utilité et exemple : outputKey désigne le PDF conservé.
+
+\section*{Idempotence}
+Même effet après répétition. Utilité et exemple : Les seeds utilisent des upserts.
+
+\section*{Révision}
+Version d’un état métier. Utilité et exemple : revision refuse un résultat obsolète.
+
+\section*{Hydratation}
+Activation client du rendu serveur. Utilité et exemple : React connecte les boutons du dashboard.
+
+\section*{État vide}
+Vue d’absence de résultat. Utilité et exemple : Le catalogue invite à changer les filtres.
+
+\section*{Streak}
+Série de jours actifs. Utilité et exemple : Le résumé compare le dernier jour au jour courant.
+
+\section*{Polling}
+Interrogation périodique. Utilité et exemple : ResourceReader attend READY.
+
+\section{Questions à résoudre dans le code}
+Pourquoi vérifier les droits sur le fichier si sa carte était protégée ? Pourquoi le temps de travail ne mesure-t-il pas la maîtrise ? Pourquoi un document publié peut-il être en préparation ? Pourquoi une transaction SQL ne supprime-t-elle pas un fichier orphelin ? Retrouver la fonction puis proposer un test de refus ou de reprise pour chaque cas.

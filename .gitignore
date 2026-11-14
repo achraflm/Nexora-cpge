@@ -1,5 +1,8 @@
 # Archive (old files, not used by the code)
 /archive/
+/backend/private-resources/
+/backend/.test-tools/
+/backend/.test-fixtures/
 
 # Dependencies
 node_modules/
@@ -35,3 +38,11 @@ __pycache__/
 Thumbs.db
 .vscode/
 .idea/
+
+.pnpm-store/
+/documentation/verification/*.png
+/documentation/verification/compile.txt
+*.lof
+*.lot
+*.bbl
+*.blg

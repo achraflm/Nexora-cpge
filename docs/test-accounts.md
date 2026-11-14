@@ -1,3 +1,5 @@
+Les comptes de la nouvelle authentification réelle et les instructions de démarrage figurent dans [README-authentification.md](README-authentification.md).
+
 # Comptes de Test & Authentification Multi-Rôles — Plateforme « Learning » (CNC CPGE)
 
 Ce document répertorie les comptes de démonstration et de test pour évaluer l'ensemble des parcours utilisateurs de la plateforme **Learning** (Préparation au Concours National Commun CPGE Maroc).

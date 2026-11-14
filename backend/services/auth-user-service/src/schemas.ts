@@ -9,23 +9,25 @@ const studyYear = z.enum(['SUP', 'SPE'])
 export const registerSchema = z.object({
   firstName: z.string().trim().min(1).max(80),
   lastName: z.string().trim().min(1).max(80),
-  email: z.email().transform((e) => e.toLowerCase()),
-  password: z.string().min(8, 'Au moins 8 caracteres').max(128),
+  email: z.string().trim().max(254).pipe(z.email()).transform((e) => e.toLowerCase()),
+  password: z.string().min(8, 'Au moins 8 caracteres').max(72)
+    .refine(value => Buffer.byteLength(value, 'utf8') <= 72, 'Maximum 72 octets UTF-8'),
   cpgeCenter: z.string().trim().min(2).max(160),
   enrolledYear: studyYear,
   filiere,
-})
+}).strict()
 export type RegisterInput = z.infer<typeof registerSchema>
 
 export const loginSchema = z.object({
-  email: z.email().transform((e) => e.toLowerCase()),
-  password: z.string().min(1),
-})
+  email: z.string().trim().max(254).pipe(z.email()).transform((e) => e.toLowerCase()),
+  password: z.string().min(1).max(72)
+    .refine(value => Buffer.byteLength(value, 'utf8') <= 72, 'Maximum 72 octets UTF-8'),
+}).strict()
 export type LoginInput = z.infer<typeof loginSchema>
 
 export const refreshSchema = z.object({
-  refreshToken: z.string().min(20),
-})
+  refreshToken: z.string().regex(/^[A-Za-z0-9_-]{64}$/),
+}).strict()
 
 export const updateProfileSchema = z
   .object({

@@ -1,0 +1,114 @@
+[
+  {
+    "source": "backend/gateway/src/routes.ts",
+    "firstLine": 25,
+    "lastLine": 36,
+    "excerpt": "extraits/routing.txt",
+    "sha256": "21e350e784c8a7b7fa63840745c4ca6e6f57e330fe16e6b4f51dc336749dadc8"
+  },
+  {
+    "source": "frontend/lib/educational-resources.ts",
+    "firstLine": 1,
+    "lastLine": 10,
+    "excerpt": "extraits/tech-01.txt",
+    "sha256": "2cb3affb58a002b314098a62d3d5c408710676112552889c6673bc2deea23500"
+  },
+  {
+    "source": "frontend/components/ResourceCatalog.tsx",
+    "firstLine": 1,
+    "lastLine": 22,
+    "excerpt": "extraits/tech-02.txt",
+    "sha256": "0ea7da76a399e0e8ff0b26fc9ca05d8398800a3961ebfe24129d01749accd652"
+  },
+  {
+    "source": "frontend/app/page.tsx",
+    "firstLine": 1,
+    "lastLine": 13,
+    "excerpt": "extraits/tech-03.txt",
+    "sha256": "ec902fba4045bf7552d4ecd7bf38457aeafeda3377ac413f6ea64158806a561b"
+  },
+  {
+    "source": "backend/services/catalog-course-service/src/resource-converter.ts",
+    "firstLine": 1,
+    "lastLine": 18,
+    "excerpt": "extraits/tech-04.txt",
+    "sha256": "64b98c829c32491d69ecd36128670036f5ec4f83ded6b0fbae5555109b31fcad"
+  },
+  {
+    "source": "backend/packages/common/src/service-app.ts",
+    "firstLine": 20,
+    "lastLine": 38,
+    "excerpt": "extraits/tech-05.txt",
+    "sha256": "4090debf2b7161edffddcd9c657bb338de30e6383653c70fe48554717ec4d248"
+  },
+  {
+    "source": "backend/services/catalog-course-service/prisma/resource-constraints.sql",
+    "firstLine": 1,
+    "lastLine": 6,
+    "excerpt": "extraits/tech-06.txt",
+    "sha256": "0dabdcc6dfc8bcf4001ec8319f3baaeb34139ad2b765e9a4e0ab0f2482c032dc"
+  },
+  {
+    "source": "backend/services/catalog-course-service/prisma/schema.prisma",
+    "firstLine": 100,
+    "lastLine": 128,
+    "excerpt": "extraits/tech-07.txt",
+    "sha256": "7ca3a46b33c847dbf79cd9e2af1b86a1ddb5f13dca681d9cf2daf59659cfed05"
+  },
+  {
+    "source": "backend/services/catalog-course-service/src/educational-resources.ts",
+    "firstLine": 19,
+    "lastLine": 26,
+    "excerpt": "extraits/tech-08.txt",
+    "sha256": "dd7d28a39366292600d9b4d9488c1338ac9ef7784d093a13df9d48026c504e51"
+  },
+  {
+    "source": "backend/services/auth-user-service/src/auth.service.ts",
+    "firstLine": 50,
+    "lastLine": 59,
+    "excerpt": "extraits/tech-09.txt",
+    "sha256": "cfb592a070a71fd7d10bb5b999635eab5511da42b9aa33c5ed36ecf7e91ca2ad"
+  },
+  {
+    "source": "frontend/components/CoursePdfReader.tsx",
+    "firstLine": 60,
+    "lastLine": 69,
+    "excerpt": "extraits/tech-10.txt",
+    "sha256": "5566eb2789d747f4ad0cfbf620def05d840c6ac8de214b332c39051419470e46"
+  },
+  {
+    "source": "frontend/components/document-studio/pdf-engine.ts",
+    "firstLine": 39,
+    "lastLine": 51,
+    "excerpt": "extraits/tech-11.txt",
+    "sha256": "7866a530f03719f09259ea31acec5e7e007317bb95889ba915d527bd1a030303"
+  },
+  {
+    "source": "frontend/components/MathFormula.tsx",
+    "firstLine": 12,
+    "lastLine": 28,
+    "excerpt": "extraits/tech-12.txt",
+    "sha256": "0d3c609249fe5ed4351dfdcaeb1f3fb532902ab0ccb22b4dea9b743e0ad693b7"
+  },
+  {
+    "source": "backend/converter/convert.sh",
+    "firstLine": 1,
+    "lastLine": 21,
+    "excerpt": "extraits/tech-13.txt",
+    "sha256": "3739e464d3fb04240dc0ea817dd181add3f7f6dd0e3fe62a56eba6a3b67095b1"
+  },
+  {
+    "source": "backend/package.json",
+    "firstLine": 1,
+    "lastLine": 23,
+    "excerpt": "extraits/tech-14.txt",
+    "sha256": "093a040264a020a0f7f492268bcc19520d4b5592a42ab73fe40f4d87e38683f4"
+  },
+  {
+    "source": "backend/services/catalog-course-service/test/resource-files.test.ts",
+    "firstLine": 1,
+    "lastLine": 17,
+    "excerpt": "extraits/tech-15.txt",
+    "sha256": "3eab3125426ea961e71e1239a616c9d447fe01ef6e1312b55bd166c720422770"
+  }
+]

@@ -1,0 +1,27 @@
+\documentclass[11pt,oneside]{report}
+\input{preamble}
+\begin{document}
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\color{nexora}\rule{\textwidth}{3pt}\vspace{2cm}
+{\Huge\bfseries NEXORA\par}\vspace{0.5cm}{\Large CNC Platform\par}
+\vspace{1.5cm}{\huge Documentation technique\par et pédagogique\par}
+\vspace{1cm}{\large Architecture, données, sécurité\par et guide de développement\par}
+\vfill\color{black}Projet CPGE / préparation aux concours\par
+État du code au 12 novembre 2026\par Dépôt : achraflm/Nexora-cpge\par
+\vspace{1cm}\rule{\textwidth}{0.5pt}
+\small Ce rapport décrit le code observé. Les composants de démonstration, les routes inachevées et les limites de déploiement sont distingués des fonctions vérifiées.
+\end{titlepage}
+\pagenumbering{roman}
+\hypersetup{pageanchor=true}
+\tableofcontents\listoffigures\listoftables
+\clearpage\pagenumbering{arabic}
+\include{chapters/01_presentation}
+\include{chapters/02_architecture}
+\include{chapters/03_technologies}
+\include{chapters/04_implementation}
+\include{chapters/05_data_model}
+\include{chapters/06_analysis}
+\include{chapters/07_development_guide}
+\include{chapters/08_glossary}
+\bibliographystyle{plain}\nocite{*}\bibliography{references}\end{document}

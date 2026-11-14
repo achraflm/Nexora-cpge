@@ -1,0 +1,10 @@
+}
+
+/** Connexion etudiant ou administrateur. Message d'erreur volontairement generique. */
+export async function login(input: LoginInput) {
+  const user = await prisma.user.findUnique({ where: { email: input.email }, include: withProfile })
+  const valid = await bcrypt.compare(input.password, user?.passwordHash ?? DUMMY_HASH)
+  if (!user || !valid) throw new HttpError(401, 'E-mail ou mot de passe incorrect', 'INVALID_CREDENTIALS')
+
+  return { user: toPublicUser(user), ...(await issueTokens(user.id, user.role)) }
+}

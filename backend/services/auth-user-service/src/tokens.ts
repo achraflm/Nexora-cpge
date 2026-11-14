@@ -13,6 +13,9 @@ import { config } from './config'
 export function signAccessToken(userId: string, role: Role): string {
   const payload: AccessTokenPayload = { sub: userId, role }
   return jwt.sign(payload, config.jwtAccessSecret, {
+    algorithm: 'HS256',
+    issuer: 'nexora-auth',
+    audience: 'nexora-api',
     expiresIn: config.accessTokenTtl as jwt.SignOptions['expiresIn'],
   })
 }

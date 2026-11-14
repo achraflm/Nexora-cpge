@@ -28,6 +28,7 @@ export const SERVICE_ROUTES: ServiceRoute[] = [
 
 /** Routes accessibles sans access token (tout le reste exige un JWT valide). */
 export const PUBLIC_ROUTES: Array<{ method: string; path: string }> = [
+  { method: 'POST', path: '/api/auth/session' },
   { method: 'POST', path: '/api/auth/register' },
   { method: 'POST', path: '/api/auth/login' },
   { method: 'POST', path: '/api/auth/refresh' },

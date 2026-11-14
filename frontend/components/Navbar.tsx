@@ -1,8 +1,12 @@
 'use client'
 
+import { useSessionUser } from '@/components/SessionProvider'
+import { logout } from '@/lib/auth'
+
 import React, { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import {
+  Search,
   GraduationCap,
   LayoutDashboard,
   BookOpen,
@@ -21,7 +25,7 @@ import { UserProfilePopover } from '@/components/UserProfilePopover'
 import { StreakBadge } from '@/components/StreakBadge'
 import { getStoredUser, DEMO_STUDENT, UserProfile } from '@/lib/auth'
 
-export type NavTabId = 'dashboard' | 'cours' | 'annales' | 'problemes' | 'qcm' | 'contact'
+export type NavTabId = 'dashboard' | 'ressources' | 'cours' | 'annales' | 'problemes' | 'qcm' | 'contact'
 
 export interface NavItemConfig {
   id: NavTabId
@@ -60,9 +64,10 @@ export function Navbar({
   onNavigateToAdmin,
   onLogout,
   currentUser: initialUser,
-  streakDays = 12,
+  streakDays = 0,
 }: NavbarProps) {
   const router = useRouter()
+  const sessionUser = useSessionUser()
   const pathname = usePathname()
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -70,9 +75,9 @@ export function Navbar({
   const [user, setUser] = useState<UserProfile | null>(() => {
     if (initialUser !== undefined) return initialUser
     if (typeof window !== 'undefined') {
-      return getStoredUser() || DEMO_STUDENT
+      return sessionUser
     }
-    return DEMO_STUDENT
+    return sessionUser
   })
 
   // Keep user in sync with prop updates and global custom events
@@ -126,13 +131,7 @@ export function Navbar({
     }
   }
 
-  const handleLogoutClick = () => {
-    if (onLogout) {
-      onLogout()
-    } else {
-      router.push('/login')
-    }
-  }
+  const handleLogoutClick = () => { void logout() }
 
   const displayInitials =
     user?.username === 'achraf' || user?.name?.toLowerCase().includes('achraf')
@@ -208,6 +207,7 @@ export function Navbar({
 
         {/* RIGHT: Actions, Switch Admin, Streak, Theme & Profil */}
         <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <button type="button" aria-label="Rechercher une ressource" title="Rechercher un cours ou un TD" onClick={() => handleTabClick('ressources')} className={`flex size-9 items-center justify-center rounded-lg transition hover:bg-blue-500/10 ${activeTab === 'ressources' ? 'bg-blue-500/15 text-blue-500' : 'text-slate-500 dark:text-slate-300'}`}><Search className="size-5" strokeWidth={1.75}/></button>
           <ThemeToggle />
 
           {/* Streak Badge with Custom Animated Vector Flame (Zero Native Emoji) */}
@@ -305,7 +305,7 @@ export function Navbar({
                 </button>
               )
             })}
-            <div className="mt-2 border-t border-slate-200 pt-2 dark:border-white/10">
+            {sessionUser.role === 'ADMIN' && <div className="mt-2 border-t border-slate-200 pt-2 dark:border-white/10">
               <button
                 type="button"
                 onClick={() => {
@@ -315,9 +315,9 @@ export function Navbar({
                 className="flex w-full items-center gap-2 rounded-xl bg-indigo-500/10 px-3.5 py-2.5 text-xs font-bold text-indigo-600 dark:text-indigo-300 hover:bg-indigo-500/20 transition cursor-pointer"
               >
                 <ShieldCheck className="size-4" strokeWidth={1.75} />
-                <span>Démo : espace administrateur</span>
+                <span>Espace administrateur</span>
               </button>
-            </div>
+            </div>}
           </div>
         </div>
       )}
