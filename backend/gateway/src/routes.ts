@@ -16,9 +16,11 @@ function serviceUrl(name: string, defaultPort: number): string {
   return optionalEnv(`${name}_URL`, `http://127.0.0.1:${optionalEnv(`${name}_PORT`, String(defaultPort))}`)
 }
 
+export const authServiceUrl = serviceUrl('AUTH', 4001)
+
 export const SERVICE_ROUTES: ServiceRoute[] = [
-  { prefix: '/api/auth', service: 'auth-user-service', target: serviceUrl('AUTH', 4001) },
-  { prefix: '/api/users', service: 'auth-user-service', target: serviceUrl('AUTH', 4001) },
+  { prefix: '/api/auth', service: 'auth-user-service', target: authServiceUrl },
+  { prefix: '/api/users', service: 'auth-user-service', target: authServiceUrl },
   { prefix: '/api/catalog', service: 'catalog-course-service', target: serviceUrl('CATALOG', 4002) },
   { prefix: '/api/exams', service: 'exam-submission-service', target: serviceUrl('EXAM', 4003) },
   { prefix: '/api/analytics', service: 'analytics-streak-service', target: serviceUrl('ANALYTICS', 4004) },

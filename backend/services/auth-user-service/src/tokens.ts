@@ -10,8 +10,8 @@ import { config } from './config'
  *    renouvelee a chaque utilisation (rotation).
  */
 
-export function signAccessToken(userId: string, role: Role): string {
-  const payload: AccessTokenPayload = { sub: userId, role }
+export function signAccessToken(userId: string, role: Role, sessionVersion: number): string {
+  const payload: AccessTokenPayload = { sub: userId, role, sessionVersion }
   return jwt.sign(payload, config.jwtAccessSecret, {
     algorithm: 'HS256',
     issuer: 'nexora-auth',

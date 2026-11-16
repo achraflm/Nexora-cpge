@@ -38,6 +38,8 @@ export interface DocumentStudioProps {
   onPageChange?: (page: number, numPages: number) => void
   /** Reprendre à la dernière page lue (Study Mode) */
   rememberPosition?: boolean
+  presentation?: "problems"
+  pageRequest?: { page: number }
   className?: string
 }
 
@@ -61,9 +63,13 @@ export function DocumentStudio({
   concealed,
   onPageChange,
   rememberPosition = false,
+  presentation,
+  pageRequest,
   className = "",
 }: DocumentStudioProps) {
-  const config = STUDIO_MODES[mode]
+  const config = useMemo(() => presentation === "problems"
+    ? { ...STUDIO_MODES[mode], allowDownload: false, allowLayoutSwitch: false }
+    : STUDIO_MODES[mode], [mode, presentation])
   const activeDoc =
     documents.find((d) => d.id === activeDocumentId && !d.locked) ?? documents.find((d) => !d.locked) ?? documents[0]
   const url = activeDoc.url
@@ -135,8 +141,8 @@ export function DocumentStudio({
   // ------------------------------------------------------------------------
   // Préférences, dimensions, responsive
   // ------------------------------------------------------------------------
-  const { prefs, update } = useReadingPreferences()
-  const layout: StudioLayout = prefs.layout
+  const { prefs, update } = useReadingPreferences(presentation)
+  const layout: StudioLayout = presentation === "problems" ? "single" : prefs.layout
   const rootRef = useRef<HTMLDivElement>(null)
   const [scrollEl, setScrollEl] = useState<HTMLDivElement | null>(null)
   const [viewport, setViewport] = useState({ w: 0, h: 0 })
@@ -169,7 +175,7 @@ export function DocumentStudio({
   // ------------------------------------------------------------------------
   // Zoom
   // ------------------------------------------------------------------------
-  const pad = compact ? 16 : 32
+  const pad = presentation === "problems" ? (compact ? 8 : 16) : (compact ? 16 : 32)
   const gap = layout === "spread" ? 16 : 0
   const bottomSpace = config.toolbar === "dock" ? EXAM_DOCK_SPACE : 0
 
@@ -245,7 +251,10 @@ export function DocumentStudio({
     }
     const a = pageEls.current.get(anchor)
     anchorRef.current = { page: anchor, ratio: a ? Math.max(0, (top - a.offsetTop) / a.offsetHeight) : 0 }
-    setCurrentPage(current)
+    setCurrentPage(previous => {
+      if (layout === "spread" && Math.floor((previous - 1) / 2) === Math.floor((current - 1) / 2)) return previous
+      return layout === "spread" && current % 2 === 0 ? current - 1 : current
+    })
   }, [scrollEl, layout, numPages])
 
   const rafRef = useRef(0)
@@ -296,6 +305,13 @@ export function DocumentStudio({
     },
     [layout, currentPage, goTo]
   )
+
+  const appliedRequest = useRef<{ doc: PDFDocumentProxy; request: NonNullable<DocumentStudioProps["pageRequest"]> } | null>(null)
+  useEffect(() => {
+    if (!doc || !pageRequest || (appliedRequest.current?.doc === doc && appliedRequest.current.request === pageRequest)) return
+    appliedRequest.current = { doc, request: pageRequest }
+    goTo(pageRequest.page)
+  }, [doc, pageRequest, goTo])
 
   useEffect(() => {
     if (numPages) onPageChange?.(currentPage, numPages)

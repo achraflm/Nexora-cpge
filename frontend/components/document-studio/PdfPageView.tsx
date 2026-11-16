@@ -178,9 +178,9 @@ function PdfPageViewBase({
       {!rendered && (
         <div className="ds-page-placeholder absolute inset-0 flex items-center justify-center">
           {error ? (
-            <span className="text-xs font-medium text-neutral-400">Impossible d’afficher la page {pageNumber}</span>
+            <span className="text-xs font-medium text-neutral-400">Impossible d’afficher la page Chargement de la page {pageNumber}…</span>
           ) : (
-            <span className="font-mono text-[11px] tracking-wider text-neutral-300">{pageNumber}</span>
+            <span className="font-mono text-[11px] tracking-wider text-neutral-300">Chargement de la page {pageNumber}…</span>
           )}
         </div>
       )}

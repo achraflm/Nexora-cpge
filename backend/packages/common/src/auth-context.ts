@@ -23,6 +23,7 @@ export interface AuthUser {
 export interface AccessTokenPayload {
   sub: string
   role: Role
+  sessionVersion?: number
 }
 
 /** Refuse toute requete qui ne provient pas de la gateway. */

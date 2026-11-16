@@ -1,0 +1,1282 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="1450"
+   height="913"
+   id="svg4181"
+   sodipodi:docname="a15.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata4185">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview4183"
+     showgrid="false"
+     inkscape:zoom="0.92880613"
+     inkscape:cx="724.46167"
+     inkscape:cy="456.5"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4181" />
+  <defs
+     id="defs3953">
+    <clipPath
+       id="qHievMTOhQuU">
+      <path
+         fill="none"
+         stroke="none"
+         d=" M 0 0 L 1450 0 L 1450 913 L 0 913 L 0 0 Z"
+         id="path3950" />
+    </clipPath>
+  </defs>
+  <g
+     transform="scale(1,1)"
+     clip-path="url(#qHievMTOhQuU)"
+     id="g4179">
+    <g
+       id="g4177">
+      <rect
+         fill="rgb(255,255,255)"
+         stroke="none"
+         x="0"
+         y="0"
+         width="1450"
+         height="913"
+         fill-opacity="1"
+         id="rect3955" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 722.5 -0.5 L 722.5 913.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path3957" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 0.5 810.5 L 1449.5 810.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path3959" />
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="73"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text3961">–2.5</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="73"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text3963">–2.5</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="73"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text3965">–2.5</text>
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 84.5 810.5 L 84.5 813.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path3967" />
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="207"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text3969">–2</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="207"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text3971">–2</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="207"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text3973">–2</text>
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 212.5 810.5 L 212.5 813.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path3975" />
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="328"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text3977">–1.5</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="328"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text3979">–1.5</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="328"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text3981">–1.5</text>
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 339.5 810.5 L 339.5 813.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path3983" />
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="462"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text3985">–1</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="462"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text3987">–1</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="462"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text3989">–1</text>
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 467.5 810.5 L 467.5 813.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path3991" />
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="584"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text3993">–0.5</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="584"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text3995">–0.5</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="584"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text3997">–0.5</text>
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 595.5 810.5 L 595.5 813.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path3999" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 722.5 810.5 L 722.5 813.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path4001" />
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="842"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4003">0.5</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="842"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text4005">0.5</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="842"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4007">0.5</text>
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 850.5 810.5 L 850.5 813.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path4009" />
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="976"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4011">1</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="976"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text4013">1</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="976"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4015">1</text>
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 978.5 810.5 L 978.5 813.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path4017" />
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="1097"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4019">1.5</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="1097"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text4021">1.5</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="1097"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4023">1.5</text>
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 1105.5 810.5 L 1105.5 813.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path4025" />
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="1231"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4027">2</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="1231"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text4029">2</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="1231"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4031">2</text>
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 1233.5 810.5 L 1233.5 813.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path4033" />
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="1353"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4035">2.5</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="1353"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text4037">2.5</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="1353"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4039">2.5</text>
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 1361.5 810.5 L 1361.5 813.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path4041" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 719.5 555.5 L 722.5 555.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path4043" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 719.5 299.5 L 722.5 299.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path4045" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 719.5 44.5 L 722.5 44.5"
+         stroke-opacity="1"
+         stroke-miterlimit="10"
+         id="path4047" />
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="700"
+         y="560"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4049">0.5</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="700"
+         y="560"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text4051">0.5</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="700"
+         y="560"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4053">0.5</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="709"
+         y="304"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4055">1</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="709"
+         y="304"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text4057">1</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="709"
+         y="304"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4059">1</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="700"
+         y="49"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4061">1.5</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="700"
+         y="49"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text4063">1.5</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="700"
+         y="49"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4065">1.5</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="709"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4067">0</text>
+      <text
+         fill="none"
+         stroke="rgb(255,255,255)"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="709"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         stroke-opacity="1"
+         stroke-linejoin="bevel"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="text4069">0</text>
+      <text
+         fill="rgb(0,0,0)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="12px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="709"
+         y="826"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4071">0</text>
+      <path
+         fill="rgb(255,255,255)"
+         stroke="none"
+         paint-order="stroke fill markers"
+         fill-rule="evenodd"
+         d=" M -187.7063550000007 29.24269696779345 L -218.52233250000063 881.4350000000001 L 20.911816326483745 881.4350000000001 L 20.911816326483745 29.24269696779345 Z"
+         fill-opacity="1"
+         id="path4073" />
+      <path
+         fill="rgb(255,0,0)"
+         stroke="none"
+         paint-order="stroke fill markers"
+         fill-rule="evenodd"
+         d=" M 20.911816326483745 810.3586451872848 L 26.396060754597443 810.0602515254042 L 31.880305182711254 810.0232890863393 L 37.364549610825065 809.9820958329707 L 42.84879403893876 809.9362327654466 L 48.333038467052575 809.8852209013278 L 53.81728289516627 809.8285382803846 L 59.301527323280084 809.7656168162757 L 64.7857717513939 809.6958389950804 L 70.27001617950759 809.6185344216949 L 75.7542606076214 809.5329762162688 L 81.2385050357351 809.4383772641357 L 86.72274946384891 809.3338863240955 L 92.20699389196261 809.2185840014399 L 97.69123832007642 809.0914785937656 L 103.17548274819023 808.9515018194063 L 108.65972717630393 808.7975044402257 L 114.14397160441774 808.6282517925442 L 119.62821603253144 808.4424192421283 L 125.11246046064525 808.2385875814361 L 130.59670488875906 808.0152383896891 L 136.08094931687276 807.7707493788051 L 141.56519374498657 807.5033897507923 L 147.04943817310027 807.211315594828 L 152.53368260121408 806.8925653549364 L 158.01792702932778 806.5450554019101 L 163.5021714574416 806.1665757458658 L 168.9864158855554 805.7547859285781 L 174.4706603136691 805.3072111374565 L 179.9549047417829 804.8212385857039 L 185.4391491698966 804.2941142057902 L 190.92339359801042 803.7229397058574 L 196.40763802612423 803.1046700410138 L 201.89188245423793 802.4361113536413 L 207.37612688235174 801.7139194387923 L 212.8603713104655 800.9345987924594 L 218.34461573857925 800.0945023019158 L 223.828860166693 799.1898316384188 L 229.31310459480676 798.2166384132938 L 234.7973490229205 797.1708261587393 L 240.28159345103433 796.04815319457 L 245.76583787914808 794.8442364415152 L 251.25008230726183 793.5545562405634 L 256.7343267353756 792.1744622361704 L 262.21857116348934 790.6991803788849 L 267.7028155916031 789.123821100065 L 273.1870600197169 787.443388707834 L 278.67130444783066 785.6527920492356 L 284.1555488759444 783.7468564786747 L 289.6397933040582 781.7203371671521 L 295.1240377321719 779.5679337805306 L 300.60828216028574 777.2843065480807 L 306.0925265883995 774.8640937348719 L 311.57677101651325 772.3019305231977 L 317.061015444627 769.5924692991853 L 322.54525987274076 766.7304013310508 L 328.0295043008545 763.7104798151785 L 333.5137487289683 760.5275442553502 L 338.9979931570821 757.1765461290972 L 344.48223758519583 753.6525757833447 L 349.9664820133096 749.950890489344 L 355.45072644142334 746.0669435744151 L 360.9349708695371 741.9964145353355 L 366.4192152976509 737.7352400254208 L 371.90345972576466 733.2796455945248 L 377.3877041538784 728.6261780484787 L 382.87194858199217 723.7717382819793 L 388.3561930101059 718.7136144267702 L 393.84043743821974 713.4495151452352 L 399.3246818663335 707.9776028883986 L 404.80892629444725 702.2965269268975 L 410.293170722561 696.4054559539236 L 415.77741515067476 690.3041100505259 L 421.2616595787885 683.9927917961718 L 426.7459040069023 677.4724163011956 L 432.2301484350161 670.7445399328473 L 437.71439286312983 663.811387503202 L 443.1986372912436 656.6758776853129 L 448.68288171935734 649.3416464237814 L 454.1671261474711 641.8130681074645 L 459.6513705755849 634.0952742754242 L 465.13561500369866 626.1941696324953 L 470.6198594318124 618.1164451580611 L 476.10410385992617 609.8695881008146 L 481.5883482880399 601.4618886634474 L 487.07259271615374 592.9024431943568 L 492.55683714426743 584.2011537185601 L 498.04108157238124 575.368723657022 L 503.525326000495 566.416649602457 L 509.00957042860875 557.3572090402972 L 514.4938148567226 548.2034439258043 L 519.9780592848363 538.9691400521313 L 525.4623037129501 529.668802169363 L 530.9465481410639 520.317624841027 L 536.4307925691776 510.93145905208576 L 541.9150369972913 501.52677461079946 L 547.3992814254051 492.1206184158937 L 552.8835258535189 482.7305686899249 L 558.3677702816326 473.3746853094085 L 563.8520147097464 464.0714563918883 L 569.3362591378602 454.8397413294483 L 574.8205035659739 445.69871048693335 L 580.3047479940877 436.66778181110055 L 585.7889924222014 427.7665546238078 L 591.2732368503152 419.0147408979066 L 596.7574812784289 410.4320943384934 L 602.2417257065428 402.0383376143416 L 607.7259701346566 393.8530881044651 L 613.2102145627703 385.89578254262335 L 618.6944589908841 378.18560095798085 L 624.1787034189978 370.7413903228871 L 629.6629478471116 363.5815883286937 L 635.1471922752254 356.72414771752915 L 640.6314367033391 350.18646160190116 L 646.1156811314529 343.9852902047993 L 651.5999255595666 338.1366894505663 L 657.0841699876804 332.6559418311768 L 662.5684144157942 327.55748996368527 L 668.0526588439079 322.8548732425295 L 673.5369032720217 318.5606679751525 L 679.0211477001354 314.68643137111735 L 684.5053921282492 311.24264973367127 L 689.9896365563629 308.23869117869486 L 695.4738809844768 305.68276317934027 L 700.9581254125906 303.5818752056078 L 706.4423698407043 301.9418066968608 L 711.9266142688181 300.76708057208674 L 717.4108586969318 300.06094244782685 L 722.8951031250456 299.82534569742114 L 728.3793475531594 300.06094244782685 L 733.8635919812731 300.76708057208674 L 739.3478364093869 301.9418066968608 L 744.8320808375006 303.5818752056078 L 750.3163252656144 305.68276317934027 L 755.8005696937282 308.23869117869486 L 761.2848141218419 311.24264973367127 L 766.7690585499557 314.68643137111735 L 772.2533029780694 318.5606679751525 L 777.7375474061832 322.8548732425295 L 783.2217918342969 327.55748996368527 L 788.7060362624107 332.6559418311768 L 794.1902806905246 338.1366894505663 L 799.6745251186383 343.9852902047993 L 805.1587695467521 350.18646160190116 L 810.6430139748658 356.72414771752915 L 816.1272584029796 363.5815883286937 L 821.6115028310934 370.7413903228871 L 827.0957472592071 378.18560095798085 L 832.5799916873209 385.89578254262335 L 838.0642361154346 393.8530881044651 L 843.5484805435484 402.0383376143416 L 849.0327249716622 410.4320943384934 L 854.5169693997759 419.0147408979066 L 860.0012138278897 427.7665546238078 L 865.4854582560034 436.66778181110055 L 870.9697026841172 445.69871048693335 L 876.4539471122309 454.8397413294483 L 881.9381915403447 464.0714563918883 L 887.4224359684586 473.3746853094085 L 892.9066803965723 482.7305686899249 L 898.3909248246861 492.1206184158937 L 903.8751692527999 501.52677461079946 L 909.3594136809136 510.93145905208576 L 914.8436581090273 520.317624841027 L 920.3279025371411 529.668802169363 L 925.8121469652549 538.9691400521313 L 931.2963913933686 548.2034439258043 L 936.7806358214824 557.3572090402972 L 942.2648802495962 566.416649602457 L 947.7491246777099 575.368723657022 L 953.2333691058237 584.2011537185601 L 958.7176135339374 592.9024431943568 L 964.2018579620512 601.4618886634474 L 969.6861023901649 609.8695881008146 L 975.1703468182787 618.1164451580611 L 980.6545912463926 626.1941696324953 L 986.1388356745063 634.0952742754242 L 991.6230801026201 641.8130681074645 L 997.1073245307339 649.3416464237814 L 1002.5915689588476 656.6758776853129 L 1008.0758133869613 663.811387503202 L 1013.5600578150751 670.7445399328473 L 1019.0443022431889 677.4724163011956 L 1024.5285466713026 683.9927917961718 L 1030.0127910994165 690.3041100505259 L 1035.4970355275302 696.4054559539236 L 1040.981279955644 702.2965269268975 L 1046.4655243837576 707.9776028883986 L 1051.9497688118713 713.4495151452352 L 1057.4340132399852 718.7136144267702 L 1062.918257668099 723.7717382819793 L 1068.4025020962126 728.6261780484787 L 1073.8867465243266 733.2796455945248 L 1079.3709909524403 737.7352400254208 L 1084.855235380554 741.9964145353355 L 1090.3394798086679 746.0669435744151 L 1095.8237242367816 749.950890489344 L 1101.3079686648953 753.6525757833447 L 1106.7922130930092 757.1765461290972 L 1112.276457521123 760.5275442553502 L 1117.7607019492366 763.7104798151785 L 1123.2449463773505 766.7304013310508 L 1128.7291908054642 769.5924692991853 L 1134.213435233578 772.3019305231977 L 1139.6976796616916 774.8640937348719 L 1145.1819240898053 777.2843065480807 L 1150.6661685179192 779.5679337805306 L 1156.150412946033 781.7203371671521 L 1161.6346573741466 783.7468564786747 L 1167.1189018022606 785.6527920492356 L 1172.6031462303743 787.443388707834 L 1178.087390658488 789.123821100065 L 1183.5716350866019 790.6991803788849 L 1189.0558795147156 792.1744622361704 L 1194.5401239428293 793.5545562405634 L 1200.0243683709432 794.8442364415152 L 1205.508612799057 796.04815319457 L 1210.9928572271706 797.1708261587393 L 1216.4771016552845 798.2166384132938 L 1221.9613460833982 799.1898316384188 L 1227.445590511512 800.0945023019158 L 1232.9298349396256 800.9345987924594 L 1238.4140793677393 801.7139194387923 L 1243.8983237958532 802.4361113536413 L 1249.382568223967 803.1046700410138 L 1254.8668126520806 803.7229397058574 L 1260.3510570801946 804.2941142057902 L 1265.8353015083082 804.8212385857039 L 1271.319545936422 805.3072111374565 L 1276.8037903645359 805.7547859285781 L 1282.2880347926496 806.1665757458658 L 1287.7722792207633 806.5450554019101 L 1293.2565236488772 806.8925653549364 L 1298.740768076991 807.211315594828 L 1304.2250125051046 807.5033897507923 L 1309.7092569332185 807.7707493788051 L 1315.193501361332 808.0152383896891 L 1320.677745789446 808.2385875814361 L 1326.1619902175598 808.4424192421283 L 1331.6462346456733 808.6282517925442 L 1337.1304790737872 808.7975044402257 L 1342.614723501901 808.9515018194063 L 1348.0989679300146 809.0914785937656 L 1353.5832123581285 809.2185840014399 L 1359.0674567862422 809.3338863240955 L 1364.551701214356 809.4383772641357 L 1370.0359456424699 809.5329762162688 L 1375.5201900705836 809.6185344216949 L 1381.0044344986973 809.6958389950804 L 1386.4886789268112 809.7656168162757 L 1391.972923354925 809.8285382803846 L 1397.4571677830386 809.8852209013278 L 1402.9414122111525 809.9362327654466 L 1408.425656639266 809.9820958329707 L 1413.90990106738 810.0232890863393 L 1419.3941454954938 810.0602515254042 L 1424.8783899236073 810.0933850104728 L 1424.8783899236073 810.3586451872848 L 20.911816326483745 810.3586451872848"
+         fill-opacity="1"
+         id="path4075" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,255)"
+         paint-order="fill stroke markers"
+         d=" M 20.911813773817357 810.0933850250622 L 22.656249999999886 810.0832381385851 M 22.656249999999886 810.0832381385851 L 28.3203125 810.0477384425989 L 33.984375 810.0080083083269 L 39.648437499999886 809.9635903385052 L 45.3125 809.9139836579859 M 45.3125 809.9139836579859 L 50.9765625 809.8586405016687 L 56.640625 809.7969626171807 L 62.3046875 809.7282974815911 L 67.96875 809.6519343327167 L 73.63281250000011 809.5671000169997 L 79.296875 809.4729546575169 L 84.9609375 809.3685871474272 L 90.62500000000011 809.2530104760766 M 90.62500000000011 809.2530104760766 L 96.2890625 809.1251568970598 L 101.95312500000011 808.9838729497915 L 107.61718750000011 808.827914348558 L 113.28125000000011 808.6559407556106 L 118.94531250000011 808.466510457604 L 124.609375 808.2580749675935 L 130.2734375000001 808.0289735778425 L 135.9375000000001 807.7774278918781 L 141.6015625 807.5015363675247 L 147.2656250000001 807.1992689060446 L 152.9296875 806.8684615259881 L 158.59375 806.5068111638875 L 164.2578125000001 806.1118706474889 L 169.921875 805.6810438907698 L 175.5859375000001 805.2115813635174 L 181.25 804.7005758916874 M 181.25 804.7005758916874 L 186.9140625 804.1449588481063 L 192.5781250000001 803.5414967962649 L 198.2421875 802.8867886529378 L 203.9062500000001 802.1772634381047 L 209.5703125 801.4091786830975 L 215.23437500000006 800.578619569994 L 220.89843750000006 799.6814988769762 L 226.5625 798.7135578056204 L 232.2265625 797.6703677668165 L 237.89062500000006 796.5473332021917 L 243.55468750000006 795.3396955174687 L 249.21875000000006 794.0425382030788 L 254.8828125 792.6507932155197 L 260.54687500000006 791.1592486903548 L 266.21093750000006 789.5625580543491 L 271.875 787.8552505999837 L 277.5390625 786.0317435804644 L 283.203125 784.0863558772979 L 288.86718750000006 782.0133232855459 L 294.53125000000006 779.8068154539554 L 300.1953125 777.4609545083167 L 305.859375 774.9698353766034 L 311.5234375 772.3275478237391 L 317.18750000000006 769.5282001922179 L 322.85156250000006 766.5659448323365 L 328.515625 763.4350051925087 L 334.1796875 760.1297045261008 L 339.84375 756.6444961565121 L 345.5078125 752.973995226923 L 351.17187500000006 749.1130118453341 L 356.8359375 745.0565855193393 L 362.5 740.800020758626 M 362.5 740.800020758626 L 368.1640625 736.338923706627 L 373.82812500000006 731.669239646174 L 379.4921875 726.7872912076108 L 385.15625 721.6898170917445 L 390.8203125 716.3740111044293 L 396.484375 710.8375612846615 L 402.14843750000006 705.0786888939896 L 407.8125 699.0961870219929 L 413.4765625 692.8894585507395 L 419.140625 686.4585532106671 L 424.8046875 679.804203451438 L 430.46875 672.9278588441375 L 436.1328125 665.8317187259187 L 441.796875 658.5187627949542 L 447.4609375 650.9927793625174 L 453.125 643.2583909702718 L 458.7890625 635.3210770845421 L 464.453125 627.1871935855273 L 470.1171875 618.8639887781987 L 475.78125 610.3596156630233 L 481.4453125 601.6831402187105 L 487.109375 592.8445454658743 L 492.7734375 583.8547310998246 L 498.4375 574.7255085025733 L 504.1015625 565.4695909684957 L 509.765625 556.100579004796 L 515.4296875 546.6329405968592 L 521.09375 537.0819863595434 L 526.7578125 527.4638395282986 L 532.421875 517.7954007784399 L 538.0859375 508.09430789673956 L 543.75 498.37889036642235 L 549.4140625 488.668118964392 L 555.078125 478.9815505077541 L 560.7421875 469.3392679251059 L 566.40625 459.7618158663082 L 572.0703125 450.27013210217086 L 577.734375 440.8854750023369 L 583.3984375 431.62934741527016 L 589.0625 422.5234173082854 L 594.7265625 413.58943555766695 L 600.390625 404.84915130875163 L 606.0546875 396.32422535308683 L 611.71875 388.0361419941048 L 617.3828125 380.00611989389125 L 623.046875 372.25502241131505 L 628.7109375 364.80326795578634 L 634.375 357.6707408910272 L 640.0390625 350.87670352930667 L 645.703125 344.43970975847355 L 651.3671875 338.3775208417392 L 657.03125 332.7070239234547 L 662.6953125 327.44415376309587 L 668.359375 322.60381820434964 L 674.0234375 318.1998278666545 L 679.6875 314.2448305229278 L 685.3515625 310.7502505996526 L 691.015625 307.7262342042203 L 696.6796875 305.1816000496658 L 702.34375 303.1237966089647 L 708.0078125 301.55886579021353 L 713.671875 300.4914133806136 L 719.3359375 299.9245864616059 L 725 299.8600579501516 M 725 299.8600579501516 L 730.6640625 300.29801837243144 L 736.328125 301.23717492657727 L 741.9921875 302.67475784088924 L 747.65625 304.6065339837735 L 753.3203125 307.02682763180513 L 758.984375 309.92854825331784 L 764.6484375 313.30322511717804 L 770.3125 317.1410484903294 L 775.9765625 321.430917143705 L 781.640625 326.16049184455966 L 787.3046875 331.31625447454263 L 792.96875 336.88357237721675 L 798.6328125 342.84676750653455 L 804.296875 349.189189919249 L 809.9609375 355.89329512958426 L 815.625 362.9407248238936 L 821.2890625 370.3123904166173 L 826.953125 377.98855891671457 L 832.6171875 385.9489405659296 L 838.28125 394.172777706756 L 843.9453125 402.6389343387639 L 849.609375 411.32598582695465 L 855.2734375 420.21230823489964 L 860.9375 429.27616676844264 L 866.6015625 438.49580283250646 L 872.265625 447.8495192238194 L 877.9296875 457.3157630059171 L 883.59375 466.87320563928773 L 889.2578125 476.50081996872836 L 894.921875 486.1779537015306 L 900.5859375 495.8843990436861 L 906.25 505.6004581965519 L 911.9140625 515.3070044529826 L 917.578125 524.9855386694674 L 923.2421875 534.6182409289528 L 928.90625 544.1880172474266 L 934.5703125 553.6785412156545 L 940.234375 563.0742905053559 L 945.8984375 572.3605782062731 L 951.5625 581.5235789967226 L 957.2265625 590.5503501850453 L 962.890625 599.4288476926419 L 968.5546875 608.1479370807424 L 974.21875 616.6973997525433 L 979.8828125 625.0679344896298 L 985.546875 633.2511545065784 L 991.2109375 641.2395802301512 L 996.875 649.0266280294777 L 1002.5390625 656.6065951409896 L 1008.203125 663.9746410466151 L 1013.8671875 671.126765575813 L 1019.53125 678.0597840114797 L 1025.1953125 684.7712994866121 L 1030.859375 691.2596729629313 L 1036.5234375 697.5239910845494 L 1042.1875 703.5640321992967 L 1047.8515625 709.380230837643 L 1053.515625 714.9736409343801 L 1059.1796875 720.3458980715312 L 1064.84375 725.4991810124827 L 1070.5078125 730.4361727872537 L 1076.171875 735.1600215773126 L 1081.8359375 739.6743016355933 L 1087.5 743.9829744635333 M 1087.5 743.9829744635333 L 1093.1640625 748.0903504522388 L 1098.828125 752.0010511794542 L 1104.4921875 755.7199725380449 L 1110.15625 759.2522488553718 L 1115.8203125 762.6032181463984 L 1121.484375 765.778388626781 L 1127.1484375 768.7834065957064 L 1132.8125 771.6240257819733 L 1138.4765625 774.3060782309088 L 1144.140625 776.8354467942738 L 1149.8046875 779.2180392704317 L 1155.46875 781.4597642278476 L 1161.1328125 783.5665085314929 L 1166.796875 785.5441165790528 L 1172.4609375 787.3983712419871 L 1178.125 789.1349764955551 L 1183.7890625 790.7595417118779 L 1189.453125 792.2775675810226 L 1195.1171875 793.6944336169369 L 1200.78125 795.0153871978622 L 1206.4453125 796.2455340845719 L 1212.109375 797.3898303544235 L 1217.7734375 798.4530756847398 L 1223.4375 799.4399079154176 L 1229.1015625 800.3547988178636 L 1234.765625 801.2020509953381 L 1240.4296875 801.9857958384941 L 1246.09375 802.7099924592915 L 1251.7578125 803.3784275264865 L 1257.421875 803.9947159264907 L 1263.0859375 804.5623021745171 L 1268.75 805.0844625025136 M 1268.75 805.0844625025136 L 1274.4140625 805.5643075523889 L 1280.078125 806.0047856053951 L 1285.7421875 806.4086862812035 L 1291.40625 806.7786446431354 L 1297.0703125 807.117145649157 L 1302.734375 807.4265288915406 L 1308.3984375 807.70899357153 L 1314.0625 807.9666036588488 L 1319.7265625 808.2012931894456 L 1325.390625 808.4148716584264 L 1331.0546875 808.6090294686736 L 1336.71875 808.785343399133 L 1342.3828125 808.9452820601772 L 1348.046875 809.0902113067734 L 1353.7109375 809.2213995833957 L 1359.375 809.3400231777046 M 1359.375 809.3400231777046 L 1365.0390625 809.4471713629541 L 1370.703125 809.5438514118804 L 1376.3671875 809.630993467447 L 1382.03125 809.7094552582929 L 1387.6953125 809.7800266490204 L 1393.359375 809.8434340175837 L 1399.0234375 809.9003444540012 L 1404.6875 809.9513697763942 M 1404.6875 809.9513697763942 L 1410.3515625 809.9970703619838 L 1416.015625 810.0379587921387 M 1416.015625 810.0379587921387 L 1421.6796875 810.0745033118756 M 1421.6796875 810.0745033118756 L 1424.8783924762738 810.0933850250622"
+         stroke-opacity="0.6980392156862745"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4077" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 20.911816326483745 29.24269696779345 L 20.911816326483745 881.4350000000001"
+         stroke-opacity="1"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4079" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 1426.8181422178159 881.4350000000001 L 1426.8181422178159 29.24269696779345"
+         stroke-opacity="1"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4081" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 1426.8181422178159 29.24269696779345 L 20.911816326483745 29.24269696779345"
+         stroke-opacity="1"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4083" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 20.911816326483745 881.4350000000001 L 1426.8181422178159 881.4350000000001"
+         stroke-opacity="1"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4085" />
+      <path
+         fill="none"
+         stroke="rgb(255,255,255)"
+         paint-order="fill stroke markers"
+         d=" M 20.911816326483745 29.24269696779345 L -5 29.24269696779345"
+         stroke-opacity="1"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4087" />
+      <text
+         fill="rgb(255,255,255)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="16px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="-83"
+         y="13"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4089">q</text>
+      <text
+         fill="rgb(255,255,255)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="16px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="-83"
+         y="13"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4091">q</text>
+      <path
+         fill="none"
+         stroke="rgb(255,255,255)"
+         paint-order="fill stroke markers"
+         d=" M 20.911816326483745 767.8994119466131 L -5 774.4546753249178"
+         stroke-opacity="1"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="3"
+         id="path4093" />
+      <text
+         fill="rgb(255,255,255)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="16px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="-66"
+         y="773"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4095">t</text>
+      <text
+         fill="rgb(255,255,255)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="16px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="-66"
+         y="773"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4097">t</text>
+      <path
+         fill="none"
+         stroke="rgb(255,255,255)"
+         paint-order="fill stroke markers"
+         d=" M 722.8951031250456 29.24269696779345 L 722.8951031250455 -5"
+         stroke-opacity="1"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="6.5"
+         id="path4099" />
+      <text
+         fill="rgb(255,255,255)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="16px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="706"
+         y="-25"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4101">b</text>
+      <text
+         fill="rgb(255,255,255)"
+         stroke="none"
+         font-family="geogebra-sans-serif, sans-serif"
+         font-size="16px"
+         font-style="normal"
+         font-weight="normal"
+         text-decoration="normal"
+         x="706"
+         y="-25"
+         text-anchor="start"
+         dominant-baseline="alphabetic"
+         fill-opacity="1"
+         id="text4103">b</text>
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 20.911816326483745 684.5632462893235 L 20.911816326483745 826.102448278688"
+         stroke-opacity="0.7490196078431373"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4105" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 632.9107499999988 29.24269696779345 L 789.4363499999987 29.24269696779345"
+         stroke-opacity="0.6980392156862745"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4107" />
+      <path
+         fill="none"
+         stroke="rgb(255,255,255)"
+         paint-order="fill stroke markers"
+         d=" M 722.8951031250456 881.4350000000001 L 722.8951031250456 918"
+         stroke-opacity="1"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4109" />
+      <path
+         fill="none"
+         stroke="rgb(255,255,255)"
+         paint-order="fill stroke markers"
+         d=" M 1426.8181422178159 810.0350000000001 L 1455 810.1387097130233"
+         stroke-opacity="1"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4111" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 20.911816326483745 881.4350000000001 L 1426.8181422178159 881.4350000000001"
+         stroke-opacity="1"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4113" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 20.91181632648363 29.242696967793336 L 20.911816326483745 881.4350000000001"
+         stroke-opacity="0.6980392156862745"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4115" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 20.91181632648363 29.242696967793336 L 20.911816326483745 881.4350000000001"
+         stroke-opacity="0.6980392156862745"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4117" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 1426.8181422178159 29.242696967793336 L 1426.8181422178159 881.4350000000001"
+         stroke-opacity="0.6980392156862745"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4119" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 1426.8181422178159 29.242696967793336 L 1426.8181422178159 881.4350000000001"
+         stroke-opacity="0.6980392156862745"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4121" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 20.91181632648363 29.242696967793336 L 1426.8181422178159 29.242696967793336"
+         stroke-opacity="0.6980392156862745"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4123" />
+      <path
+         fill="none"
+         stroke="rgb(0,0,0)"
+         paint-order="fill stroke markers"
+         d=" M 20.91181632648363 29.242696967793336 L 1426.8181422178159 29.242696967793336"
+         stroke-opacity="0.6980392156862745"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-miterlimit="10"
+         stroke-width="2.5"
+         id="path4125" />
+      <g
+         transform="scale(67,67)"
+         id="g4143">
+        <g
+           transform="translate(14.26865671641791,7.054395892537314)"
+           id="g4129">
+          <path
+             fill="rgb(0,0,255)"
+             stroke="none"
+             paint-order="stroke fill markers"
+             d=" M 0.41400000000000003 -0.219 L 0.105 -0.219 Q 0.107 -0.146 0.1495 -0.098 Q 0.192 -0.05 0.252 -0.05 Q 0.336 -0.05 0.404 -0.106 L 0.41000000000000003 -0.041 Q 0.338 0.011 0.251 0.011 Q 0.161 0.011 0.098 -0.058 Q 0.035 -0.127 0.035 -0.226 Q 0.035 -0.323 0.094 -0.392 Q 0.153 -0.461 0.23600000000000002 -0.461 Q 0.326 -0.461 0.374 -0.388 Q 0.41400000000000003 -0.326 0.41400000000000003 -0.219 M 0.11 -0.274 L 0.357 -0.274 Q 0.34800000000000003 -0.338 0.314 -0.369 Q 0.28 -0.4 0.23600000000000002 -0.4 Q 0.193 -0.4 0.1575 -0.365 Q 0.122 -0.33 0.11 -0.274 Z"
+             id="path4127" />
+        </g>
+        <g
+           transform="translate(14.71310271641791,6.6415038925373135) scale(0.7,0.7)"
+           id="g4133">
+          <path
+             fill="rgb(0,0,255)"
+             stroke="none"
+             paint-order="stroke fill markers"
+             d=" M 0.661 -0.23 L 0.116 -0.23 Q 0.084 -0.23 0.083 -0.25 Q 0.083 -0.27 0.116 -0.27 L 0.661 -0.27 Q 0.6930000000000001 -0.27 0.6940000000000001 -0.25 Q 0.6940000000000001 -0.23 0.661 -0.23 Z"
+             id="path4131" />
+        </g>
+        <g
+           transform="translate(15.257549416417909,6.6415038925373135) scale(0.7,0.7)"
+           id="g4137">
+          <path
+             fill="rgb(0,0,255)"
+             stroke="none"
+             paint-order="stroke fill markers"
+             d=" M 0.26 -0.229 L 0.46 0 L 0.377 0 L 0.227 -0.188 L 0.082 0 L 0 0 L 0.194 -0.229 L 0.006 -0.444 L 0.089 -0.444 L 0.227 -0.279 L 0.361 -0.444 L 0.443 -0.444 L 0.26 -0.229 Z"
+             id="path4135" />
+        </g>
+        <g
+           transform="translate(15.580328516417909,6.387479492537314) scale(0.5,0.5)"
+           id="g4141">
+          <path
+             fill="rgb(0,0,255)"
+             stroke="none"
+             paint-order="stroke fill markers"
+             d=" M 0.17400000000000002 -0.188 L 0.251 -0.259 Q 0.281 -0.29 0.2955 -0.3055 Q 0.31 -0.321 0.33 -0.34900000000000003 Q 0.35000000000000003 -0.377 0.3585 -0.404 Q 0.367 -0.431 0.367 -0.461 Q 0.367 -0.523 0.328 -0.5685 Q 0.289 -0.614 0.222 -0.614 Q 0.161 -0.614 0.1315 -0.5730000000000001 Q 0.10200000000000001 -0.532 0.083 -0.459 Q 0.066 -0.484 0.061 -0.488 Q 0.06 -0.489 0.0545 -0.4965 Q 0.049 -0.504 0.042 -0.514 Q 0.088 -0.678 0.23600000000000002 -0.678 Q 0.332 -0.678 0.3905 -0.6155 Q 0.449 -0.553 0.449 -0.463 Q 0.449 -0.424 0.4315 -0.3865 Q 0.41400000000000003 -0.34900000000000003 0.398 -0.3305 Q 0.382 -0.312 0.35000000000000003 -0.28 Q 0.34 -0.271 0.3055 -0.241 Q 0.271 -0.211 0.261 -0.202 Q 0.254 -0.196 0.1975 -0.14100000000000001 Q 0.14100000000000001 -0.08600000000000001 0.122 -0.07 L 0.231 -0.07 Q 0.23700000000000002 -0.07 0.249 -0.07050000000000001 Q 0.261 -0.07100000000000001 0.267 -0.07100000000000001 L 0.449 -0.07100000000000001 L 0.449 0 L 0.05 0 L 0.05 -0.064 L 0.17400000000000002 -0.188 Z"
+             id="path4139" />
+        </g>
+      </g>
+      <g
+         transform="scale(67,67)"
+         id="g4163">
+        <g
+           transform="translate(9.119402985074627,9.371482934701493)"
+           id="g4147">
+          <path
+             fill="rgb(255,255,255)"
+             stroke="none"
+             paint-order="stroke fill markers"
+             d=" M 0.369 -0.42 L 0.651 0 L 0.559 0 L 0.314 -0.364 L 0.181 -0.227 L 0.181 0 L 0.096 0 L 0.096 -0.6940000000000001 L 0.181 -0.6940000000000001 L 0.181 -0.323 L 0.544 -0.6940000000000001 L 0.637 -0.6940000000000001 L 0.369 -0.42 Z"
+             id="path4145" />
+        </g>
+        <g
+           transform="translate(10.091629596185738,9.371482934701493)"
+           id="g4151">
+          <path
+             fill="rgb(255,255,255)"
+             stroke="none"
+             paint-order="stroke fill markers"
+             d=" M 0.687 -0.33 L 0.09 -0.33 Q 0.056 -0.33 0.056 -0.35000000000000003 Q 0.056 -0.37 0.089 -0.37 L 0.6880000000000001 -0.37 Q 0.721 -0.37 0.721 -0.35000000000000003 Q 0.721 -0.33 0.687 -0.33 M 0.6880000000000001 -0.13 L 0.089 -0.13 Q 0.056 -0.13 0.056 -0.15 Q 0.056 -0.17 0.09 -0.17 L 0.687 -0.17 Q 0.721 -0.17 0.721 -0.15 Q 0.721 -0.13 0.6880000000000001 -0.13 Z"
+             id="path4149" />
+        </g>
+        <g
+           transform="translate(11.147189207296849,8.602386059701493)"
+           id="g4155">
+          <path
+             fill="rgb(255,255,255)"
+             stroke="none"
+             paint-order="stroke fill markers"
+             d=" M 0.389 0.855 L 0.812 -0.021 Q 0.8250000000000001 -0.038 0.833 -0.04 Q 0.85 -0.04 0.853 -0.02 Q 0.853 -0.016 0.847 -0.003 L 0.391 0.9410000000000001 Q 0.383 0.9570000000000001 0.375 0.9590000000000001 Q 0.372 0.96 0.366 0.96 Q 0.354 0.96 0.35000000000000003 0.9510000000000001 L 0.34700000000000003 0.9450000000000001 L 0.149 0.51 L 0.097 0.549 Q 0.088 0.557 0.083 0.557 Q 0.073 0.557 0.073 0.546 Q 0.073 0.542 0.085 0.532 L 0.184 0.457 Q 0.193 0.449 0.198 0.449 Q 0.20400000000000001 0.449 0.211 0.463 L 0.389 0.855 Z"
+             id="path4153" />
+        </g>
+        <rect
+           fill="rgb(255,255,255)"
+           stroke="none"
+           x="11.980525207296848"
+           y="8.562387059701493"
+           width="0.6614617222222222"
+           height="0.039999"
+           id="rect4157" />
+        <g
+           transform="translate(11.980525207296848,9.371482934701493)"
+           id="g4161">
+          <path
+             fill="rgb(255,255,255)"
+             stroke="none"
+             paint-order="stroke fill markers"
+             d=" M 0.265 -0.373 L 0.265 -0.373 L 0.209 -0.152 Q 0.192 -0.088 0.182 -0.054 Q 0.166 -0.005 0.152 0.005 L 0.152 0.006 Q 0.14300000000000002 0.011 0.132 0.011 Q 0.109 0.011 0.10400000000000001 -0.009000000000000001 Q 0.10300000000000001 -0.012 0.10300000000000001 -0.016 Q 0.10300000000000001 -0.025 0.111 -0.04 Q 0.20500000000000002 -0.243 0.23900000000000002 -0.373 L 0.182 -0.373 Q 0.10400000000000001 -0.373 0.055 -0.296 Q 0.046 -0.28400000000000003 0.039 -0.28400000000000003 Q 0.027 -0.28400000000000003 0.027 -0.294 Q 0.027 -0.305 0.063 -0.354 Q 0.07 -0.362 0.076 -0.37 Q 0.079 -0.374 0.083 -0.378 Q 0.085 -0.381 0.088 -0.384 Q 0.132 -0.431 0.192 -0.431 L 0.527 -0.431 Q 0.561 -0.431 0.5660000000000001 -0.41600000000000004 L 0.5660000000000001 -0.41500000000000004 Q 0.5670000000000001 -0.41200000000000003 0.5670000000000001 -0.40700000000000003 Q 0.5670000000000001 -0.373 0.518 -0.373 L 0.404 -0.373 Q 0.386 -0.28800000000000003 0.386 -0.214 Q 0.386 -0.121 0.41500000000000004 -0.049 Q 0.421 -0.035 0.421 -0.027 Q 0.421 -0.004 0.396 0.007 Q 0.388 0.011 0.38 0.011 Q 0.36 0.011 0.35000000000000003 -0.017 Q 0.34700000000000003 -0.026000000000000002 0.34400000000000003 -0.039 Q 0.336 -0.073 0.336 -0.115 Q 0.336 -0.181 0.363 -0.306 L 0.378 -0.373 L 0.265 -0.373 Z"
+             id="path4159" />
+        </g>
+      </g>
+      <g
+         transform="scale(25,25)"
+         id="g4169">
+        <g
+           transform="translate(53.76,30.404445000000003)"
+           id="g4167">
+          <path
+             fill="rgb(0,0,0)"
+             stroke="none"
+             paint-order="stroke fill markers"
+             d=" M 0.26 -0.229 L 0.46 0 L 0.377 0 L 0.227 -0.188 L 0.082 0 L 0 0 L 0.194 -0.229 L 0.006 -0.444 L 0.089 -0.444 L 0.227 -0.279 L 0.361 -0.444 L 0.443 -0.444 L 0.26 -0.229 Z"
+             id="path4165" />
+        </g>
+      </g>
+      <g
+         transform="scale(25,25)"
+         id="g4175">
+        <g
+           transform="translate(30.8,8.164445)"
+           id="g4173">
+          <path
+             fill="rgb(0,0,0)"
+             stroke="none"
+             paint-order="stroke fill markers"
+             d=" M 0.446 -0.444 L 0.228 0.091 Q 0.2 0.16 0.17350000000000002 0.1825 Q 0.147 0.20500000000000002 0.115 0.20500000000000002 Q 0.078 0.20500000000000002 0.043000000000000003 0.197 L 0.037 0.132 Q 0.077 0.148 0.115 0.148 Q 0.125 0.148 0.131 0.146 Q 0.137 0.14400000000000002 0.1485 0.1305 Q 0.16 0.117 0.17200000000000001 0.09 Q 0.181 0.07 0.20800000000000002 0 L 0.014 -0.444 L 0.093 -0.444 L 0.147 -0.319 Q 0.155 -0.301 0.1715 -0.261 Q 0.188 -0.221 0.211 -0.154 Q 0.234 -0.08700000000000001 0.23700000000000002 -0.057 L 0.23800000000000002 -0.057 Q 0.241 -0.126 0.371 -0.444 L 0.446 -0.444 Z"
+             id="path4171" />
+        </g>
+      </g>
+    </g>
+  </g>
+  <rect
+     id="rect4189"
+     width="84.373924"
+     height="23.451813"
+     x="674.05072"
+     y="888.97162"
+     ry="0"
+     style="fill:#ffffff;stroke-width:0.86993909" />
+  <rect
+     style="fill:#ffffff;stroke-width:0.91287088"
+     id="rect4191"
+     width="16.149763"
+     height="31.222878"
+     x="1433.0225"
+     y="794.56842" />
+</svg>

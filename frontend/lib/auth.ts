@@ -1,10 +1,13 @@
 export type UserRole = 'STUDENT' | 'ADMIN'
 export type CpgeStream = 'MP*' | 'MP' | 'PSI*' | 'PSI' | 'TSI'
 export type CpgeYear = '1re année Sup' | '2e année Spé'
+export type CpgeBadgeId = 'MP' | 'PC' | 'INF' | 'SII' | 'CNC'
 
 export interface UserProfile {
   id: string
   name: string
+  firstName?: string
+  lastName?: string
   username?: string
   email: string
   role: UserRole
@@ -15,6 +18,10 @@ export interface UserProfile {
   avatarUrl?: string
   bio?: string
   targetConcours?: string[]
+  badge?: CpgeBadgeId | ''
+  notifyAnswers?: boolean
+  notifyAnnales?: boolean
+  notifyReminders?: boolean
 }
 
 export const DEMO_STUDENT: UserProfile = {
@@ -57,7 +64,9 @@ let profileCache: UserProfile | null = null
 export function getStoredUser(): UserProfile | null { return profileCache }
 export function saveUserSession(user: UserProfile) {
   profileCache = { ...user, token: undefined }
-  if (typeof window !== 'undefined') window.localStorage.removeItem('learning_cnc_user_session')
+  if (typeof window !== 'undefined') {
+    try { window.localStorage.removeItem('learning_cnc_user_session') } catch { /* Le cache navigateur est facultatif. */ }
+  }
 }
 export function clearUserSession() { profileCache = null }
 

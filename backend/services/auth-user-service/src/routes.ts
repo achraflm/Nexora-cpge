@@ -1,7 +1,10 @@
 import { currentUser, requireUser } from '@cnc/common'
 import { Router } from 'express'
+import { z } from 'zod'
 import * as auth from './auth.service'
-import { loginSchema, refreshSchema, registerSchema, updateProfileSchema } from './schemas'
+import { accessSchema, accountListSchema, accountStatusSchema, changePasswordSchema, createAccountSchema, loginSchema,
+  refreshSchema, registerSchema, updateAccountSchema, updateProfileSchema } from './schemas'
+import { toPublicUser } from './user-mapper'
 import * as users from './users.service'
 
 /**
@@ -10,6 +13,11 @@ import * as users from './users.service'
  */
 export const router = Router()
 router.use((_req, res, next) => { res.setHeader('Cache-Control', 'no-store'); next() })
+
+router.post('/internal/access', async (req, res) => {
+  await users.checkAccess(accessSchema.parse(req.body))
+  res.status(204).end()
+})
 
 router.post('/auth/session', async (req, res) => {
   res.json(await auth.getSession(refreshSchema.parse(req.body).refreshToken))
@@ -39,12 +47,39 @@ router.get('/users/me', requireUser(), async (req, res) => {
 })
 
 router.patch('/users/me', requireUser(), async (req, res) => {
-  res.json(await users.updateProfile(currentUser(req).id, updateProfileSchema.parse(req.body)))
+  res.json(await users.updateProfile(currentUser(req).id, updateProfileSchema.parse(req.body), true))
+})
+
+router.patch('/users/me/password', requireUser(), async (req, res) => {
+  const { currentPassword, newPassword } = changePasswordSchema.parse(req.body)
+  await auth.changePassword(currentUser(req).id, currentPassword, newPassword)
+  res.status(204).end()
+})
+
+router.patch('/users/me/deactivate', requireUser('STUDENT'), async (req, res) => {
+  const actor = currentUser(req)
+  await users.setAccountStatus(actor.id, false, actor)
+  res.status(204).end()
 })
 
 // ---- Back-office (ADMIN) --------------------------------------------------
 router.get('/users', requireUser('ADMIN'), async (req, res) => {
-  const page = Math.max(1, Number(req.query.page) || 1)
-  const pageSize = Math.min(100, Math.max(1, Number(req.query.pageSize) || 20))
-  res.json(await users.listUsers(page, pageSize))
+  res.json(await users.listUsers(accountListSchema.parse(req.query)))
+})
+
+router.post('/users', requireUser('ADMIN'), async (req, res) => {
+  res.status(201).json(toPublicUser(await users.createAccount(createAccountSchema.parse(req.body))))
+})
+
+router.get('/users/:id', requireUser('ADMIN'), async (req, res) => {
+  res.json(await users.getUser(z.uuid().parse(req.params.id)))
+})
+
+router.patch('/users/:id', requireUser('ADMIN'), async (req, res) => {
+  res.json(await users.updateProfile(z.uuid().parse(req.params.id), updateAccountSchema.parse(req.body), false))
+})
+
+router.patch('/users/:id/status', requireUser('ADMIN'), async (req, res) => {
+  const { active } = accountStatusSchema.parse(req.body)
+  res.json(await users.setAccountStatus(z.uuid().parse(req.params.id), active, currentUser(req)))
 })

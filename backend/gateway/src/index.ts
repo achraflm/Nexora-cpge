@@ -21,7 +21,7 @@ app.use(cors({ origin: optionalEnv('CORS_ORIGIN', 'http://localhost:3000').split
 
 // Rate limiting : global + plus strict sur la connexion / inscription (anti brute-force).
 app.use(rateLimit({ windowMs: 15 * 60_000, limit: 600, standardHeaders: 'draft-8', legacyHeaders: false }))
-app.use(['/api/auth/login', '/api/auth/register'], rateLimit({ windowMs: 15 * 60_000, limit: 20 }))
+app.use(['/api/auth/login', '/api/auth/register', '/api/users/me/password'], rateLimit({ windowMs: 15 * 60_000, limit: 20 }))
 
 // Etat de sante agrege de tous les microservices.
 app.get('/api/health', async (_req, res) => {

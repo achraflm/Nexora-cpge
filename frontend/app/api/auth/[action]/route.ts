@@ -1,9 +1,8 @@
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
-import { gateway, publicProfile, SESSION_COOKIE } from '@/lib/server-auth'
+import { gateway, publicProfile, SESSION_COOKIE, SESSION_COOKIE_OPTIONS as cookieOptions } from '@/lib/server-auth'
 
 const allowedActions = new Set(['login', 'register', 'logout', 'refresh'])
-const cookieOptions = { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax' as const, path: '/' }
 
 export async function POST(request: NextRequest, context: { params: Promise<{ action: string }> }) {
   const { action } = await context.params

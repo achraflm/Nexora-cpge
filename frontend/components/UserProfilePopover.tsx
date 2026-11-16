@@ -189,7 +189,7 @@ export function UserProfilePopover({
           </div>
           <div className="min-w-0 truncate">
             <p className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-zinc-100">
-              <span className="truncate">{currentUser.name}</span> <CpgeBadge userId={currentUser.id} />
+              <span className="truncate">{currentUser.name}</span> <CpgeBadge badge={currentUser.badge} userId={currentUser.id} />
             </p>
             <p className="text-xs text-slate-500 dark:text-zinc-400 font-mono truncate">
               {currentUser.email}
