@@ -15,7 +15,7 @@ function TabLoading() {
 
 const loadCourses = () => import('@/components/CourseExerciseQcmDoubleMode')
 const CourseExerciseQcmDoubleMode = dynamic(() => loadCourses().then(m => m.CourseExerciseQcmDoubleMode), { loading: TabLoading })
-const ExercisePdfTemplate = dynamic(() => import('@/components/ExercisePdfTemplate').then(m => m.ExercisePdfTemplate), { loading: TabLoading })
+const ClassicalLibrary = dynamic(() => import('@/components/ClassicalLibrary').then(m => m.ClassicalLibrary), { loading: TabLoading })
 const TicketInbox = dynamic(() => import('@/components/TicketInbox').then(m => m.TicketInbox), { loading: TabLoading })
 const PersonalReportsHub = dynamic(() => import('@/components/PersonalReportsHub').then(m => m.PersonalReportsHub), { loading: TabLoading })
 
@@ -121,10 +121,9 @@ export default function DashboardShell({ initialUser, dashboard }: { initialUser
 
       {/* Tab: Banque de problèmes */}
       {activeTab === 'problemes' && (
-        <ExercisePdfTemplate
-          hideHeader
+        <ClassicalLibrary
           onBackToDashboard={() => navigateToTab('dashboard')}
-          onNavigateToContactAdmin={() => navigateToTab('contact')}
+          onReport={reportResource}
         />
       )}
 

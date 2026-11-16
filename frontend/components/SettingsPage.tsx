@@ -21,13 +21,14 @@ import {
   Eye,
   EyeSlash,
 } from '@phosphor-icons/react'
-import { CpgeBadge, cpgeBadges, readCpgeBadge, saveCpgeBadge, type CpgeBadgeId } from '@/components/CpgeBadge'
+import { CpgeBadge, cpgeBadges, readCpgeBadge, type CpgeBadgeId } from '@/components/CpgeBadge'
+import { AccountStatusDialog } from '@/components/AccountStatusDialog'
 import { Navbar } from '@/components/Navbar'
+import { accountRequest } from '@/lib/accounts'
 import {
+  clearUserSession,
   UserProfile,
-  DEMO_STUDENT,
   CpgeYear,
-  getStoredUser,
   saveUserSession,
 } from '@/lib/auth'
 
@@ -45,29 +46,23 @@ export default function ParametresPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Current session user
-  const [currentUser, setCurrentUser] = useState<UserProfile>(() => {
-    if (typeof window !== 'undefined') {
-      return getStoredUser() || sessionUser
-    }
-    return sessionUser
-  })
+  const [currentUser, setCurrentUser] = useState(sessionUser)
 
   // Active tab in settings
   const [activeTab, setActiveTab] = useState<'profile' | 'academic' | 'security' | 'notifications'>('profile')
 
   // Form states
-  const [name, setName] = useState('')
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [bio, setBio] = useState('')
-  const [avatarUrl, setAvatarUrl] = useState('')
-  const [badge, setBadge] = useState<CpgeBadgeId | ''>('')
-  const [year, setYear] = useState<CpgeYear>('2e année Spé')
-  const [targetConcours, setTargetConcours] = useState<string[]>([
-    'CNC Maroc',
-    'Mines-Ponts',
-    'Centrale-Supélec',
-  ])
+  const [firstName, setFirstName] = useState(sessionUser.firstName ?? '')
+  const [lastName, setLastName] = useState(sessionUser.lastName ?? '')
+  const name = `${firstName.trim()} ${lastName.trim()}`.trim()
+  const [username, setUsername] = useState(() => sessionUser.username ??
+    (sessionUser.firstName ?? '').toLowerCase().replace(/\s+/g, '-').replace(/[^\p{L}\p{N}._-]/gu, '').slice(0, 40))
+  const [email, setEmail] = useState(sessionUser.email)
+  const [bio, setBio] = useState(sessionUser.bio ?? '')
+  const [avatarUrl, setAvatarUrl] = useState(sessionUser.avatarUrl ?? '')
+  const [badge, setBadge] = useState<CpgeBadgeId | ''>(sessionUser.badge ?? '')
+  const [year, setYear] = useState<CpgeYear>(sessionUser.year ?? '2e année Spé')
+  const [targetConcours, setTargetConcours] = useState(sessionUser.targetConcours ?? [])
 
   // Password fields
   const [currentPassword, setCurrentPassword] = useState('')
@@ -75,63 +70,65 @@ export default function ParametresPage() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [passwordToast, setPasswordToast] = useState<string | null>(null)
+  const [changingPassword, setChangingPassword] = useState(false)
 
   // Notifications
-  const [notifyAnswers, setNotifyAnswers] = useState(true)
-  const [notifyAnnales, setNotifyAnnales] = useState(true)
-  const [notifyReminders, setNotifyReminders] = useState(false)
+  const [notifyAnswers, setNotifyAnswers] = useState(sessionUser.notifyAnswers ?? true)
+  const [notifyAnnales, setNotifyAnnales] = useState(sessionUser.notifyAnnales ?? true)
+  const [notifyReminders, setNotifyReminders] = useState(sessionUser.notifyReminders ?? false)
 
   // Feedback toast
   const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const [saveError, setSaveError] = useState('')
   const [isSaving, setIsSaving] = useState(false)
+  const [preparingPhoto, setPreparingPhoto] = useState(false)
+  const [confirmDeactivation, setConfirmDeactivation] = useState(false)
+  const [deactivating, setDeactivating] = useState(false)
+  const [deactivationError, setDeactivationError] = useState('')
 
-  // Init from current user
+  // Import the previous device-only badge on the first profile save.
   useEffect(() => {
-    const user = getStoredUser() || sessionUser
-    setCurrentUser(user)
-    setName(user.name || '')
-    setUsername(user.username || (user.name ? user.name.split(' ')[0].toLowerCase() : 'achraf'))
-    setEmail(user.email || '')
-    setBio(user.bio || 'Objectif Concours CNC 2026 — Filière MP*')
-    const previousBadge = user.avatarUrl?.startsWith('data:image/svg+xml;utf8,<svg xmlns=') && cpgeBadges.find(option => user.avatarUrl?.endsWith('>' + option.id + '</text></svg>'))
-    setAvatarUrl(previousBadge ? '' : user.avatarUrl || '')
-    setBadge(readCpgeBadge(user.id) || (previousBadge ? previousBadge.id : ''))
-    setYear(user.year || '2e année Spé')
-    if (user.targetConcours && user.targetConcours.length > 0) {
-      setTargetConcours(user.targetConcours)
-    }
-  }, [])
+    if (sessionUser.badge === undefined) setBadge(readCpgeBadge(sessionUser.id))
+  }, [sessionUser.id, sessionUser.badge])
 
   // Handle custom image file upload
-  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-
-    if (!file.type.startsWith('image/')) {
-      alert('Veuillez sélectionner un fichier image valide (PNG, JPG, WEBP, etc.).')
+    e.target.value = ''
+    setSaveError('')
+    if (!['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(file.type)) {
+      setSaveError('Sélectionnez une image JPEG, PNG, WebP ou GIF.')
       return
     }
-
     if (file.size > 4 * 1024 * 1024) {
-      alert("L'image ne doit pas dépasser 4 Mo.")
+      setSaveError('L’image ne doit pas dépasser 4 Mo.')
       return
     }
-
-    const reader = new FileReader()
-    reader.onload = (event) => {
-      const result = event.target?.result as string
-      if (result) {
-        setAvatarUrl(result)
-        showToast('Photo de profil importée avec succès !')
-      }
+    setPreparingPhoto(true)
+    try {
+      const image = await createImageBitmap(file)
+      try {
+        const canvas = document.createElement('canvas')
+        canvas.width = canvas.height = 320
+        const side = Math.min(image.width, image.height)
+        const context = canvas.getContext('2d')
+        if (!context) throw new Error()
+        context.drawImage(image, (image.width - side) / 2, (image.height - side) / 2, side, side, 0, 0, 320, 320)
+        const avatar = canvas.toDataURL('image/webp', 0.82)
+        if (avatar.length > 260_000) throw new Error()
+        setAvatarUrl(avatar)
+      } finally { image.close() }
+    } catch {
+      setSaveError('Impossible de préparer cette photo de profil.')
+    } finally {
+      setPreparingPhoto(false)
     }
-    reader.readAsDataURL(file)
   }
 
   const handleRemovePhoto = () => {
     setAvatarUrl('')
     if (fileInputRef.current) fileInputRef.current.value = ''
-    showToast('Photo supprimée (avatar par initiales réactivé)')
   }
 
   // Target Concours multi-toggle
@@ -151,14 +148,14 @@ export default function ParametresPage() {
   }
 
   // Password update action
-  const handleUpdatePassword = (e: React.FormEvent) => {
+  const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!currentPassword) {
       setPasswordToast('Veuillez saisir votre mot de passe actuel.')
       return
     }
-    if (newPassword.length < 6) {
-      setPasswordToast('Le nouveau mot de passe doit comporter au moins 6 caractères.')
+    if (newPassword.length < 8) {
+      setPasswordToast('Le nouveau mot de passe doit comporter au moins 8 caractères.')
       return
     }
     if (newPassword !== confirmPassword) {
@@ -166,50 +163,56 @@ export default function ParametresPage() {
       return
     }
 
-    setCurrentPassword('')
-    setNewPassword('')
-    setConfirmPassword('')
-    setPasswordToast('Mot de passe mis à jour avec succès !')
-    showToast('Votre mot de passe a été modifié en toute sécurité.')
+    setPasswordToast(null)
+    setChangingPassword(true)
+    try {
+      await accountRequest('/me/password', 'PATCH', { currentPassword, newPassword })
+      clearUserSession()
+      window.location.assign('/login')
+    } catch (error) {
+      setPasswordToast((error as Error).message)
+      setChangingPassword(false)
+    }
   }
 
   // Save changes
-  const handleSaveAll = (e?: React.FormEvent) => {
-    if (e) e.preventDefault()
+  const handleSaveAll = async () => {
+    setSaveError('')
     setIsSaving(true)
-
-    const updatedUser: UserProfile = {
-      ...currentUser,
-      name: name.trim() || currentUser.name,
-      username: username.trim().toLowerCase() || 'achraf',
-      email: email.trim() || currentUser.email,
-      bio: bio.trim(),
-      avatarUrl,
-      year,
-      targetConcours,
-    }
-
     try {
-      saveCpgeBadge(currentUser.id, badge)
-    } catch {
+      const updatedUser = await accountRequest<UserProfile>('/me', 'PATCH', {
+        firstName, lastName, username, email, bio, avatarUrl: avatarUrl || null,
+        badge, targetConcours, notifyAnswers, notifyAnnales, notifyReminders,
+        ...(sessionUser.role === 'STUDENT' ? { enrolledYear: year === '1re année Sup' ? 'SUP' : 'SPE' } : {}),
+      })
+      saveUserSession(updatedUser)
+      setCurrentUser(updatedUser)
+      setFirstName(updatedUser.firstName ?? '')
+      setLastName(updatedUser.lastName ?? '')
+      setEmail(updatedUser.email)
+      setUsername(updatedUser.username ?? '')
+      setBio(updatedUser.bio ?? '')
+      window.dispatchEvent(new CustomEvent('nexora-user-updated', { detail: updatedUser }))
+      router.refresh()
+      showToast('Vos modifications ont été enregistrées.')
+    } catch (error) {
+      setSaveError((error as Error).message)
+    } finally {
       setIsSaving(false)
-      showToast('Impossible d’enregistrer le badge sur cet appareil.')
-      return
     }
-    saveUserSession(updatedUser)
-    setCurrentUser(updatedUser)
+  }
 
-    // Broadcast across app
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(
-        new CustomEvent('nexora-user-updated', { detail: updatedUser })
-      )
+  async function deactivateAccount() {
+    setDeactivating(true)
+    setDeactivationError('')
+    try {
+      await accountRequest('/me/deactivate', 'PATCH')
+      clearUserSession()
+      window.location.assign('/login')
+    } catch (error) {
+      setDeactivationError((error as Error).message)
+      setDeactivating(false)
     }
-
-    setTimeout(() => {
-      setIsSaving(false)
-      showToast('Toutes vos modifications ont été enregistrées avec succès !')
-    }, 400)
   }
 
   const displayInitials =
@@ -229,7 +232,7 @@ export default function ParametresPage() {
   const getPasswordStrength = () => {
     if (!newPassword) return { score: 0, text: 'Vide', color: 'bg-slate-300' }
     let score = 0
-    if (newPassword.length >= 6) score += 1
+    if (newPassword.length >= 8) score += 1
     if (newPassword.length >= 10) score += 1
     if (/[A-Z]/.test(newPassword)) score += 1
     if (/[0-9]/.test(newPassword)) score += 1
@@ -253,7 +256,7 @@ export default function ParametresPage() {
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-20 right-6 z-50 flex items-center gap-2.5 rounded-2xl bg-indigo-600 px-5 py-3 text-xs font-bold text-white shadow-2xl shadow-indigo-600/40 animate-in fade-in slide-in-from-top-4">
+        <div role="status" className="fixed top-20 right-6 z-50 flex items-center gap-2.5 rounded-2xl bg-indigo-600 px-5 py-3 text-xs font-bold text-white shadow-2xl shadow-indigo-600/40 animate-in fade-in slide-in-from-top-4">
           <CheckCircle size={18} weight="fill" className="text-emerald-300 shrink-0" />
           <span>{toastMessage}</span>
         </div>
@@ -298,7 +301,7 @@ export default function ParametresPage() {
             <button
               type="button"
               onClick={() => handleSaveAll()}
-              disabled={isSaving}
+              disabled={isSaving || preparingPhoto}
               className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-[#3978F6] px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-indigo-600/30 hover:brightness-110 transition cursor-pointer disabled:opacity-50"
             >
               <FloppyDisk size={16} weight="bold" />
@@ -306,6 +309,7 @@ export default function ParametresPage() {
             </button>
           </div>
         </div>
+        {saveError && <p role="alert" className="mt-4 text-sm font-semibold text-rose-600 dark:text-rose-300">{saveError}</p>}
 
         {/* 2-Column SaaS Layout */}
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -340,7 +344,7 @@ export default function ParametresPage() {
                 { id: 'academic', label: 'Cursus CPGE', icon: GraduationCap, desc: 'Année et concours' },
                 { id: 'security', label: 'Sécurité & Mot de passe', icon: Lock, desc: 'Authentification & clé d’accès' },
                 { id: 'notifications', label: 'Alertes & Préférences', icon: Bell, desc: 'Gestion des emails & rappels' },
-              ].map((item) => {
+              ].filter(item => sessionUser.role === 'STUDENT' || item.id !== 'academic').map((item) => {
                 const Icon = item.icon
                 const isActive = activeTab === item.id
                 return (
@@ -415,6 +419,7 @@ export default function ParametresPage() {
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
+                        disabled={preparingPhoto}
                         className="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white transition cursor-pointer"
                         title="Changer la photo"
                       >
@@ -428,6 +433,7 @@ export default function ParametresPage() {
                         <button
                           type="button"
                           onClick={() => fileInputRef.current?.click()}
+                          disabled={preparingPhoto}
                           className="flex items-center gap-1.5 rounded-xl bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-indigo-500 transition cursor-pointer"
                         >
                           <Camera size={15} weight="bold" />
@@ -436,7 +442,7 @@ export default function ParametresPage() {
                         <input
                           ref={fileInputRef}
                           type="file"
-                          accept="image/*"
+                          accept="image/jpeg,image/png,image/webp,image/gif"
                           onChange={handleImageFileChange}
                           className="hidden"
                         />
@@ -474,21 +480,30 @@ export default function ParametresPage() {
                 {/* Identity Form Fields */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
-                      Nom complet officiel *
+                    <label htmlFor="profile-first-name" className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
+                      Prénom *
                     </label>
                     <input
+                      id="profile-first-name"
                       type="text"
                       required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Achraf Lemrani"
+                      autoComplete="given-name"
+                      maxLength={80}
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
                       className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none dark:border-white/10 dark:bg-black/40 dark:text-white dark:placeholder-slate-500 transition"
                     />
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
+                    <label htmlFor="profile-last-name" className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">Nom *</label>
+                    <input id="profile-last-name" type="text" required autoComplete="family-name" maxLength={80}
+                      value={lastName} onChange={e => setLastName(e.target.value)}
+                      className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-xs text-slate-900 focus:border-indigo-500 focus:bg-white focus:outline-none dark:border-white/10 dark:bg-black/40 dark:text-white transition" />
+                  </div>
+
+                  <div>
+                    <label htmlFor="profile-username" className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
                       Nom d’utilisateur / Pseudo *
                     </label>
                     <div className="relative">
@@ -496,8 +511,10 @@ export default function ParametresPage() {
                         @
                       </span>
                       <input
+                        id="profile-username"
                         type="text"
                         required
+                        maxLength={40}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         placeholder="achraf"
@@ -506,13 +523,16 @@ export default function ParametresPage() {
                     </div>
                   </div>
 
-                  <div className="sm:col-span-2">
-                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
+                  <div>
+                    <label htmlFor="profile-email" className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
                       Adresse email académique *
                     </label>
                     <input
+                      id="profile-email"
                       type="email"
                       required
+                      autoComplete="email"
+                      maxLength={254}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="achraf.lemrani@cpge-cnc.ma"
@@ -521,11 +541,13 @@ export default function ParametresPage() {
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
+                    <label htmlFor="profile-bio" className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
                       Bio &amp; Devise personnelle CPGE
                     </label>
                     <textarea
+                      id="profile-bio"
                       rows={3}
+                      maxLength={500}
                       value={bio}
                       onChange={(e) => setBio(e.target.value)}
                       placeholder="Ex: Objectif Concours CNC 2026 — Filière MP*, majorant en mathématiques."
@@ -651,24 +673,19 @@ export default function ParametresPage() {
                 </div>
 
                 {passwordToast && (
-                  <div
-                    className={`rounded-2xl p-4 text-xs font-bold ${
-                      passwordToast.includes('succès')
-                        ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/30'
-                        : 'bg-rose-500/10 text-rose-600 border border-rose-500/30'
-                    }`}
-                  >
+                  <div role="alert" className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4 text-xs font-bold text-rose-600 dark:text-rose-300">
                     {passwordToast}
                   </div>
                 )}
 
                 <div className="space-y-4 max-w-md">
                   <div>
-                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
+                    <label htmlFor="current-password" className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
                       Mot de passe actuel *
                     </label>
                     <div className="relative">
                       <input
+                        id="current-password" autoComplete="current-password" required
                         type={showPassword ? 'text' : 'password'}
                         value={currentPassword}
                         onChange={(e) => setCurrentPassword(e.target.value)}
@@ -677,6 +694,7 @@ export default function ParametresPage() {
                       />
                       <button
                         type="button"
+                        aria-label={showPassword ? 'Masquer les mots de passe' : 'Afficher les mots de passe'}
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-white"
                       >
@@ -686,14 +704,15 @@ export default function ParametresPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
+                    <label htmlFor="new-password" className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
                       Nouveau mot de passe *
                     </label>
                     <input
+                      id="new-password" autoComplete="new-password" required minLength={8} maxLength={72}
                       type={showPassword ? 'text' : 'password'}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="Min. 6 caractères"
+                      placeholder="Min. 8 caractères"
                       className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none dark:border-white/10 dark:bg-black/40 dark:text-white dark:placeholder-slate-500 transition"
                     />
 
@@ -725,10 +744,11 @@ export default function ParametresPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
+                    <label htmlFor="confirm-password" className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">
                       Confirmer le nouveau mot de passe *
                     </label>
                     <input
+                      id="confirm-password" autoComplete="new-password" required
                       type={showPassword ? 'text' : 'password'}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
@@ -739,13 +759,21 @@ export default function ParametresPage() {
 
                   <button
                     type="submit"
+                    disabled={changingPassword}
                     className="mt-2 flex items-center gap-2 rounded-2xl bg-indigo-600 px-5 py-2.5 text-xs font-bold text-white shadow-md hover:bg-indigo-500 transition cursor-pointer"
                   >
                     <ShieldCheck size={16} weight="bold" />
-                    <span>Mettre à jour le mot de passe</span>
+                    <span>{changingPassword ? 'Mise à jour…' : 'Mettre à jour le mot de passe'}</span>
                   </button>
                 </div>
               </form>
+            )}
+            {activeTab === 'security' && sessionUser.role === 'STUDENT' && (
+              <section className="mt-8 rounded-2xl border border-rose-500/25 p-5">
+                <h3 className="text-sm font-bold">Désactiver mon compte</h3>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Votre accès sera suspendu. Votre profil et votre progression seront conservés.</p>
+                <button type="button" className="ui-button-danger mt-4" onClick={() => { setDeactivationError(''); setConfirmDeactivation(true) }}>Désactiver mon compte</button>
+              </section>
             )}
 
             {/* ------------------------------------------------------------- */}
@@ -830,7 +858,7 @@ export default function ParametresPage() {
             {/* Bottom Actions Row */}
             <div className="mt-10 pt-6 border-t border-slate-200/80 dark:border-white/10 flex items-center justify-between">
               <span className="text-xs text-slate-500 dark:text-slate-400">
-                Toutes vos données restent stockées de façon sécurisée sur votre session CPGE.
+                Vos préférences sont rattachées à votre compte Nexora.
               </span>
 
               <div className="flex items-center gap-3">
@@ -844,7 +872,7 @@ export default function ParametresPage() {
                 <button
                   type="button"
                   onClick={() => handleSaveAll()}
-                  disabled={isSaving}
+                  disabled={isSaving || preparingPhoto}
                   className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-[#3978F6] px-5 py-2 text-xs font-bold text-white shadow-md shadow-indigo-600/30 hover:brightness-110 transition cursor-pointer disabled:opacity-50"
                 >
                   <Check size={14} weight="bold" />
@@ -855,6 +883,8 @@ export default function ParametresPage() {
           </div>
         </div>
       </main>
+      {confirmDeactivation && <AccountStatusDialog busy={deactivating} error={deactivationError}
+        onCancel={() => setConfirmDeactivation(false)} onConfirm={() => { void deactivateAccount() }} />}
     </div>
   )
 }

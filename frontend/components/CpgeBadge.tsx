@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import type { CpgeBadgeId } from '@/lib/auth'
+export type { CpgeBadgeId } from '@/lib/auth'
 
 export const cpgeBadges = [
   { id: 'MP', label: 'Major MP*' },
@@ -9,7 +11,6 @@ export const cpgeBadges = [
   { id: 'SII', label: 'Ingénieur SII' },
   { id: 'CNC', label: 'Lauréat CNC' },
 ] as const
-export type CpgeBadgeId = typeof cpgeBadges[number]['id']
 
 const key = (id: string) => `nexora:cpge-badge:${id}`
 export function readCpgeBadge(id: string) {
@@ -18,24 +19,14 @@ export function readCpgeBadge(id: string) {
     return cpgeBadges.find(badge => badge.id === value)?.id ?? ''
   } catch { return '' }
 }
-export function saveCpgeBadge(id: string, badge: CpgeBadgeId | '') {
-  if (badge) window.localStorage.setItem(key(id), badge)
-  else window.localStorage.removeItem(key(id))
-  window.dispatchEvent(new Event('nexora-badge-updated'))
-}
-
 export function CpgeBadge({ badge, userId }: { badge?: CpgeBadgeId | ''; userId?: string }) {
   const [saved, setSaved] = useState<CpgeBadgeId | ''>('')
   useEffect(() => {
     if (!userId) return
     const sync = () => setSaved(readCpgeBadge(userId))
     sync()
-    window.addEventListener('nexora-badge-updated', sync)
     window.addEventListener('storage', sync)
-    return () => {
-      window.removeEventListener('nexora-badge-updated', sync)
-      window.removeEventListener('storage', sync)
-    }
+    return () => window.removeEventListener('storage', sync)
   }, [userId])
   const item = cpgeBadges.find(option => option.id === (badge ?? saved))
   if (!item) return null

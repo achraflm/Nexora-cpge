@@ -25,6 +25,12 @@ const DEFAULT_PREFS: ReadingPreferences = {
   panel: "pages",
 }
 
+const PROBLEM_PREFS: ReadingPreferences = {
+  ...DEFAULT_PREFS,
+  layout: "single",
+  sidebarOpen: { study: false, exam: false },
+}
+
 function readJSON<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback
   try {
@@ -43,20 +49,22 @@ function writeJSON(key: string, value: unknown) {
   }
 }
 
-export function useReadingPreferences() {
+export function useReadingPreferences(scope: "default" | "problems" = "default") {
+  const key = scope === "problems" ? "document-studio:prefs:v2:problems" : PREFS_KEY
+  const defaults = scope === "problems" ? PROBLEM_PREFS : DEFAULT_PREFS
   // Valeurs par défaut au premier rendu (SSR-safe), puis hydratation depuis localStorage
-  const [prefs, setPrefs] = useState<ReadingPreferences>(DEFAULT_PREFS)
+  const [prefs, setPrefs] = useState<ReadingPreferences>(defaults)
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
-    const stored = readJSON(PREFS_KEY, DEFAULT_PREFS)
-    setPrefs({ ...stored, sidebarOpen: { ...DEFAULT_PREFS.sidebarOpen, ...stored.sidebarOpen } })
+    const stored = readJSON(key, defaults)
+    setPrefs({ ...stored, sidebarOpen: { ...defaults.sidebarOpen, ...stored.sidebarOpen } })
     setHydrated(true)
-  }, [])
+  }, [key, defaults])
 
   useEffect(() => {
-    if (hydrated) writeJSON(PREFS_KEY, prefs)
-  }, [prefs, hydrated])
+    if (hydrated) writeJSON(key, prefs)
+  }, [key, prefs, hydrated])
 
   const update = useCallback((patch: Partial<ReadingPreferences> | ((p: ReadingPreferences) => Partial<ReadingPreferences>)) => {
     setPrefs((prev) => ({ ...prev, ...(typeof patch === "function" ? patch(prev) : patch) }))

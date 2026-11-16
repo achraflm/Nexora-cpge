@@ -1,6 +1,7 @@
 'use client'
 
 import { TicketInbox } from '@/components/TicketInbox'
+import { AdminAccounts } from '@/components/AdminAccounts'
 
 import { useState, useEffect, useRef } from 'react'
 import {
@@ -40,11 +41,13 @@ import {
   FileText,
   Image as ImageIcon,
   User,
+  Users,
   Buildings,
   PaperPlaneRight,
 } from '@phosphor-icons/react'
 import { Bold, Italic, Code as CodeIcon, Copy, FolderOpen as LucideFolderOpen, Quote } from 'lucide-react'
 import { ResourceAdmin } from './ResourceAdmin'
+import { ClassicalLibraryAdmin } from './ClassicalLibraryAdmin'
 import { MathFormula } from './MathFormula'
 import { NexoraLogo } from './NexoraLogo'
 import { ThemeToggle } from './ThemeToggle'
@@ -721,7 +724,7 @@ export function AdminBackOffice({
   onLogout?: () => void
 }) {
   // Navigation tabs: overview | messages | catalog | annales | qcm
-  const [activeTab, setActiveTab] = useState<'overview' | 'messages' | 'catalog' | 'annales' | 'qcm'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'messages' | 'accounts' | 'catalog' | 'classics' | 'annales' | 'qcm'>('overview')
   const { notify, feedback } = useUiFeedback()
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [pendingRemoval, setPendingRemoval] = useState<{ id: string; title: string; kind: 'course' | 'document' } | null>(null)
@@ -1112,6 +1115,8 @@ export function AdminBackOffice({
             {[
               { id: 'overview' as const, label: 'Tableau de bord', icon: Gauge },
               { id: 'messages' as const, label: 'Messages', icon: ChatCircleDots },
+              { id: 'accounts' as const, label: 'Comptes', icon: Users },
+              { id: 'classics' as const, label: 'Classiques', icon: Books },
               { id: 'catalog' as const, label: 'Cours & TD', icon: Books },
               { id: 'annales' as const, label: 'Annales', icon: Scroll },
               { id: 'qcm' as const, label: 'QCM', icon: Sparkle, hasBadge: '' },
@@ -1271,6 +1276,8 @@ export function AdminBackOffice({
               {[
                 { id: 'overview' as const, label: 'Tableau de bord', icon: Gauge },
                 { id: 'messages' as const, label: 'Messages', icon: ChatCircleDots },
+                { id: 'accounts' as const, label: 'Comptes', icon: Users },
+                { id: 'classics' as const, label: 'Classiques', icon: Books },
                 { id: 'catalog' as const, label: 'Cours & TD', icon: Books },
                 { id: 'annales' as const, label: 'Annales', icon: Scroll },
                 { id: 'qcm' as const, label: 'QCM', icon: Sparkle, hasBadge: '' },
@@ -1450,7 +1457,9 @@ export function AdminBackOffice({
         {/* ================================================================ */}
         {/* TAB 3: CATALOGUE DES COURS & TRAVAUX DIRIGÉS (TD)                */}
         {/* ================================================================ */}
+        {activeTab === 'accounts' && <AdminAccounts />}
         {activeTab === 'catalog' && <ResourceAdmin />}
+        {activeTab === 'classics' && <ClassicalLibraryAdmin />}
 
         {activeTab === 'annales' && (
           <div className="space-y-6">

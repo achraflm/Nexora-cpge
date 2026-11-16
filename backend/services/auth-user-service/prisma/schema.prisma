@@ -30,17 +30,27 @@ enum StudyYear {
 
 /// Classe abstraite User du CDC : champs communs aux etudiants et administrateurs.
 model User {
-  id            String         @id @default(uuid()) @db.Uuid
-  firstName     String
-  lastName      String
-  email         String         @unique
-  passwordHash  String
-  role          Role           @default(STUDENT)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  student       Student?
-  administrator Administrator?
-  refreshTokens RefreshToken[]
+  id              String         @id @default(uuid()) @db.Uuid
+  firstName       String
+  lastName        String
+  email           String         @unique
+  passwordHash    String
+  role            Role           @default(STUDENT)
+  username        String?
+  bio             String         @default("")
+  avatarUrl       String?
+  badge           String?
+  targetConcours  String[]       @default([])
+  notifyAnswers   Boolean        @default(true)
+  notifyAnnales   Boolean        @default(true)
+  notifyReminders Boolean        @default(false)
+  deactivatedAt   DateTime?
+  sessionVersion  Int            @default(0)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  student         Student?
+  administrator   Administrator?
+  refreshTokens   RefreshToken[]
 
   @@map("users")
 }
@@ -70,13 +80,14 @@ model Administrator {
 
 /// Refresh token opaque : seul son hash SHA-256 est stocke.
 model RefreshToken {
-  id        String    @id @default(uuid()) @db.Uuid
-  userId    String    @db.Uuid
-  tokenHash String    @unique
-  expiresAt DateTime
-  revokedAt DateTime?
-  createdAt DateTime  @default(now())
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String    @id @default(uuid()) @db.Uuid
+  userId         String    @db.Uuid
+  tokenHash      String    @unique
+  expiresAt      DateTime
+  revokedAt      DateTime?
+  sessionVersion Int       @default(0)
+  createdAt      DateTime  @default(now())
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("refresh_tokens")

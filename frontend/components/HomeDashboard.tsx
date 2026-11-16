@@ -140,7 +140,7 @@ export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:Da
 
                 <div className="profile-card-content relative">
                   <p className="text-xs font-medium text-[#aab8d0]">Ma progression</p>
-                  <h2 className="mt-1 flex flex-wrap items-center gap-2 text-xl font-bold">{user.name} <CpgeBadge userId={user.id} /></h2>
+                  <h2 className="mt-1 flex flex-wrap items-center gap-2 text-xl font-bold">{user.name} <CpgeBadge badge={user.badge} userId={user.id} /></h2>
                   <p className="mt-0.5 text-xs text-[#aab8d0]">CPGE · {user?.stream || 'MP'} · {user?.year || '2e année Spé'}</p>
 
                   <div className="mt-4 flex items-center gap-4">

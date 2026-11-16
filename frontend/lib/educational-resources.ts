@@ -1,4 +1,4 @@
-export const RESOURCE_SUBJECTS={MATH:'Mathématiques',PHYS:'Physique-Chimie',INFO:'Informatique',SI:"Sciences Industrielles de l’Ingénieur (SII)"} as const
+export const RESOURCE_SUBJECTS={MATH:'Mathématiques',PHYS:'Physique-Chimie',CHEM:'Chimie',INFO:'Informatique',SI:"Sciences Industrielles de l’Ingénieur (SII)"} as const
 export interface EducationalResource {
   id:string;title:string;description:string;track:'MPSI'|'MP';level:'SUP'|'SPE';type:'COURSE'|'TD';status:'DRAFT'|'PUBLISHED';allowDownload:boolean;
   subject:{code:keyof typeof RESOURCE_SUBJECTS;name:string};originalName:string;format:string;bytes:number;createdAt:string;importedBy:string;

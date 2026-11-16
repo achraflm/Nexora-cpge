@@ -1,6 +1,6 @@
 import type { Administrator, Student, User } from './generated/prisma'
 
-type UserWithProfile = User & { student: Student | null; administrator: Administrator | null }
+type UserWithProfile = Omit<User, 'avatarUrl'> & { avatarUrl?: string | null; student: Student | null; administrator: Administrator | null }
 
 /** Inclusion Prisma standard pour charger le profil complet. */
 export const withProfile = { student: true, administrator: true } as const
@@ -14,6 +14,15 @@ export function toPublicUser(user: UserWithProfile) {
     email: user.email,
     role: user.role,
     createdAt: user.createdAt,
+    deactivatedAt: user.deactivatedAt,
+    username: user.username,
+    bio: user.bio,
+    avatarUrl: user.avatarUrl,
+    badge: user.badge,
+    targetConcours: user.targetConcours,
+    notifyAnswers: user.notifyAnswers,
+    notifyAnnales: user.notifyAnnales,
+    notifyReminders: user.notifyReminders,
     student: user.student && {
       filiere: user.student.filiere,
       enrolledYear: user.student.enrolledYear,

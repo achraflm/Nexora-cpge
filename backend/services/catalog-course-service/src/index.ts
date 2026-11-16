@@ -4,6 +4,7 @@ import { prisma } from './db'
 import { resourceFilters } from './external-resources'
 import { educationalResources } from './educational-resources'
 import { recoverConversions } from './resource-converter'
+import { classicalProblems } from './classical-problems'
 
 /**
  * catalog-course-service (CDC 3.1 - service 2) — Sprint 2.
@@ -13,6 +14,7 @@ import { recoverConversions } from './resource-converter'
 const router = Router()
 const todo = notImplemented('Sprint 2')
 router.use('/catalog/educational-resources', educationalResources)
+router.use('/catalog/classical-problems', classicalProblems)
 
 // Consultation (tout etudiant connecte ; aucune restriction Sup/Spe).
 router.get('/catalog/resources', async (req, res) => {

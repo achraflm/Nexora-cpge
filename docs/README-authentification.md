@@ -18,7 +18,15 @@ Depuis backend, démarrer PostgreSQL avec `docker compose up -d postgres`, puis 
 
 Depuis frontend, exécuter `npm run dev`. Ouvrir http://localhost:3000/login. La configuration facultative du frontend est décrite dans `.env.example`. APP_ORIGIN doit correspondre exactement à l’origine du navigateur.
 
-Le seed crée sept comptes, quatre matières, huit chapitres, leçons, exercices et QCM, quatre ouvrages, six tickets et trente jours de données d'activité fictives avec des jours de repos. Les identifiants sont stables. Les relances conservent les enregistrements existants. Les coefficients de matières sont des valeurs de test égales à un. Le seed refuse NODE_ENV=production.
+Le seed crée sept comptes, quatre matières, huit chapitres, leçons, exercices et QCM, quatre ouvrages et trente jours de données d’activité fictives avec des jours de repos. Les identifiants sont stables. Les relances conservent les enregistrements existants. Les coefficients de matières sont des valeurs de test égales à un. Le seed refuse NODE_ENV=production.
+
+Sur une base existante, appliquer le script SQL additif [account-management.sql](../backend/services/auth-user-service/prisma/account-management.sql) avant de déployer la mise à jour. Régénérer le client Prisma avec `npm run db:generate -w auth-user-service`, puis relancer la gateway et le service d’authentification ensemble. Sous Windows, arrêter le service d’authentification avant la génération s’il verrouille le moteur Prisma.
+
+## Gestion des comptes
+
+- Dans **Administration → Comptes**, créer, rechercher, consulter et modifier les comptes étudiants ou administrateurs. Le rôle est fixé à la création. Un administrateur peut désactiver et réactiver un compte. Au moins un administrateur doit rester actif.
+- Dans **Paramètres**, les modifications de profil, de photo, de badge, d’année et de préférences sont enregistrées dans PostgreSQL. Le changement de mot de passe vérifie le mot de passe actuel et demande une nouvelle connexion.
+- Dans **Paramètres → Sécurité & Mot de passe**, un étudiant peut désactiver son compte. Ses données restent liées au même identifiant. La désactivation révoque les sessions et bloque aussi les jetons d’accès déjà délivrés. Après réactivation, une nouvelle connexion est nécessaire.
 
 ## Fonctionnement et protections
 
@@ -26,13 +34,13 @@ Le service auth existant conserve les mots de passe avec bcrypt, coût 12. La li
 
 Next.js conserve le refresh token dans un cookie HttpOnly, SameSite=Lax, Secure en production. Sa valeur est hachée SHA-256 dans la base. Les JWT circulent entre le serveur Next.js et la gateway. Les pages protégées vérifient la session en base à chaque rendu serveur. Le stockage local du navigateur ne fournit aucune autorité d’accès. La déconnexion révoque la session en base. La rotation explicite utilise une transaction et une consommation conditionnelle pour éviter deux renouvellements simultanés.
 
-Les POST navigateur exigent une origine exacte et du JSON, avec une limite de 8 Ko. La gateway applique ses quotas de connexion et vérifie signature HS256, issuer et audience. Les réponses d’authentification utilisent Cache-Control: no-store. Des en-têtes anti-framing, nosniff et des restrictions CSP de base sont configurés.
+Les requêtes de connexion et d’inscription du navigateur exigent une origine exacte et du JSON, avec une limite de 8 Ko. Les opérations de modification des comptes vérifient aussi l’origine. La gateway applique ses quotas de connexion et vérifie signature HS256, issuer et audience. Les réponses d’authentification utilisent Cache-Control: no-store. Des en-têtes anti-framing, nosniff et des restrictions CSP de base sont configurés.
 
 ## Portée et limites
 
-L’accueil charge les statistiques propres au compte depuis PostgreSQL. Un compte nouvellement créé commence avec zéro activité. Les autres écrans pédagogiques restent des prototypes locaux et leurs actions ne produisent pas encore toutes des événements persistés. Le back-office est protégé par un rôle serveur, mais ses écrans métier restent des démonstrations.
+L’accueil charge les statistiques propres au compte depuis PostgreSQL. Un compte nouvellement créé commence avec zéro activité. Certains écrans pédagogiques restent des prototypes locaux et leurs actions ne produisent pas encore toutes des événements persistés.
 
-La connexion Google et la fausse réinitialisation du mot de passe ont été retirées. La vérification d’adresse e-mail, la récupération de mot de passe et MFA restent à développer. Les JWT déjà délivrés à un client direct restent valides jusqu’à leur expiration, même après révocation du refresh. Les quotas actuels résident en mémoire et sont partagés par les appels du serveur Next.js. Une production multi-instance nécessite un stockage partagé, HTTPS, une politique CSP plus stricte et une revue de sécurité complète. Aucune garantie d’absence de toute faille n’est avancée.
+La vérification d’adresse e-mail, la récupération de mot de passe et MFA restent à développer. Une déconnexion ordinaire révoque le jeton de renouvellement du navigateur. La désactivation et le changement de mot de passe révoquent aussi les jetons d’accès via la vérification du compte par la gateway. Les quotas actuels résident en mémoire et sont partagés par les appels du serveur Next.js.
 
 Références utilisées pour la vérification des protections
 

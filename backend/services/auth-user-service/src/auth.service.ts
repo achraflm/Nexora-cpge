@@ -2,50 +2,29 @@ import { HttpError } from '@cnc/common'
 import bcrypt from 'bcrypt'
 import { config } from './config'
 import { prisma } from './db'
-import type { Prisma, Role } from './generated/prisma'
+import type { Prisma, User } from './generated/prisma'
 import type { LoginInput, RegisterInput } from './schemas'
 import { generateRefreshToken, hashToken, refreshTokenExpiry, signAccessToken } from './tokens'
 import { toPublicUser, withProfile } from './user-mapper'
+import { createAccount } from './users.service'
 
 /** Hash bcrypt factice : compare() prend le meme temps que l'utilisateur existe ou non. */
 const DUMMY_HASH = bcrypt.hashSync('timing-attack-protection', config.bcryptRounds)
 
 /** Cree une paire access/refresh token et enregistre le refresh token (hache). */
-async function issueTokens(userId: string, role: Role, db: Prisma.TransactionClient = prisma) {
+async function issueTokens(user: Pick<User, 'id' | 'role' | 'sessionVersion'>, db: Prisma.TransactionClient = prisma) {
   const refreshToken = generateRefreshToken()
   await db.refreshToken.create({
-    data: { userId, tokenHash: hashToken(refreshToken), expiresAt: refreshTokenExpiry() },
+    data: { userId: user.id, sessionVersion: user.sessionVersion, tokenHash: hashToken(refreshToken), expiresAt: refreshTokenExpiry() },
   })
-  return { accessToken: signAccessToken(userId, role), refreshToken }
+  return { accessToken: signAccessToken(user.id, user.role, user.sessionVersion), refreshToken }
 }
 
 /** UC01 : inscription d'un etudiant CPGE. */
 export async function register(input: RegisterInput) {
-  const exists = await prisma.user.findUnique({ where: { email: input.email } })
-  if (exists) throw new HttpError(409, 'Un compte existe deja avec cet e-mail', 'EMAIL_TAKEN')
-
-  const passwordHash = await bcrypt.hash(input.password, config.bcryptRounds)
   return prisma.$transaction(async tx => {
-    const user = await tx.user.create({
-      data: {
-        firstName: input.firstName,
-        lastName: input.lastName,
-        email: input.email,
-        passwordHash,
-        role: 'STUDENT',
-        student: {
-          create: {
-            filiere: input.filiere,
-            enrolledYear: input.enrolledYear,
-            cpgeCenter: input.cpgeCenter,
-            accessAllYears: true,
-          },
-        },
-      },
-      include: withProfile,
-    })
-
-    return { user: toPublicUser(user), ...(await issueTokens(user.id, user.role, tx)) }
+    const user = await createAccount({ ...input, role: 'STUDENT' }, tx)
+    return { user: toPublicUser(user), ...(await issueTokens(user, tx)) }
   })
 }
 
@@ -54,8 +33,9 @@ export async function login(input: LoginInput) {
   const user = await prisma.user.findUnique({ where: { email: input.email }, include: withProfile })
   const valid = await bcrypt.compare(input.password, user?.passwordHash ?? DUMMY_HASH)
   if (!user || !valid) throw new HttpError(401, 'E-mail ou mot de passe incorrect', 'INVALID_CREDENTIALS')
+  if (user.deactivatedAt) throw new HttpError(401, 'Ce compte est désactivé.', 'ACCOUNT_DEACTIVATED')
 
-  return { user: toPublicUser(user), ...(await issueTokens(user.id, user.role)) }
+  return { user: toPublicUser(user), ...(await issueTokens(user)) }
 }
 
 /**
@@ -68,11 +48,13 @@ export async function refresh(refreshToken: string) {
     where: { tokenHash: hashToken(refreshToken) },
     include: { user: true },
   })
-  if (!stored) throw new HttpError(401, 'Refresh token invalide', 'INVALID_REFRESH_TOKEN')
+  if (!stored || stored.user.deactivatedAt || stored.user.sessionVersion !== stored.sessionVersion) {
+    throw new HttpError(401, 'Session expirée ou révoquée.', 'INVALID_REFRESH_TOKEN')
+  }
 
   if (stored.revokedAt) {
     await prisma.refreshToken.updateMany({
-      where: { userId: stored.userId, revokedAt: null },
+      where: { userId: stored.userId, sessionVersion: stored.sessionVersion, revokedAt: null },
       data: { revokedAt: new Date() },
     })
     throw new HttpError(401, 'Refresh token deja utilise : session revoquee', 'REFRESH_TOKEN_REUSED')
@@ -85,7 +67,7 @@ export async function refresh(refreshToken: string) {
       data: { revokedAt: new Date() },
     })
     if (consumed.count !== 1) throw new HttpError(401, 'Session deja renouvelee', 'INVALID_REFRESH_TOKEN')
-    return issueTokens(stored.userId, stored.user.role, tx)
+    return issueTokens(stored.user, tx)
   })
 }
 
@@ -103,8 +85,25 @@ export async function getSession(refreshToken: string) {
     where: { tokenHash: hashToken(refreshToken) },
     include: { user: { include: withProfile } },
   })
-  if (!session || session.revokedAt || session.expiresAt <= new Date()) {
+  if (!session || session.revokedAt || session.expiresAt <= new Date() ||
+      session.user.deactivatedAt || session.user.sessionVersion !== session.sessionVersion) {
     throw new HttpError(401, 'Session expiree', 'UNAUTHORIZED')
   }
-  return { user: toPublicUser(session.user), accessToken: signAccessToken(session.userId, session.user.role) }
+  return { user: toPublicUser(session.user), accessToken: signAccessToken(session.userId, session.user.role, session.sessionVersion) }
+}
+
+export async function changePassword(userId: string, currentPassword: string, newPassword: string) {
+  const user = await prisma.user.findUnique({ where: { id: userId, deactivatedAt: null } })
+  if (!user || !await bcrypt.compare(currentPassword, user.passwordHash)) {
+    throw new HttpError(403, 'Le mot de passe actuel est incorrect.', 'INVALID_PASSWORD')
+  }
+  const passwordHash = await bcrypt.hash(newPassword, config.bcryptRounds)
+  await prisma.$transaction(async tx => {
+    const update = await tx.user.updateMany({
+      where: { id: userId, deactivatedAt: null, sessionVersion: user.sessionVersion },
+      data: { passwordHash, sessionVersion: { increment: 1 } },
+    })
+    if (!update.count) throw new HttpError(409, 'Le compte a changé entre-temps. Reconnectez-vous.', 'ACCOUNT_CHANGED')
+    await tx.refreshToken.updateMany({ where: { userId, revokedAt: null }, data: { revokedAt: new Date() } })
+  })
 }

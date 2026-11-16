@@ -17,6 +17,7 @@ enum SubjectCode {
   PHYS
   SI
   INFO
+  CHEM
 }
 
 enum StudyLevel {
@@ -76,6 +77,7 @@ model Subject {
   chapters Chapter[]
   books    ReferenceBook[]
   resources EducationalResource[]
+  classicProblems ClassicProblem[]
 
   @@map("subjects")
 }
@@ -139,9 +141,66 @@ model Chapter {
   orderIndex     Int
   subject        Subject    @relation(fields: [subjectId], references: [id])
   lessons        Lesson[]
+  classicProblems ClassicProblem[]
 
   @@index([subjectId, studyLevel])
   @@map("chapters")
+}
+
+/// Provenance structurée, sans texte de solution généré.
+model ClassicProblem {
+  id String @id @default(uuid()) @db.Uuid
+  title String @db.VarChar(200)
+  subjectId Int
+  subject Subject @relation(fields: [subjectId], references: [id])
+  chapterId String? @db.Uuid
+  chapter Chapter? @relation(fields: [chapterId], references: [id])
+  level StudyLevel
+  tracks String[]
+  chapterLabel String
+  difficulty String
+  problemType String
+  correctionStatus String @default("PENDING_VERIFICATION")
+  state String @default("DISCOVERED")
+  metadata Json
+  revision Int @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  progress ClassicProgress[]
+  reviews ClassicReview[]
+  @@index([state, subjectId, level])
+  @@map("classic_problems")
+}
+
+model ClassicProgress {
+  problemId String @db.Uuid
+  userId String @db.Uuid
+  status String @default("NOT_STARTED")
+  favorite Boolean @default(false)
+  saved Boolean @default(false)
+  notes String @default("")
+  bookmarks Json @default("[]")
+  lastAttemptedAt DateTime?
+  completedAt DateTime?
+  masteredAt DateTime?
+  updatedAt DateTime @updatedAt
+  problem ClassicProblem @relation(fields: [problemId], references: [id])
+  @@id([problemId, userId])
+  @@index([userId, updatedAt])
+  @@map("classic_progress")
+}
+
+model ClassicReview {
+  id String @id @default(uuid()) @db.Uuid
+  problemId String @db.Uuid
+  actorId String @db.Uuid
+  fromState String
+  toState String
+  note String
+  createdAt DateTime @default(now())
+  problem ClassicProblem @relation(fields: [problemId], references: [id])
+  @@index([problemId, createdAt])
+  @@map("classic_reviews")
 }
 
 model Lesson {
