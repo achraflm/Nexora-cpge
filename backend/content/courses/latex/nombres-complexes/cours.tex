@@ -1,0 +1,89 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / Cours}\par
+{\LARGE\bfseries Nombres complexes}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Objectifs et prérequis}
+On utilisera la trigonométrie du cercle, le calcul algébrique et les équations du second degré. La forme algébrique facilite les sommes et les quotients. La forme polaire révèle les angles, les puissances et les racines.
+
+\section*{Définition et représentation}
+Tout complexe s’écrit de manière unique $z=a+ib$, où $a,b\in\mathbb R$ et $i^2=-1$. Son affixe représente le point $(a,b)$. Les composantes de la somme s’additionnent. En développant le produit, le terme $ib\cdot id$ devient $-bd$.
+
+\[ (a+ib)(c+id)=(ac-bd)+i(ad+bc). \]
+
+La différence de deux affixes représente le vecteur allant du second point au premier. Une translation d’affixe $b$ envoie $z$ sur $z+b$.
+
+\section*{Conjugaison, module et quotient}
+Le conjugué $\bar z=a-ib$ correspond au symétrique par rapport à l’axe réel. Le module $|z|=\sqrt{a^2+b^2}$ représente la distance à l’origine. Le calcul $z\bar z=|z|^2$ fournit un dénominateur réel quand $z\ne0$.
+
+\[ z^{-1}=\frac{\bar z}{|z|^2},\quad |zw|=|z||w|,\quad |z+w|\le |z|+|w|. \]
+
+Pour l’inégalité, développer $|z+w|^2$ et majorer $\operatorname{Re}(z\bar w)$ par $|z\bar w|$. Dans un quotient, conjuguer le dénominateur en multipliant aussi le numérateur.
+
+\section*{Argument et forme exponentielle}
+Pour $z\ne0$, le point $z/|z|$ est sur le cercle unité. Si $\theta$ est un angle qui le repère, alors $z=r(\cos\theta+i\sin\theta)=re^{i\theta}$ avec $r=|z|>0$. Les angles admissibles diffèrent d’un multiple de $2\pi$. L’origine n’a pas d’argument.
+
+\[ re^{i\theta}\,\rho e^{i\phi}=r\rho e^{i(\theta+\phi)},\qquad \overline{re^{i\theta}}=re^{-i\theta}. \]
+
+Les formules d’addition de sinus et de cosinus donnent la première identité en développant le produit. Pour un argument, relever le quadrant avant d’employer une fonction tangente inverse.
+
+\section*{De Moivre et racines}
+Par récurrence à partir de la loi de multiplication, $(re^{i\theta})^n=r^ne^{in\theta}$ pour $n\ge0$. Pour les entiers négatifs, on applique le même raisonnement à l’inverse si $r>0$.
+
+Pour résoudre $w^n=z\ne0$, comparer les modules, puis les angles modulo $2\pi$. Les racines suivantes sont distinctes et forment un polygone régulier. Pour $z=0$, la seule racine est $0$.
+
+\[ w_k=r^{1/n}e^{i(\theta+2k\pi)/n},\qquad k=0,\ldots,n-1. \]
+
+\section*{Équations quadratiques}
+Compléter le carré transforme $az^2+bz+c=0$, avec $a\ne0$, en $(2az+b)^2=b^2-4ac$. Trouver les deux racines carrées de ce discriminant, ou la racine nulle lorsqu’il vaut zéro.
+
+\[ z=\frac{-b\pm\delta}{2a},\qquad \delta^2=b^2-4ac. \]
+
+Pour un discriminant complexe $x+iy$, on peut aussi poser $\delta=u+iv$ et résoudre $u^2-v^2=x$, $2uv=y$, $u^2+v^2=\sqrt{x^2+y^2}$. Le signe du produit $uv$ est imposé par $y$.
+
+\section*{Géométrie et réflexes CNC}
+Le nombre $re^{i\theta}$ multiplie les distances à l’origine par $r$ et ajoute $\theta$ aux arguments. En se plaçant au centre $a$, une similitude directe s’écrit $z\mapsto a+re^{i\theta}(z-a)$. Un quotient d’affixes de vecteurs non nuls donne à la fois un rapport de longueurs et un angle orienté.
+
+Exemple. Le coefficient $1+i$ produit une rotation de $\pi/4$ et une dilatation de rapport $\sqrt2$. Pour une équation en $w^n$, vérifier le nombre de solutions et les substituer avant de conclure.
+
+\section*{Distances, médiatrices et cercles}
+Pour des points d’affixes $a$ et $z$, la distance vaut $|z-a|$. L’équation $|z-a|=R$, avec $R>0$, définit un cercle. Si $a\ne b$, l’équation $|z-a|=|z-b|$ définit la médiatrice du segment d’extrémités $a,b$. En élevant au carré, les termes $|z|^2$ disparaissent et il reste une équation affine.
+
+Pour reconnaître une droite par deux points $a\ne b$, utiliser $(z-a)/(b-a)\in\mathbb R$. L’angle entre deux vecteurs non nuls d’affixes $u,v$ est l’argument de $v/u$ modulo $2\pi$. Pour conclure à l’orthogonalité, vérifier que la partie réelle du quotient est nulle.
+
+\section*{Racines de l’unité et sommes géométriques}
+Les solutions de $z^n=1$ sont les puissances de $\omega=e^{2i\pi/n}$. Le produit de deux racines reste une racine et l’inverse de $\omega^k$ est $\omega^{-k}$. Si $n\ge2$, alors $\omega\ne1$ et
+\[ (1-\omega)(1+\omega+\cdots+\omega^{n-1})=1-\omega^n=0. \]
+Le centre de gravité des sommets est donc l’origine. Plus généralement, si $\omega^m\ne1$, la somme des $(\omega^m)^k$ pour $0\le k<n$ est nulle ; si $\omega^m=1$, elle vaut $n$. La distinction évite de diviser par zéro.
+
+\section*{Trigonométrie par calcul complexe}
+Utiliser $\cos t=(e^{it}+e^{-it})/2$ et $\sin t=(e^{it}-e^{-it})/(2i)$. Développer une puissance, puis regrouper les termes dont les exposants sont opposés. Par exemple,
+\[ \cos^3t=\frac{\cos(3t)+3\cos t}{4}. \]
+À l’inverse, pour exprimer $\cos(3t)$ en fonction de $\cos t$, prendre la partie réelle de $(\cos t+i\sin t)^3$ et éliminer $\sin^2t$ par $1-\cos^2t$. Le choix de la méthode dépend du sens de la transformation demandé.
+
+\section*{Fixer le centre d’une similitude}
+Une transformation $z\mapsto az+b$ avec $a\ne0$ a pour rapport $|a|$ et angle $\arg a$. Si $a\ne1$, son unique point fixe est $c=b/(1-a)$ et la transformation s’écrit $z'-c=a(z-c)$. Si $a=1$, on obtient une translation, avec tous les points fixes si $b=0$ et aucun sinon.
+
+Calculer le coefficient de deux transformations composées avant de chercher leur centre. Une rotation après une translation n’a pas, en général, le même centre que la composition dans l’ordre opposé.
+
+\section*{Fiche de révision}
+Pour une somme, développer en parties réelle et imaginaire. Pour une division, multiplier par le conjugué du dénominateur. Pour une puissance ou une racine, passer au module et à l’argument. En géométrie, former la différence des affixes avant d’en prendre le module ou l’argument.
+
+\bigskip
+{\footnotesize Adaptation française par Nexora CPGE. Source : Ken Kuttler (Lyryx),
+\href{https://math.libretexts.org/Bookshelves/Linear_Algebra/A_First_Course_in_Linear_Algebra_(Kuttler)/06:_Complex_Numbers}{\textit{A First Course in Linear Algebra}}.
+\href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}.}
+\end{document}

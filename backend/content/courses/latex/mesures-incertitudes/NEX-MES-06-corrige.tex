@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / NEX-MES-06 / Corrigé}\par
+{\LARGE\bfseries Un zéro partagé par deux mesures}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Modèle à erreur commune}
+Le décalage s’annule dans la différence, donc $u(d)=\sqrt{0{,}02^2+0{,}03^2}\simeq0{,}036\,\mathrm{cm}$.
+
+\section*{Comparaison}
+En supposant à tort l’indépendance des mesures totales, on ajouterait deux fois $0{,}05^2$ à la variance de la différence. Cela donnerait environ $0{,}079\,\mathrm{cm}$. Le capteur est le même dans les deux lectures, d’où la corrélation positive.
+
+
+\end{document}

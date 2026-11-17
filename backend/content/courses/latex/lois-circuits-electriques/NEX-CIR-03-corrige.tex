@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / NEX-CIR-03 / Corrigé}\par
+{\LARGE\bfseries Une sortie avec et sans charge}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Sortie sans charge}
+Les valeurs en volts et kilo-ohms donnent $(12-V_B)/2=V_B/4$, d’où $V_B=8\,\mathrm V$. Le courant vaut $2\,\mathrm{mA}$.
+
+\section*{Sortie en charge}
+Avec la nouvelle branche, $(12-V_B)/2=V_B/4+V_B/4$. On obtient $V_B=6\,\mathrm V$. Le courant entrant en $B$ vaut $3\,\mathrm{mA}$. Il se partage en deux courants de $1{,}5\,\mathrm{mA}$, dirigés vers la masse.
+
+
+\end{document}

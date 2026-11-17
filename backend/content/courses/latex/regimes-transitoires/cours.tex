@@ -1,0 +1,82 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+\makeatletter
+\def\@oddfoot{\footnotesize Download for free at \url{https://openstax.org/details/books/university-physics-volume-2}.\hfil\thepage}
+\let\@evenfoot\@oddfoot
+\makeatother
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / Cours}\par
+{\LARGE\bfseries Régimes transitoires}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Objectifs et prérequis}
+Revoir les lois de Kirchhoff, les conventions récepteur et les équations différentielles linéaires à coefficients constants. On suppose les dipôles idéaux et l’approximation des régimes quasi permanents applicable. Après une commutation, redessiner le circuit valable pour $t>0$.
+
+\section*{Grandeurs d’état et continuité}
+Dans la convention récepteur, $i_C=C\,\mathrm du_C/\mathrm dt$ et $u_L=L\,\mathrm di_L/\mathrm dt$. Intégrer autour de la commutation. Si le courant de la capacité et la tension de la bobine restent localement bornés, alors $u_C(0^+)=u_C(0^-)$ et $i_L(0^+)=i_L(0^-)$.
+
+Pour déterminer les valeurs à gauche en régime continu établi, remplacer le condensateur par un circuit ouvert et la bobine idéale par un court-circuit. Réutiliser ces modèles pour obtenir les limites à droite si le nouveau régime permanent existe.
+
+\section*{Circuit RC série}
+Dans une boucle source constante $E$, résistance $R$ et condensateur $C$, écrire $E=Ri+u_C$, puis substituer $i=C\dot u_C$. L’écart à la valeur finale vérifie une équation homogène.
+\[ RC\dot u_C+u_C=E,\qquad u_C(t)=E+(u_C(0^+)-E)e^{-t/(RC)}. \]
+Pour une décharge dans $R$, prendre $E=0$. Pour une charge depuis zéro, $i(t)=(E/R)e^{-t/(RC)}$. À une constante de temps $RC$, environ $63{,}2\,\%$ du saut de tension est accompli.
+
+\section*{Circuit RL série}
+Écrire la loi des mailles en substituant la relation de la bobine. L’intensité tend vers la valeur donnée par Ohm et la tension de la bobine idéale tend vers zéro.
+\[ L\dot i+Ri=E,\qquad i(t)=\frac ER+\left(i(0^+)-\frac ER\right)e^{-tR/L}. \]
+La constante de temps est $L/R$. Lorsqu’une source est retirée mais que la boucle reste fermée par la résistance, l’intensité décroît sans sauter à zéro.
+
+\section*{Circuit RLC série et trois régimes}
+Avec la charge $q$, on obtient $L\ddot q+R\dot q+q/C=E$ et $\dot q=i$. Poser $x=q-CE$, $\alpha=R/(2L)$ et $\omega_0=1/\sqrt{LC}$. L’équation pour $x$ a pour polynôme caractéristique $r^2+2\alpha r+\omega_0^2$.
+
+Lorsque $\alpha<\omega_0$, la réponse est $e^{-\alpha t}(A\cos\omega t+B\sin\omega t)$ avec $\omega=\sqrt{\omega_0^2-\alpha^2}$. Si $\alpha=\omega_0$, elle est $(A+Bt)e^{-\alpha t}$. Si $\alpha>\omega_0$, elle est une somme de deux exponentielles réelles décroissantes. Déterminer les deux constantes avec $q(0^+)$ et $i(0^+)$.
+
+\section*{Bilan d’énergie}
+Multiplier l’équation de maille par le courant. L’énergie emmagasinée est la somme des termes électrique et magnétique, tandis que la résistance dissipe de la puissance.
+\[ \mathcal U=\frac{q^2}{2C}+\frac12Li^2,\qquad \frac{\mathrm d\mathcal U}{\mathrm dt}=Ei-Ri^2. \]
+Pour une décharge sans source, l’énergie décroît même si la tension ou le courant oscille en changeant de signe.
+
+\section*{Exemple et méthode CNC}
+Avec $R=2\,\mathrm{k\Omega}$, $C=100\,\mathrm{\mu F}$ et une source de $5\,\mathrm V$, un condensateur initialement vide atteint $4\,\mathrm V$ à $t=RC\ln 5\simeq0{,}322\,\mathrm s$. La formule de seuil n’a de solution finie que si le seuil est strictement entre la tension initiale et la limite.
+
+Avant tout calcul, distinguer la grandeur qui reste continue de la grandeur dont on cherche l’évolution. Vérifier l’unité de la constante de temps et la pente initiale à l’aide de la loi de maille.
+
+\section*{Réduire le circuit vu par la capacité}
+Dans un réseau linéaire de résistances et de sources continues, remplacer la partie connectée à la capacité par le générateur de Thévenin de tension $E_{\mathrm{th}}$ et résistance $R_{\mathrm{th}}$. Calculer la tension à vide, puis la résistance vue aux bornes avec les sources indépendantes annulées.
+
+Pendant une phase où le circuit est fixe, la tension s’écrit $E_{\mathrm{th}}+(u_0-E_{\mathrm{th}})e^{-t/(R_{\mathrm{th}}C)}$. Une nouvelle commutation peut modifier les deux paramètres. Refaire le schéma équivalent pour chaque phase.
+
+\section*{Commutations successives et changement d’origine}
+Quand la seconde phase débute à $t=t_1$, utiliser le temps local $t-t_1$ et transmettre à cette phase la valeur du condensateur ou de la bobine juste avant la commutation. Pour une variable du premier ordre $x$, une phase écrit
+\[ x(t)=x_\infty+(x(t_1^+)-x_\infty)e^{-(t-t_1)/\tau}. \]
+Dans un RLC série, transmettre à la fois la charge et le courant si les tensions et courants concernés restent bornés. La pente peut changer brusquement lorsque l’excitation ou la résistance change.
+
+\section*{Amortissement critique et identification sur une courbe}
+Le seuil critique du RLC série est $R_c=2\sqrt{L/C}$. Pour une décroissance du premier ordre, la tangente initiale atteint la valeur finale au bout d’une constante de temps, et l’écart au régime permanent est réduit d’un facteur $e$ à cet instant.
+
+Si plusieurs extrema oscillants sont visibles, estimer la pseudo-période entre deux maxima du même signe et l’amortissement à partir du rapport de leurs écarts à la valeur finale. Vérifier que la droite expérimentale de $\ln|x-x_\infty|$ est cohérente avec un modèle exponentiel seulement quand un tel modèle est justifié.
+
+\section*{Énergie fournie et effet de la résistance}
+Pour une charge RC depuis zéro sous une source idéale $E$, l’énergie fournie vaut $\int_0^\infty Ei\,\mathrm dt=E\int_0^{CE}\mathrm dq=CE^2$. La capacité en stocke $CE^2/2$ et la résistance dissipe l’autre moitié si $R>0$. Modifier $R$ change la vitesse de charge et la puissance maximale, mais pas ce résultat dans le modèle idéal.
+
+Pour vérifier un calcul de puissance, distinguer le signe de la puissance reçue par chaque dipôle selon les conventions choisies.
+
+\section*{Fiche de révision}
+Trouver les états initial et final, poser l’écart à la limite, résoudre le système homogène et vérifier les signes. Au premier ordre, l’écart est multiplié par $e^{-1}$ après une constante de temps. Au second ordre, examiner le discriminant avant d’identifier le régime.
+
+\bigskip
+{\footnotesize Adaptation française par Nexora CPGE. Source : Samuel J. Ling, Jeff Sanny et William Moebs (OpenStax, Rice University),
+\href{https://d3bxy9euw4e147.cloudfront.net/oscms-prod/media/documents/UniversityPhysicsVolume2-OP.pdf\#page=479}{\textit{University Physics Volume 2, édition 2018}}.
+\href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}.}
+\end{document}

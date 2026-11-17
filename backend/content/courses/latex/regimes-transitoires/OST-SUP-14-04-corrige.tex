@@ -1,0 +1,36 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+\makeatletter
+\def\@oddfoot{\footnotesize Download for free at \url{https://openstax.org/details/books/university-physics-volume-2}.\hfil\thepage}
+\let\@evenfoot\@oddfoot
+\makeatother
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / OST-SUP-14-04 / Corrigé}\par
+{\LARGE\bfseries Établissement du courant dans une bobine}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Constante et expressions}
+Ici $\tau=L/R=1{,}0\,\mathrm s$. L’équation $L\dot i+Ri=E$ donne
+\[ i(t)=0{,}50(1-e^{-t/\tau})\,\mathrm A,\qquad |u_L(t)|=2{,}0e^{-t/\tau}\,\mathrm V. \]
+
+\section*{Valeurs}
+À $0^+$, le courant est nul et la tension vaut $2{,}0\,\mathrm V$. À $2\tau$, le courant vaut environ $0{,}43\,\mathrm A$ et la tension $0{,}27\,\mathrm V$. À l’infini, on trouve $0{,}50\,\mathrm A$ et $0\,\mathrm V$.
+
+\section*{Interprétation}
+La bobine reçoit toute la tension à l’instant initial. En régime continu établi, sa dérivée de courant est nulle et la résistance reçoit toute la tension.
+
+\bigskip
+{\footnotesize Adaptation française par Nexora CPGE. Source : Samuel J. Ling, Jeff Sanny et William Moebs (OpenStax, Rice University),
+\href{https://d3bxy9euw4e147.cloudfront.net/oscms-prod/media/documents/UniversityPhysicsVolume2-OP.pdf\#page=652}{\textit{University Physics Volume 2, édition 2018}}, § 14.4, exemple 14.4, p. 642–643.
+\href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}.}
+\end{document}

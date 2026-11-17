@@ -1,0 +1,91 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / Cours}\par
+{\LARGE\bfseries Topologie des espaces normés}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Normes, distances et boules}
+Une norme $N$ vérifie $N(x)\ge0$, $N(x)=0\Leftrightarrow x=0$, $N(\lambda x)=|\lambda|N(x)$ et $N(x+y)\le N(x)+N(y)$. La distance associée est $d(x,y)=N(x-y)$. L’inégalité triangulaire appliquée dans les deux sens donne $|N(x)-N(y)|\le N(x-y)$.
+
+Pour $r>0$, la boule ouverte $B(a,r)$ est définie par $N(x-a)<r$, la boule fermée par $N(x-a)\le r$ et la sphère par $N(x-a)=r$. Les boules sont convexes : pour $0\le t\le1$, la norme en $(1-t)x+ty-a$ est majorée par la combinaison des normes des deux écarts à $a$. Dans le plan, les boules unité de $\|\cdot\|_1$, $\|\cdot\|_2$ et $\|\cdot\|_\infty$ ont respectivement la forme d’un losange, d’un disque et d’un carré. Une partie est bornée si elle est contenue dans une boule de rayon fini.
+
+\section*{Normes usuelles et normes produits}
+Pour $x\in\mathbb K^n$, les expressions usuelles sont $\|x\|_1=\sum_j|x_j|$, $\|x\|_2=(\sum_j|x_j|^2)^{1/2}$ et $\|x\|_\infty=\max_j|x_j|$. La norme $2$ provient du produit scalaire usuel, dont l’inégalité de Cauchy–Schwarz entraîne l’inégalité triangulaire. Sur un produit fini d’espaces normés, le maximum des normes des composantes est une norme.
+
+Sur les suites bornées, on peut prendre le supremum des modules des termes. Pour les fonctions continues sur un segment non réduit à un point, les normes usuelles incluent le maximum de $|f|$, l’intégrale de $|f|$ et la racine de l’intégrale de $|f|^2$. Pour ces deux dernières, une valeur non nulle de $f$ impose une contribution positive près du point considéré, par continuité.
+
+Pour une matrice $A=(a_{ij})$, la norme $1$ est le maximum des sommes des modules par colonne, la norme infinie le maximum des sommes des modules par ligne, et la norme de Frobenius la racine de la somme des carrés des modules. Les deux premières correspondent aux normes d’opérateur subordonnées à la norme $1$ et à la norme infinie, respectivement. La norme de Frobenius est la norme euclidienne des coefficients.
+
+\section*{Suites et valeurs d’adhérence}
+La convergence $x_n\to a$ signifie $\|x_n-a\|\to0$. La distance entre deux limites possibles est bornée par la somme de leurs distances à $x_n$, ce qui donne l’unicité. Une suite convergente est bornée. Avec la norme maximum sur un produit fini, la convergence équivaut à la convergence de chaque composante.
+
+Les opérations linéaires conservent la convergence. Par exemple, si $x_n\to x$ et $y_n\to y$, l’inégalité triangulaire donne $\|(x_n+y_n)-(x+y)\|\le\|x_n-x\|+\|y_n-y\|\to0$.
+
+Une valeur d’adhérence est une limite d’une sous-suite. Par exemple, $x_n=((-1)^n,1/(n+1))$ possède deux valeurs d’adhérence, $(1,0)$ et $(-1,0)$. Chaque valeur est obtenue en choisissant une parité fixe, et toute sous-suite convergente doit fixer la parité à partir d’un certain rang. Pour une suite non bornée ayant une seule valeur d’adhérence, prendre $x_{2n}=0$ et $x_{2n+1}=n$.
+
+\section*{Comparer les normes}
+Deux normes $N_1,N_2$ sont équivalentes s’il existe $a,b>0$ tels que $aN_1\le N_2\le bN_1$ sur tout l’espace. Les constantes sont indépendantes du vecteur. Les inégalités donnent des inclusions de boules, donc les mêmes ouverts et les mêmes suites convergentes. Sur $\mathbb K^n$, on a par exemple
+\[ \|x\|_\infty\le\|x\|_2\le\sqrt n\,\|x\|_\infty. \]
+Pour réfuter une minoration $aN_1\le N_2$, chercher une suite de $N_1$-norme égale à $1$ et de $N_2$-norme tendant vers $0$. Sur les espaces de fonctions, concentrer une fonction près d’une extrémité donne souvent une telle suite.
+
+\section*{Voisinages, ouverts et fermés}
+Une partie $U$ est un voisinage de $a$ si elle contient une boule ouverte centrée en $a$. Un ouvert est un voisinage de chacun de ses points. Un fermé est le complémentaire d’un ouvert ou, de façon équivalente, une partie qui contient les limites dans $E$ de toutes ses suites convergentes. Les réunions quelconques et les intersections finies d’ouverts sont ouvertes. Par passage au complémentaire, les intersections quelconques et les réunions finies de fermés sont fermées.
+
+Sur une partie $A\subset E$, la boule relative s’obtient en intersectant la boule ambiante avec $A$. Les ouverts relatifs sont les intersections des ouverts de $E$ avec $A$. Par complémentaire dans $A$, on obtient la même description pour les fermés relatifs. Ainsi $[0,1[$ est ouvert dans $[0,2]$, car $[0,1[=]-1,1[\cap[0,2]$.
+
+\section*{Intérieur, adhérence et densité}
+L’intérieur $A^\circ$ est le plus grand ouvert inclus dans $A$. L’adhérence $\overline A$ est le plus petit fermé contenant $A$. Un point est dans $\overline A$ si chaque boule centrée en ce point rencontre $A$, ou s’il est limite d’une suite de points de $A$. Pour passer de la première condition à la seconde, choisir un point de $A$ dans la boule de rayon $1/n$.
+
+La frontière est $\partial A=\overline A\setminus A^\circ$. Ainsi chaque boule centrée en un point de la frontière rencontre $A$ et son complémentaire. Une partie $D$ est dense dans $E$ si $\overline D=E$. Deux applications continues qui coïncident sur $D$ coïncident sur $E$, en prenant des limites de suites de points de $D$.
+
+\section*{Limites et continuité}
+Pour $f:A\to F$ et $a\in\overline A$, la limite $f(x)\to L$ quand $x\to a$ dans $A$ signifie que pour tout $\varepsilon>0$ il existe $\delta>0$ tel que $\|f(x)-L\|<\varepsilon$ pour tout $x\in A$ vérifiant $\|x-a\|<\delta$. Cela équivaut à $f(x_n)\to L$ pour toute suite $x_n\in A$ tendant vers $a$. Si $a\in A$, la continuité en $a$ correspond à $L=f(a)$. Pour une limite en l’infini, on remplace la proximité de $a$ par la condition $\|x\|>R$ pour un rayon $R$ suffisamment grand.
+
+Les restrictions, compositions et combinaisons usuelles de fonctions continues s’étudient à l’aide des règles sur les limites. L’image réciproque d’un ouvert par une application continue est un ouvert relatif de son domaine, et celle d’un fermé est un fermé relatif. Ainsi si $g$ est continue à valeurs réelles, $\{x:g(x)>0\}$ est ouvert et $\{x:g(x)\le0\}$ est fermé dans le domaine de $g$.
+
+\section*{Uniformité et fonctions lipschitziennes}
+La continuité uniforme demande un même $\delta$ pour tous les points du domaine, pour un $\varepsilon$ donné. Une majoration $\|f(x)-f(y)\|\le L\|x-y\|$ avec une constante $L$ entraîne cette propriété. La fonction $t\mapsto t^2$ est $2M$-lipschitzienne sur $[-M,M]$ pour $M>0$. Sur $\mathbb R$, les couples $(n,n+1/n)$ deviennent arbitrairement proches alors que la différence de leurs carrés tend vers $2$.
+
+Si $B$ est non vide, $d(x,B)=\inf_{b\in B}\|x-b\|$ est $1$-lipschitzienne. Pour tout $b\in B$, majorer $\|x-b\|$ par $\|x-y\|+\|y-b\|$, prendre l’infimum sur $b$ et échanger $x$ avec $y$. Les zéros de cette fonction forment $\overline B$.
+
+\section*{Continuité linéaire et norme d’opérateur}
+Une application linéaire $u:E\to F$ est continue si et seulement si $\|u(x)\|\le C\|x\|$ pour une constante $C$ et tout $x$. Une borne obtenue près de $0$ se ramène à cette forme par homogénéité. Pour une application multilinéaire, le critère correspondant est une majoration par $C$ fois le produit des normes des variables.
+
+La plus petite constante admissible pour $u$ est sa norme d’opérateur $\|u\|_{\mathrm{op}}$, égale au supremum de $\|u(x)\|/\|x\|$ pour $x\ne0$. En appliquant successivement les deux bornes, on obtient $\|v\circ u\|_{\mathrm{op}}\le\|v\|_{\mathrm{op}}\|u\|_{\mathrm{op}}$. Pour calculer exactement une norme, établir une majoration puis trouver un vecteur ou une suite de vecteurs qui l’atteint ou s’en approche.
+
+\section*{Compacité et existence d’extrema}
+Dans un espace normé, une partie $K$ est compacte si toute suite de points de $K$ admet une sous-suite qui converge vers un point de $K$. Une partie compacte est fermée et bornée. Un fermé relatif d’un compact est compact. Un produit fini de compacts est compact, car on peut extraire successivement une sous-suite convergente pour chaque coordonnée.
+
+L’image continue d’un compact est compacte. Sur un compact non vide, une fonction continue réelle atteint son minimum et son maximum. Le théorème de Heine assure aussi la continuité uniforme sur le compact. Pour chercher un minimum sur un domaine non borné, on peut restreindre la recherche à un compact contenant tous les points dont la valeur est au plus celle d’un point d’essai.
+
+Une suite de points d’un compact ayant une seule valeur d’adhérence converge vers elle. Sinon une sous-suite resterait à distance positive de cette valeur et, par compacité, admettrait une autre valeur d’adhérence.
+
+\section*{Connexité par arcs}
+Un chemin dans $A$ joignant $a$ à $b$ est une application continue $\gamma:[0,1]\to A$ avec $\gamma(0)=a$ et $\gamma(1)=b$. La possibilité de relier deux points définit une relation d’équivalence, car on peut renverser un chemin ou en concaténer deux. Les classes sont les composantes connexes par arcs.
+
+Une partie convexe permet le chemin $\gamma(t)=(1-t)a+tb$. Si $A$ est étoilée par rapport à $c$, passer de $a$ à $c$ puis de $c$ à $b$. L’image d’une partie connexe par arcs par une fonction continue l’est aussi, en composant le chemin avec la fonction. Pour une fonction à valeurs réelles, cette propriété donne le théorème des valeurs intermédiaires le long de chaque chemin.
+
+\section*{Résultats en dimension finie}
+En dimension finie, toutes les normes sont équivalentes. Pour voir le mécanisme, choisir une base et la norme maximum des coordonnées. L’inégalité triangulaire majore toute autre norme $N$ par un multiple de celle-ci. Elle donne aussi la continuité de $N$ pour cette norme de coordonnées. Sur la sphère unité des coordonnées, compacte par Bolzano–Weierstrass dans $\mathbb K^n$, $N$ atteint un minimum strictement positif. L’homogénéité donne la minoration sur l’espace entier.
+
+Dans ce cadre, les compacts sont exactement les fermés bornés. Toute suite bornée est contenue dans une boule fermée compacte. Elle converge si et seulement si elle admet une seule valeur d’adhérence. Un sous-espace de dimension finie d’un espace normé est fermé, car une suite convergente de ses points est bornée et possède donc une sous-suite qui converge dans ce sous-espace.
+
+Toute application linéaire définie sur un espace de dimension finie est continue. Développer sur une base et majorer par une constante fois la norme maximum des coordonnées. En dimension finie, les applications polynomiales sont continues, ainsi que les applications multilinéaires sur un produit de tels espaces.
+
+\section*{Fiche de révision}
+Pour comparer deux normes, chercher des estimations uniformes et tester les constantes sur des suites. Pour une adhérence, construire une suite approchante. Pour un ouvert ou un fermé défini par une inégalité, chercher une fonction continue dont il est une image réciproque. Pour une existence d’extremum, établir la compacité puis utiliser la continuité. Pour une connexité par arcs, construire un chemin qui reste dans la partie à chaque instant.
+
+
+\end{document}

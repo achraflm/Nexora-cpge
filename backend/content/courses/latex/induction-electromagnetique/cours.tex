@@ -1,0 +1,80 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+\makeatletter
+\def\@oddfoot{\footnotesize Download for free at \url{https://openstax.org/details/books/university-physics-volume-2}.\hfil\thepage}
+\let\@evenfoot\@oddfoot
+\makeatother
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / Cours}\par
+{\LARGE\bfseries Induction électromagnétique}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Objectifs et prérequis}
+Revoir le champ magnétique, le produit scalaire, les intégrales de surface et la loi des mailles. On distingue les circuits fixes soumis à un champ variable et les conducteurs mobiles. Dans le cadre quasi statique, on néglige les retards de propagation à l’échelle du circuit.
+
+\section*{Orientation et flux}
+Orienter le contour $\Gamma$, puis associer la normale de $S$ par la règle de la main droite. Pour une spire, le flux du champ magnétique vaut
+\[ \Phi=\int_S \vec B\cdot\vec n\,\mathrm dS. \]
+Si le champ est uniforme et la surface plane, $\Phi=BS\cos\theta$, où $\theta$ est l’angle du champ avec la normale. En inversant l’orientation, le flux change de signe. L’unité est le weber.
+
+\section*{Loi de Faraday et loi de Lenz}
+La force électromotrice dans le sens positif choisi vaut $e=-\mathrm d\Phi/\mathrm dt$. Pour $N$ spires traversées par le même flux orienté, dériver le flux total $N\Phi$. Avec une résistance dominante et une inductance négligée, $i=e/R$.
+
+Le champ dû au courant induit tend à contrarier la variation du flux. Un flux positif décroissant peut donc engendrer un courant positif qui renforce le champ initial. Le signe se juge après le choix de l’orientation.
+
+\section*{Circuit fixe et champ variable}
+Dans un circuit immobile, l’induction résulte de la circulation du champ électrique. Intégrer Maxwell–Faraday sur la surface fixe et utiliser le théorème de Stokes.
+\[ \oint_\Gamma\vec E\cdot\mathrm d\vec\ell=\int_S(\nabla\times\vec E)\cdot\mathrm d\vec S=-\frac{\mathrm d\Phi}{\mathrm dt}. \]
+La circulation peut être non nulle : le champ électrique induit ne se décrit alors pas partout comme le gradient d’un potentiel scalaire.
+
+\section*{Conducteur mobile et bilan de puissance}
+La force magnétique exercée sur les porteurs accompagne le mouvement du conducteur. La contribution électromotrice se calcule avec $(\vec v\times\vec B)\cdot\mathrm d\vec\ell$. Sur rails, une barre de longueur $\ell$ modifie l’aire à la vitesse $\ell v$. Dans le modèle résistif et pour un champ perpendiculaire, $|e|=B\ell |v|$.
+
+La force de Laplace freine le mouvement qui crée le courant. Le travail fourni par l’opérateur compense la dissipation si la vitesse reste constante et l’inductance est négligée.
+\[ |F|=\frac{B^2\ell^2|v|}R,\qquad P_J=\frac{(B\ell v)^2}R. \]
+
+\section*{Auto-induction et influence mutuelle}
+Le flux lié dû au courant propre vaut $Li$ pour un circuit fixe linéaire. La force électromotrice propre vaut $-L\dot i$ et la tension en convention récepteur vaut $L\dot i$. L’énergie magnétique stockée est $Li^2/2$. Si deux circuits sont couplés, le flux lié du second contient aussi $Mi_1$. Le signe de $M$ dépend des orientations retenues.
+\[ v_2=L_2\dot i_2+M\dot i_1. \]
+
+\section*{Exemple, méthode CNC et erreurs}
+Une bobine tourne à vitesse angulaire $\omega$ dans un champ uniforme. Pour une spire plane d’aire $S$, prendre $\theta(t)=\omega t$ si la normale est alignée avec le champ à $t=0$. Alors $e=NBS\omega\sin(\omega t)$.
+
+Sur une copie, dessiner ou nommer la normale, exprimer le flux avec son signe, dériver, puis vérifier par Lenz. Attention au facteur $N$, au choix de l’angle et au passage d’une valeur algébrique à une valeur absolue.
+
+\section*{Séparer champ, géométrie et orientation}
+Dans le cas uniforme plan, $\Phi=BS\cos\theta$. La dérivée du produit comporte une contribution pour chacune des grandeurs qui varie. Une spire fixe dans un champ non uniforme appelle une intégrale de surface. Une spire rigide qui tourne peut avoir une aire constante tout en présentant un flux variable.
+
+Choisir la normale avant de calculer les signes. Le champ parallèle au plan donne un flux nul à cet instant, mais la force électromotrice peut être non nulle si l’orientation change.
+
+\section*{Tension dans un circuit résistif et inductif}
+Quand un flux extérieur traverse une boucle fixe,
+\[ L\dot i+Ri=e_{\mathrm{ext}},\qquad e_{\mathrm{ext}}=-\frac{\mathrm d\Phi_{\mathrm{ext}}}{\mathrm dt}. \]
+L’auto-induction est déjà incluse dans le terme $L\dot i$. Ne pas la compter également à droite. Si le flux extérieur s’arrête de varier, le courant peut subsister et décroître avec $L/R$. Multiplier l’équation par $i$ pour vérifier le bilan entre stockage et dissipation.
+
+\section*{Influence mutuelle et énergie magnétique}
+Pour deux circuits linéaires, orienter les courants avant d’écrire le flux lié $L_1i_1+Mi_2$ du premier et $Mi_1+L_2i_2$ du second. Dans ce modèle réciproque, l’énergie stockée est
+\[ W=\tfrac12L_1i_1^2+Mi_1i_2+\tfrac12L_2i_2^2. \]
+Elle doit être positive ou nulle pour tout couple de courants. En complétant le carré pour $L_1>0$, on obtient $M^2\le L_1L_2$. L’orientation change éventuellement le signe de $M$, sans modifier cette borne.
+
+\section*{Rails de Laplace et contrôle du signe}
+Pour une barre entraînée à vitesse constante, déterminer le sens du courant à partir du flux, puis celui de la force sur la barre par le produit vectoriel. Le bilan sert de contrôle : si le champ et la résistance sont les seuls éléments actifs, la force magnétique s’oppose au mouvement imposé. La puissance mécanique fournie est $-\vec F\cdot\vec v$. On retrouve $Ri^2$ dans le modèle où aucune énergie magnétique supplémentaire n’est stockée.
+
+\section*{Fiche de révision}
+Toute variation de champ, d’aire ou d’orientation peut modifier le flux. Le signe de Faraday compare la f.é.m. au sens choisi. La loi de Lenz contrôle le résultat. Pour un circuit couplé ou mobile, compléter le calcul électrique par un bilan de puissance ou d’énergie.
+
+\bigskip
+{\footnotesize Adaptation française par Nexora CPGE. Source : Samuel J. Ling, Jeff Sanny et William Moebs (OpenStax, Rice University),
+\href{https://d3bxy9euw4e147.cloudfront.net/oscms-prod/media/documents/UniversityPhysicsVolume2-OP.pdf\#page=592}{\textit{University Physics Volume 2, édition 2018}}.
+\href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}.}
+\end{document}

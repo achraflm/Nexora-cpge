@@ -1,0 +1,76 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / Cours}\par
+{\LARGE\bfseries Éléments de logique}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Objectifs et prérequis}
+Ce chapitre fournit le vocabulaire utilisé dans le reste du programme. On part de propriétés connues sur les entiers et les réels. Pour chaque énoncé, repérer d’abord le domaine des variables, puis les hypothèses et la conclusion. Une preuve est un enchaînement d’assertions justifiées à partir de ces hypothèses.
+
+\section*{Assertions et connecteurs}
+Une assertion a une valeur de vérité dans le contexte choisi. Une phrase contenant une variable libre devient une assertion une fois cette variable fixée ou quantifiée. Par exemple, $n^2>4$ est faux pour $n=1$ et vrai pour $n=3$. Sur un même domaine, $P\land Q$ exige les deux conditions. $P\lor Q$ est vrai dès qu’une condition est vraie, y compris lorsque les deux le sont.
+
+\section*{Négation et lois de De Morgan}
+Nier une assertion revient à décrire exactement les situations où elle échoue. La négation de « les deux conditions sont vraies » est « au moins une est fausse ». La négation de « au moins une est vraie » est « les deux sont fausses ».
+
+\[ \neg(P\land Q)\iff(\neg P\lor\neg Q),\qquad
+\neg(P\lor Q)\iff(\neg P\land\neg Q). \]
+
+Pour une inégalité, garder l’égalité du bon côté : $\neg(x<3)$ signifie $x\ge3$. La négation de $2<x\le5$ est $x\le2$ ou $x>5$.
+
+\section*{Implication et équivalence}
+L’implication $P\Rightarrow Q$ échoue seulement si $P$ est vraie et $Q$ fausse. $P$ est une condition suffisante pour $Q$ et $Q$ une condition nécessaire pour $P$. Si $P$ est fausse, l’implication ne donne pas la valeur de vérité de $Q$.
+
+\[ (P\Rightarrow Q)\iff(\neg P\lor Q),\qquad
+\neg(P\Rightarrow Q)\iff(P\land\neg Q). \]
+
+La réciproque est $Q\Rightarrow P$. Pour obtenir une équivalence, démontrer les deux sens séparément ou vérifier que chaque transformation est réversible. De $a^2=b^2$, on ne peut passer à $a=b$ qu’avec une hypothèse adaptée, par exemple $a,b\ge0$.
+
+\section*{Contraposée et contre-exemple}
+La contraposée $\neg Q\Rightarrow\neg P$ est logiquement équivalente à $P\Rightarrow Q$. Elle peut faciliter la preuve lorsque nier la conclusion donne une hypothèse calculable. Par exemple, un entier impair s’écrit $2k+1$ et son carré est impair. Cela démontre par contraposée que si $n^2$ est pair alors $n$ est pair.
+
+Pour réfuter $\forall x\in E,\ P(x)\Rightarrow Q(x)$, il faut produire un $x$ appartenant à $E$ pour lequel $P$ est vraie et $Q$ fausse. Un cas où l’hypothèse est fausse ne sert pas de contre-exemple.
+
+\section*{Quantificateurs et dépendances}
+Le quantificateur $\forall$ impose de prendre un élément arbitraire du domaine. Le quantificateur $\exists$ exige un témoin. Dans $\forall x\in E,\exists y\in F,\ R(x,y)$, le témoin peut dépendre de $x$. En inversant les quantificateurs, on demande un même témoin pour tous les $x$.
+
+\[ \neg(\forall x\in E,\ P(x))\iff\exists x\in E,\ \neg P(x). \]
+\[ \neg(\exists x\in E,\ P(x))\iff\forall x\in E,\ \neg P(x). \]
+
+Pour nier plusieurs quantificateurs imbriqués, les échanger successivement tout en gardant leur ordre, puis nier la propriété. Écrire $\exists!$ revient à prouver l’existence puis à montrer que deux témoins éventuels coïncident.
+
+\section*{Preuve directe, cas et absurde}
+En preuve directe, partir de l’hypothèse et utiliser des résultats déjà établis jusqu’à la conclusion. Dans une preuve par cas, vérifier que les cas couvrent le domaine et démontrer le résultat dans chacun. La parité d’un entier est un découpage exhaustif, comme le signe d’un réel quand on distingue les possibilités $x<0$, $x=0$ et $x>0$.
+
+Un raisonnement par l’absurde ajoute la négation de ce qu’on veut prouver et aboutit à une contradiction explicite. Pour démontrer une implication par l’absurde, on conserve $P$ et on suppose $\neg Q$. Par exemple, si $a>0$, $b>0$ et $a+b\le0$, alors $a\le-b<0$, ce qui contredit $a>0$.
+
+\section*{Récurrence simple et forte}
+Pour prouver $P(n)$ à partir de $n_0$, vérifier $P(n_0)$ puis démontrer, pour un $n\ge n_0$ arbitraire, que $P(n)$ entraîne $P(n+1)$. La propriété $P(n)$ est l’hypothèse temporaire de l’hérédité. Elle ne peut pas être remplacée par $P(n+1)$.
+
+En récurrence forte, on utilise toutes les propriétés $P(k)$ pour $n_0\le k\le n$. Elle est adaptée à un problème où plusieurs tailles inférieures interviennent. Si une relation utilise les deux indices précédents, il faut deux valeurs initiales, ou un énoncé de récurrence portant sur un couple.
+
+\section*{Exemple rédigé pour le CNC}
+Montrons que $1+3+\cdots+(2n-1)=n^2$ pour $n\ge1$. Au rang $1$, les deux membres valent $1$. Supposons l’égalité au rang $n$. La somme au rang suivant s’obtient en ajoutant $2n+1$, donc elle vaut $n^2+2n+1=(n+1)^2$. Le principe de récurrence s’applique.
+
+Quand une somme ou une suite est en jeu, écrire le premier rang, isoler le nouveau terme, puis identifier explicitement la partie où intervient l’hypothèse de récurrence.
+
+\section*{Erreurs classiques}
+Éviter d’inverser une implication sans preuve. Ne pas choisir un $y$ qui dépend de $x$ lorsqu’il doit fonctionner pour tous les $x$. Ne pas prouver une propriété universelle par une liste d’exemples. Dans une preuve d’existence, vérifier que le témoin respecte toutes les contraintes du domaine. Dans une preuve par l’absurde, nommer précisément les deux assertions incompatibles.
+
+\section*{Fiche de révision}
+Réécrire l’assertion avec ses domaines. Si elle est fausse, chercher un témoin de la négation. Si elle est vraie, choisir la méthode qui exploite le mieux les données : preuve directe, étude de cas, contraposée, absurde ou récurrence. Relire chaque changement de sens et chaque utilisation d’un quantificateur.
+
+
+\end{document}

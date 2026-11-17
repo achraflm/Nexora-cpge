@@ -1,0 +1,27 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / NEX-RED-04 / Corrigé}\par
+{\LARGE\bfseries Calculer des puissances sur deux directions stables}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Directions propres}
+Les vecteurs $(1,1)$ et $(1,-1)$ sont propres, pour $3$ et $1$. Ils sont indépendants. Un vecteur $(x,y)$ s’écrit $(x+y)(1,1)/2+(x-y)(1,-1)/2$.
+
+\section*{Puissance}
+La première composante propre est multipliée par $3^n$, la seconde par $1$. En appliquant la formule aux deux vecteurs de la base canonique, on obtient
+\[ A^n=\frac12\begin{pmatrix}3^n+1&3^n-1\\3^n-1&3^n+1\end{pmatrix}. \]
+
+
+\end{document}

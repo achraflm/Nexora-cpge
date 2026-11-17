@@ -1,13 +1,14 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowLeft, ChevronLeft, ChevronRight, Download, FileText, RotateCw } from 'lucide-react'
 import { openPdf, describePdfError, type PDFDocumentProxy } from './document-studio/pdf-engine'
 import { PdfPageView, type PageSize } from './document-studio/PdfPageView'
 import './document-studio/document-studio.css'
 import type { CourseDocument } from '@/lib/pdf-course-chapters'
+import { useStudyDocument, type StudyDocument } from '@/lib/study-activity'
 
-export function CoursePdfReader({ document, onBack, onReport, allowDownload = true, downloadUrl, initialPage = 1, onPageChange, compact = false }: { document: CourseDocument; onBack: () => void; onReport?: () => void; allowDownload?: boolean; downloadUrl?: string; initialPage?:number; onPageChange?:(page:number)=>void; compact?:boolean }) {
+export function CoursePdfReader({ document, onBack, onReport, tools, allowDownload = true, downloadUrl, initialPage = 1, onPageChange, compact = false, studyDocument, backLabel = 'Retour aux chapitres' }: { document: CourseDocument; onBack: () => void; onReport?: () => void; tools?: ReactNode; allowDownload?: boolean; downloadUrl?: string; initialPage?:number; onPageChange?:(page:number)=>void; compact?:boolean; studyDocument?: StudyDocument; backLabel?: string }) {
   const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null)
   const [error, setError] = useState('')
   const [page, setPage] = useState(1)
@@ -20,6 +21,7 @@ export function CoursePdfReader({ document, onBack, onReport, allowDownload = tr
   const [zoom, setZoom] = useState(1)
   const [nativeView,setNativeView]=useState(false)
   const [retry,setRetry]=useState(0)
+  useStudyDocument(studyDocument, Boolean(pdf && !error && !nativeView))
 
   useEffect(() => {
     const element = host.current
@@ -66,7 +68,7 @@ export function CoursePdfReader({ document, onBack, onReport, allowDownload = tr
 
   return (
     <section ref={shell} aria-label="Lecteur du document" className={`mx-auto max-w-6xl overflow-auto bg-white dark:bg-slate-950 ${compact?'rounded-xl p-2 sm:p-3':'px-4 py-6 sm:px-6'}`}>
-      {!compact && <button type="button" onClick={onBack} className="mb-5 flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 dark:border-white/10 dark:text-slate-200"><ArrowLeft size={16} />Retour aux chapitres</button>}
+      {!compact && <button type="button" onClick={onBack} className="mb-5 flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 dark:border-white/10 dark:text-slate-200"><ArrowLeft size={16} />{backLabel}</button>}
       <div className="mb-3 rounded-xl border border-slate-200 p-3 dark:border-white/10">
         {!compact && <>
         <p className="flex items-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-300"><FileText size={16} />{document.type === 'TD' ? 'Travaux dirigés' : 'Cours'} · {document.level === 'SUP' ? 'Sup' : 'Spé'} · PDF</p>
@@ -74,6 +76,7 @@ export function CoursePdfReader({ document, onBack, onReport, allowDownload = tr
         {document.sourceName && <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Source : {document.sourceName}</p>}
         </>}
         <div className="flex flex-wrap items-center gap-3">
+          {tools}
           {onReport && <button type="button" className="ui-button-secondary" onClick={onReport}>Signaler une erreur</button>}
           <div className="flex items-center gap-3" hidden={nativeView}>
             <button type="button" aria-label="Page précédente" disabled={!pdf || page <= 1} onClick={() => setPage(value => value - 1)} className="rounded-lg border p-2 disabled:opacity-30"><ChevronLeft size={18} /></button>

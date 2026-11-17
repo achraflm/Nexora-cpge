@@ -1,0 +1,69 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / Cours}\par
+{\LARGE\bfseries Structures algébriques usuelles}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Objectifs et prérequis}
+Revoir divisibilité, polynômes et lois de composition de MPSI. En MP, il faut décider quelles opérations sont disponibles, travailler avec des morphismes et passer aux classes de congruence. Identifier la structure avant de simplifier une égalité. La multiplication n’est pas toujours commutative et tous les éléments non nuls ne s’inversent pas.
+
+\section*{Groupes et sous-groupes}
+Un groupe est muni d’une loi interne associative, d’un neutre et d’un inverse pour chaque élément. Il est abélien si la loi est commutative. Dans un sous-ensemble $H$ non vide de $G$, la condition $xy^{-1}\in H$ pour tous $x,y\in H$ suffit pour que $H$ soit un sous-groupe. En posant $x=y$, on récupère le neutre, puis les inverses, puis les produits.
+
+L’intersection d’une famille de sous-groupes reste un sous-groupe. Une réunion de deux sous-groupes ne l’est généralement pas, car les produits mélangés peuvent sortir de la réunion.
+
+\section*{Sous-groupe engendré et ordre}
+Les puissances $g^n$, pour $n\in\mathbb Z$, forment le plus petit sous-groupe contenant $g$. Si $g^m=e$ pour un entier positif $m$, l’ordre de $g$ est le plus petit tel $m$. La division euclidienne de $n$ par $m$ montre alors que $g^n=e$ équivaut à $m\mid n$.
+
+Dans un groupe fini, les classes à gauche d’un sous-groupe $H$ partitionnent le groupe et sont en bijection avec $H$ par translation. Ainsi $|H|$ divise $|G|$. En particulier, l’ordre d’un élément divise le cardinal du groupe.
+
+\section*{Morphismes, noyau et image}
+Un morphisme $f:G\to H$ vérifie $f(xy)=f(x)f(y)$. Il envoie le neutre sur le neutre et un inverse sur l’inverse correspondant. L’image et le noyau sont des sous-groupes. Pour tester l’injectivité, utiliser
+\[ f(x)=f(y)\iff f(y^{-1}x)=e_H. \]
+Le morphisme est donc injectif exactement lorsque son noyau est réduit au neutre. Pour un morphisme additif, remplacer $y^{-1}x$ par $x-y$.
+
+\section*{Anneaux, corps et éléments inversibles}
+Dans un anneau, l’addition constitue un groupe abélien et la multiplication est associative et distributive. On travaille avec un neutre multiplicatif. Une unité est un élément muni d’un inverse multiplicatif. Dans un corps, tout élément non nul est inversible. Dans un anneau intègre commutatif non nul, un produit de deux éléments non nuls ne peut être nul.
+
+Dans $\mathbb Z$, seules $1$ et $-1$ sont des unités. Dans $\mathbb Z/6\mathbb Z$, les classes de $2$ et de $3$ sont non nulles, mais leur produit vaut zéro. On ne peut donc simplifier par un facteur sans hypothèse.
+
+\section*{Idéaux et divisibilité dans les entiers}
+Un idéal d’un anneau commutatif est un sous-groupe additif stable par multiplication par tout élément de l’anneau. Dans $\mathbb Z$, un idéal non nul possède un plus petit entier strictement positif $d$. La division euclidienne de tout élément de l’idéal par $d$ donne un reste dans l’idéal, nécessairement nul par minimalité. Ainsi les idéaux sont les $d\mathbb Z$.
+
+L’idéal $a\mathbb Z+b\mathbb Z$ a pour générateur positif le PGCD $d$ lorsque $a,b$ ne sont pas simultanément nuls. En particulier, il existe $u,v\in\mathbb Z$ tels que $au+bv=d$. Les divisions successives donnent un moyen de trouver ces coefficients.
+
+\section*{Calcul modulo un entier}
+Deux entiers sont dans la même classe modulo $n$ si leur différence est divisible par $n$. Les opérations s’effectuent sur les représentants et donnent la même classe quel que soit le choix des représentants. La classe de $a$ est inversible modulo $n$ exactement quand $\gcd(a,n)=1$ : l’identité de Bézout donne un inverse, et un inverse force le PGCD à valoir $1$.
+
+Plus généralement, $ax\equiv b\pmod n$ admet une solution si et seulement si $d=\gcd(a,n)$ divise $b$. Lorsque c’est le cas, diviser l’égalité entière correspondante par $d$, donc réduire aussi le module à $n/d$. On résout alors avec un coefficient inversible.
+
+\section*{Congruences simultanées et puissances}
+Si $m$ et $n$ sont premiers entre eux, deux congruences modulo $m$ et modulo $n$ déterminent une classe unique modulo $mn$. Écrire $x=a+mk$ pour satisfaire la première, puis utiliser l’inverse de $m$ modulo $n$ dans la seconde. L’unicité vient du fait qu’une différence divisible par $m$ et par $n$ est divisible par $mn$.
+
+Dans $\mathbb Z/p\mathbb Z$ pour $p$ premier, les classes non nulles forment un groupe de cardinal $p-1$. L’ordre d’une classe y divise $p-1$. On obtient $a^{p-1}\equiv1\pmod p$ pour $p\nmid a$, ce qui permet de réduire certains exposants.
+
+\section*{Polynômes, idéaux et algèbres}
+Dans $\mathbb K[X]$, la division par un polynôme non nul donne un reste de degré strictement plus petit. Choisir dans un idéal non nul un polynôme unitaire de degré minimal montre que l’idéal est engendré par ce polynôme. Appliquer la division euclidienne et la propriété d’idéal exactement comme pour les entiers.
+
+Une $\mathbb K$-algèbre possède à la fois une structure d’espace vectoriel sur $\mathbb K$ et une multiplication bilinéaire compatible. Les matrices carrées en donnent un exemple, dont la multiplication est en général non commutative. Dans une identité avec des matrices, conserver l’ordre des facteurs.
+
+\section*{Exemple et méthode CNC}
+Pour inverser $11$ modulo $28$, les divisions $28=2\times11+6$, $11=6+5$, $6=5+1$ donnent $1=2\times28-5\times11$. Ainsi $-5$, ou $23$ modulo $28$, est l’inverse voulu. Dans un problème de morphismes, identifier le neutre d’arrivée pour écrire le noyau. Dans un problème de divisibilité, chercher un générateur ou un PGCD avant tout développement.
+
+\section*{Fiche de révision}
+Sous-groupe : non-vacuité et stabilité par $xy^{-1}$. Noyau trivial : morphisme injectif. Unité modulo $n$ : PGCD égal à $1$. Idéal engendré par deux éléments : remonter Euclide. Congruences : tenir compte du module lorsqu’on divise. Matrices : conserver l’ordre des produits.
+
+
+\end{document}

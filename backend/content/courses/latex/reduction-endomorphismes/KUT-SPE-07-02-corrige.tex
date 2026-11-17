@@ -1,0 +1,29 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / KUT-SPE-07-02 / Corrigé}\par
+{\LARGE\bfseries Obstruction à la diagonalisation}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Multiplicité et noyau}
+Le polynôme caractéristique est $(X-1)^2$. On a $(A-I)(x,y)^\top=(y,0)^\top$. Ainsi $E_1=\operatorname{Vect}((1,0)^\top)$.
+
+\section*{Conclusion}
+La seule valeur propre fournit une droite. Deux vecteurs propres ne peuvent donc constituer une base de dimension deux. La matrice est triangulaire mais non diagonalisable.
+
+\bigskip
+{\footnotesize Adaptation française par Nexora CPGE. Source : Ken Kuttler (Lyryx),
+\href{https://math.libretexts.org/Bookshelves/Linear_Algebra/A_First_Course_in_Linear_Algebra_(Kuttler)/07\%253A_Spectral_Theory/7.02\%253A_Diagonalization}{\textit{A First Course in Linear Algebra}}, § 7.2, exemple 2.
+\href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}.}
+\end{document}

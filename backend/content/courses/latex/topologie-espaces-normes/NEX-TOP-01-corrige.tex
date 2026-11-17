@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / NEX-TOP-01 / Corrigé}\par
+{\LARGE\bfseries Un losange incliné}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Norme et constantes}
+La transformation $(x,y)\mapsto(u,v)$ est linéaire et inversible. Elle transporte la norme $1$. On a $N(x,y)\le |x|+3|y|\le4\|(x,y)\|_\infty$. De même $|y|\le N$ et $|x|=|u-2v|\le2(|u|+|v|)=2N$.
+
+\section*{Optimalité et sommets}
+Les quotients $N/\|\cdot\|_\infty$ valent $4$ en $(1,1)$ et $1/2$ en $(-2,1)$. Les meilleures constantes sont donc $a=1/2$ et $b=4$. Les sommets du losange $|u|+|v|\le1$ deviennent $(1,0)$, $(-1,0)$, $(-2,1)$ et $(2,-1)$.
+
+
+\end{document}

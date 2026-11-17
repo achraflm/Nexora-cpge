@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / NEX-TOP-02 / Corrigé}\par
+{\LARGE\bfseries Mesurer la taille d’une fonction}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Norme et majoration}
+La positivité, l’homogénéité et la sous-additivité découlent du module et de l’intégrale. Si $f$ est non nulle, sa continuité donne un sous-intervalle de longueur positive où $|f|$ est minorée par un réel strictement positif. Comme $1+t\ge1$, on a $N(f)>0$. En intégrant $(1+t)|f(t)|\le(1+t)M(f)$, on trouve $N(f)\le3M(f)/2$, avec égalité pour la constante $1$.
+
+\section*{Absence de minoration uniforme}
+Pour $f_n(t)=t^n$, $M(f_n)=1$ alors que $N(f_n)=1/(n+1)+1/(n+2)\to0$. Toute minoration $aM\le N$ avec $a>0$ échoue. Les deux normes ne sont donc pas équivalentes.
+
+
+\end{document}

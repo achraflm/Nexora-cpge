@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / NEX-CIR-05 / Corrigé}\par
+{\LARGE\bfseries Influence du voltmètre}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Tension sans appareil}
+L’équation $(9-V_B)/60=V_B/30$ donne $V_B=3\,\mathrm V$.
+
+\section*{Tension lue et écart}
+La loi des nœuds devient $(9-V_B)/60=V_B/30+V_B/90$. Après multiplication par $180$, $27-3V_B=8V_B$, soit $V_B=27/11\,\mathrm V\simeq2{,}45\,\mathrm V$. L’écart relatif signé vaut $-2/11\simeq-18{,}2\,\%$. Le courant supplémentaire dans le voltmètre explique la baisse.
+
+
+\end{document}

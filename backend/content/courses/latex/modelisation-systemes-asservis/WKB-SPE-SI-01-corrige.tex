@@ -1,0 +1,32 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / WKB-SPE-SI-01 / Corrigé}\par
+{\LARGE\bfseries Réduire la boucle de retour unitaire}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Équations du schéma}
+Le comparateur donne $E=R-Y$ et la chaîne directe donne $Y=GE$.
+
+\section*{Sortie en boucle fermée}
+On obtient $Y=GR-GY$, donc $(1+G)Y=GR$ et $Y/R=G/(1+G)$.
+
+\section*{Fonction d’écart}
+En divisant l’équation du comparateur par $R$, il reste $E/R=1-G/(1+G)=1/(1+G)$. Si le gain de boucle en régime permanent est grand et que la boucle est stable, l’écart statique normalisé devient petit.
+
+\bigskip
+{\footnotesize Adaptation française par Nexora CPGE. Source : Contributeurs de Wikibooks,
+\href{https://en.wikibooks.org/wiki/Control_Systems/Feedback_Loops\#Feedback_Loop_Transfer_Function}{\textit{Control Systems}}, Feedback Loops, dérivation du transfert de boucle.
+\href{https://creativecommons.org/licenses/by-sa/4.0/}{CC BY-SA 4.0}.}
+\end{document}

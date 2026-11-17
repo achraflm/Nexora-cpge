@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Folder,
@@ -15,8 +15,6 @@ import {
   CheckCircle,
   Clock,
   Sparkle,
-  DownloadSimple,
-  UploadSimple,
   Paperclip,
   Trash,
   PencilSimple,
@@ -38,6 +36,10 @@ import {
   ShareNetwork,
 } from '@phosphor-icons/react'
 import { MathFormula } from '@/components/MathFormula'
+import { DepositedPochettes } from '@/components/DepositedPochettes'
+import { PochetteDocuments } from '@/components/PochetteDocuments'
+import { useSessionUser } from '@/components/SessionProvider'
+import { loadPochetteWorkspace, savePochetteWorkspace } from '@/lib/pochette-storage'
 
 // --------------------------------------------------------------------------
 // TYPES & DATA STRUCTURES
@@ -455,6 +457,42 @@ export interface PochettesWorkspaceProps {
   onBackToDashboard?: () => void
 }
 
+type WorkspaceData = { folders: PochetteFolder[]; pages: NotionPage[] }
+
+function PochetteWorkspaceStorage({ folders, pages, setFolders, setPages }: WorkspaceData & {
+  setFolders: Dispatch<SetStateAction<PochetteFolder[]>>
+  setPages: Dispatch<SetStateAction<NotionPage[]>>
+}) {
+  const { id: userId } = useSessionUser()
+  const [ready, setReady] = useState(false)
+  const [failed, setFailed] = useState(false)
+
+  useEffect(() => {
+    let mounted = true
+    loadPochetteWorkspace<WorkspaceData>(userId).then(stored => {
+      if (!mounted) return
+      if (stored) {
+        setFolders(current => current === INITIAL_POCHETTES ? stored.folders : current)
+        setPages(current => current === INITIAL_PAGES ? stored.pages : current)
+      }
+      setReady(true)
+    }).catch(() => { if (mounted) setFailed(true) })
+    return () => { mounted = false }
+  }, [userId, setFolders, setPages])
+
+  useEffect(() => {
+    if (!ready) return
+    let current = true
+    savePochetteWorkspace(userId, { folders, pages }).then(
+      () => { if (current) setFailed(false) },
+      () => { if (current) setFailed(true) },
+    )
+    return () => { current = false }
+  }, [ready, userId, folders, pages])
+
+  return failed ? <p role="status" className="p-3 text-sm text-amber-800 dark:text-amber-200">Impossible d’enregistrer les fiches de la pochette dans ce navigateur.</p> : null
+}
+
 // --------------------------------------------------------------------------
 // COMPONENT
 // --------------------------------------------------------------------------
@@ -633,34 +671,6 @@ export function PochettesWorkspace({ onBackToDashboard }: PochettesWorkspaceProp
     setSelectedPageId(newPage.id)
   }
 
-  // Handle PDF Upload to active page
-  const handleUploadPdf = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    const newDoc: AttachedPdfDoc = {
-      id: `pdf-${Date.now()}`,
-      name: file.name,
-      size: `${(file.size / (1024 * 1024)).toFixed(1)} Mo`,
-      type: file.name.toLowerCase().includes('corr') ? 'corrigé' : 'énoncé',
-      year: '2025',
-      concours: 'CNC',
-    }
-
-    setPages((prev) =>
-      prev.map((p) =>
-        p.id === activePage.id
-          ? {
-              ...p,
-              attachedPdfs: [...p.attachedPdfs, newDoc],
-              updatedAt: 'À l’instant',
-            }
-          : p
-      )
-    )
-    alert(`Le document « ${file.name} » a été rattaché avec succès à cette fiche !`)
-  }
-
   // Update Page Field
   const updateActivePage = (fields: Partial<NotionPage>) => {
     setPages((prev) =>
@@ -670,6 +680,7 @@ export function PochettesWorkspace({ onBackToDashboard }: PochettesWorkspaceProp
 
   return (
     <div className="flex-1 flex flex-col bg-[#f3f6fc] text-slate-800 dark:bg-[#070b14] dark:text-slate-100 font-sans selection:bg-indigo-500/30 selection:text-white transition-colors duration-200">
+      <PochetteWorkspaceStorage folders={folders} pages={pages} setFolders={setFolders} setPages={setPages} />
       {/* SVG Clip Path Definitions for 3D Glass Folders */}
       <svg className="absolute h-0 w-0 overflow-hidden" aria-hidden="true" focusable="false">
         <defs>
@@ -698,15 +709,15 @@ export function PochettesWorkspace({ onBackToDashboard }: PochettesWorkspaceProp
                     </span>
                     <span className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
                       <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-                      <span>Synchronisation Cloud active</span>
+                      <span>Stockage dans ce navigateur</span>
                     </span>
                   </div>
                   <h1 className="mt-2 text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
                     <FolderOpen size={30} weight="fill" className="text-indigo-600 dark:text-indigo-400" />
-                    <span>Mes Pochettes de Révision 3D</span>
+                    <span>Mes Pochettes de Révision</span>
                   </h1>
                   <p className="mt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
-                    Organisez vos fiches de cours, énoncés CNC et synthèses rédigées dans des dossiers interactifs en verre 3D, puis accédez à votre espace de travail Notion.
+                    Organisez vos fiches de cours, énoncés CNC et synthèses rédigées dans des dossiers, puis accédez à votre espace de travail.
                   </p>
                 </div>
 
@@ -783,6 +794,7 @@ export function PochettesWorkspace({ onBackToDashboard }: PochettesWorkspaceProp
 
           {/* 3D Glass Folders Grid */}
           <div className="mx-auto max-w-7xl px-6 py-10 w-full flex-1">
+            {subjectFilter === 'all' && <DepositedPochettes search={searchQuery} />}
             {filteredFolders.length === 0 ? (
               <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 dark:border-white/10 py-16 text-center">
                 <Folder size={44} weight="thin" className="text-slate-400 dark:text-slate-500" />
@@ -1186,6 +1198,8 @@ export function PochettesWorkspace({ onBackToDashboard }: PochettesWorkspaceProp
                   </div>
                 )}
 
+                <PochetteDocuments key={activePage.id} pageId={activePage.id} folderTitle={activeFolder.title} />
+
                 {/* Notion Document Content: Either Markdown Editor or Live Render */}
                 {isEditingContent ? (
                   <div className="space-y-4">
@@ -1265,29 +1279,14 @@ export function PochettesWorkspace({ onBackToDashboard }: PochettesWorkspaceProp
                 )}
 
                 {/* Attached CNC PDFs & Documents Section */}
-                <div className="pt-8 border-t border-slate-200 dark:border-white/10 space-y-4">
+                {activePage.attachedPdfs.length > 0 && <div className="pt-8 border-t border-slate-200 dark:border-white/10 space-y-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div>
                       <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                         <FilePdf size={18} weight="fill" className="text-rose-500 dark:text-rose-400" />
                         <span>Sujets &amp; Corrigés CNC Rattachés ({activePage.attachedPdfs.length})</span>
                       </h4>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        Importez vos énoncés officiels et rapports de jury au format PDF.
-                      </p>
                     </div>
-
-                    {/* Import PDF Trigger */}
-                    <label className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-[#3978F6] px-3.5 py-2 text-xs font-bold text-white shadow-md hover:brightness-110 transition cursor-pointer">
-                      <UploadSimple size={15} weight="bold" />
-                      <span>Importer un PDF CNC</span>
-                      <input
-                        type="file"
-                        accept=".pdf"
-                        onChange={handleUploadPdf}
-                        className="hidden"
-                      />
-                    </label>
                   </div>
 
                   {/* PDFs Grid */}
@@ -1311,20 +1310,11 @@ export function PochettesWorkspace({ onBackToDashboard }: PochettesWorkspaceProp
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-1 shrink-0">
-                          <button
-                            type="button"
-                            onClick={() => alert(`Téléchargement du document CNC : ${pdf.name}`)}
-                            className="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-200/60 dark:text-slate-300 dark:hover:text-white dark:hover:bg-white/10 transition"
-                            title="Télécharger"
-                          >
-                            <DownloadSimple size={15} weight="bold" />
-                          </button>
-                        </div>
+                        {pdf.url && <a href={pdf.url} download className="text-xs font-semibold underline">Télécharger</a>}
                       </div>
                     ))}
                   </div>
-                </div>
+                </div>}
               </div>
             </div>
           </div>

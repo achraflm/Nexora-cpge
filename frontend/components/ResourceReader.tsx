@@ -14,5 +14,8 @@ export function ResourceReader({resource,onBack,onReport}:{resource:EducationalR
   },[resource.id,item.conversion])
   if(item.conversion!=='READY')return <section className="glowing-card mx-auto my-8 max-w-3xl rounded-2xl p-8"><button onClick={onBack} className="ui-button-secondary">Retour au catalogue</button><h1 className="my-5 text-2xl font-bold">{item.title}</h1><p role="status">{item.conversion==='FAILED'?item.conversionError:'Préparation du document en cours… Cette page se met à jour automatiquement.'}</p>{error && <p role="alert">{error}</p>}<p className="mt-4 text-sm text-slate-500">{item.conversion==='FAILED'?'L’administration peut corriger le fichier ou relancer sa conversion.':'Vous pouvez revenir au catalogue pendant la conversion.'}</p></section>
   const document={title:item.title,type:item.type,level:item.level,sourceName:`${item.track} · ${item.subject.name} · ${item.format}`,localPdfUrl:`/api/resources/${item.id}/file`} as CourseDocument
-  return <CoursePdfReader document={document} onBack={onBack} onReport={onReport} allowDownload={item.allowDownload} downloadUrl={`/api/resources/${item.id}/file?download=1`} />
+  return <CoursePdfReader document={document} onBack={onBack} onReport={onReport} allowDownload={item.allowDownload} downloadUrl={`/api/resources/${item.id}/file?download=1`} studyDocument={{
+    section: 'ressources', documentId: item.id, part: item.type === 'COURSE' ? 'course' : 'td',
+    title: item.title, subjectCode: item.subject.code === 'CHEM' ? 'PHYS' : item.subject.code,
+  }} />
 }

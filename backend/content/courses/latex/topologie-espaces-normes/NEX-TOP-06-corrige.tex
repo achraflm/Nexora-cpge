@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / NEX-TOP-06 / Corrigé}\par
+{\LARGE\bfseries Deux domaines séparés par les axes}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Composantes de A}
+L’abscisse est continue le long d’un chemin et l’égalité $x=0$ est impossible dans $A$. Il faut donc rester dans le même quadrant. Pour deux points du quadrant positif, soit $P$ le point défini par les maxima coordonnée par coordonnée. Chaque segment reliant l’un des points à $P$ a des coordonnées positives qui ne diminuent pas en avançant vers $P$. Le produit reste supérieur à $1$. La symétrie $(x,y)\mapsto(-x,-y)$ donne des chemins dans le quadrant négatif. Ces deux parties sont donc exactement les deux composantes.
+
+\section*{Chemins dans B}
+Pour $(x,y)\in B$ et $0\le t\le1$, le produit des coordonnées de $(tx,ty)$ est $t^2xy<1$. Si $xy\le0$, il reste non positif. Si $0<xy<1$, il est au plus $xy$. Le segment vers l’origine reste dans $B$. Deux points se joignent donc par concaténation de leurs deux segments vers l’origine.
+
+
+\end{document}

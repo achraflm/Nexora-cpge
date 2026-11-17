@@ -1,0 +1,36 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+\makeatletter
+\def\@oddfoot{\footnotesize Download for free at \url{https://openstax.org/details/books/university-physics-volume-2}.\hfil\thepage}
+\let\@evenfoot\@oddfoot
+\makeatother
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / OST-SPE-13-02 / Corrigé}\par
+{\LARGE\bfseries Spire circulaire dans un champ exponentiel}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Calcul en fonction du temps}
+Le flux est $\pi r^2 B(t)$. Sa dérivée étant négative, la f.é.m. vaut $e(t)=7{,}5\pi r^2e^{-5t}\,\mathrm V$, soit environ $5{,}89e^{-5t}\,\mathrm V$.
+
+\section*{Applications numériques}
+La loi d’Ohm donne $i=e/10$. Les valeurs approchées sont
+\[ \begin{array}{c|ccc} t\,(\mathrm s)&0&0{,}050&1{,}0\\ \hline e\,(\mathrm V)&5{,}89&4{,}59&0{,}0397\\ i\,(\mathrm A)&0{,}589&0{,}459&0{,}00397 \end{array}. \]
+
+\section*{Sens et ordre de grandeur}
+Tous les courants sont positifs dans l’orientation annoncée. Le champ qu’ils créent est sortant, ce qui s’oppose à la diminution du champ excitateur. Lorsque la variation du flux s’éteint, le courant tend vers zéro.
+
+\bigskip
+{\footnotesize Adaptation française par Nexora CPGE. Source : Samuel J. Ling, Jeff Sanny et William Moebs (OpenStax, Rice University),
+\href{https://d3bxy9euw4e147.cloudfront.net/oscms-prod/media/documents/UniversityPhysicsVolume2-OP.pdf\#page=598}{\textit{University Physics Volume 2, édition 2018}}, § 13.2, exemple 13.2, p. 588–589.
+\href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}.}
+\end{document}

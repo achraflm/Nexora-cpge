@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / NEX-TOP-03 / Corrigé}\par
+{\LARGE\bfseries Au-dessus d’une parabole tronquée}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Intérieur}
+La partie $0<x<2$ et $y>x^2$ est ouverte par continuité des fonctions coordonnées et de $(x,y)\mapsto y-x^2$. Elle est incluse dans $A$. Quand $x=2$, chaque boule contient un point d’abscisse supérieure à $2$. L’intérieur est donc exactement cet ouvert.
+
+\section*{Adhérence et frontière}
+Le fermé défini par $0\le x\le2$ et $y\ge x^2$ contient $A$. Pour tout point $(x,y)$ de ce fermé, poser $x_n=(1-1/n)x+1/n$ et $y_n=\max(y,x_n^2)+1/n$ pour $n\ge2$. Ces points sont dans $A$ et convergent vers $(x,y)$. On obtient ainsi l’adhérence. En retirant l’intérieur, il reste l’arc $y=x^2$ pour $0\le x\le2$ et les deux demi-droites verticales $x=0$, $y\ge0$ et $x=2$, $y\ge4$. Le point $(2,5)$ appartient à $A$ et $(1,1)$ lui est extérieur.
+
+
+\end{document}

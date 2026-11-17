@@ -1,0 +1,80 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / Cours}\par
+{\LARGE\bfseries Réduction des endomorphismes}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Objectifs et prérequis}
+On travaille sur un espace de dimension finie sur $\mathbb R$ ou $\mathbb C$. Revoir la résolution de systèmes, le déterminant et les matrices de changement de base. Le choix du corps peut changer la réponse.
+
+\section*{Éléments propres}
+Un vecteur propre de $A$ est un vecteur $v\ne0$ tel que $Av=\lambda v$. Le sous-espace propre associé à $\lambda$ est $E_\lambda=\ker(A-\lambda I)$. La somme des sous-espaces propres de valeurs distinctes est directe.
+
+Pour le montrer, supposer $\sum_j v_j=0$ avec $v_j\in E_{\lambda_j}$. Appliquer le produit des $A-\lambda_j I$ en omettant un seul indice $k$. Il reste un scalaire non nul multipliant $v_k$.
+
+\section*{Polynôme caractéristique et multiplicités}
+Les valeurs propres sont les racines dans le corps de base de $\chi_A(X)=\det(XI-A)$. La multiplicité algébrique est l’ordre de la racine. Compléter une base de $E_\lambda$ en une base de tout l’espace donne un bloc diagonal $\lambda I$ suivi d’un bloc complémentaire. On en déduit que $\dim E_\lambda$ ne dépasse pas la multiplicité algébrique.
+
+Le coefficient de $X^{n-1}$ vaut $-\operatorname{tr}A$ et le coefficient constant vaut $(-1)^n\det A$. Ces contrôles détectent des erreurs de calcul.
+
+\section*{Diagonalisation et construction d’une base}
+La matrice $A$ est diagonalisable si elle admet une base de vecteurs propres. Écrire cette base en colonnes dans $P$ et placer les valeurs propres dans le même ordre dans $D$.
+
+\[ AP=PD\quad\Longleftrightarrow\quad P^{-1}AP=D. \]
+
+La première égalité se vérifie colonne par colonne. Si le polynôme caractéristique est scindé, comparer la somme des dimensions des noyaux à $n$. Si le spectre contient $n$ valeurs distinctes, la somme a déjà dimension $n$.
+
+\section*{Polynômes annulateurs}
+Cayley–Hamilton donne $\chi_A(A)=0$. Un polynôme annulateur est un polynôme $Q$ tel que $Q(A)=0$. Si $Q$ est scindé à racines simples, les polynômes de Lagrange $L_j$ de ses racines vérifient $\sum_j L_j=1$ et $(X-\lambda_j)L_j$ est divisible par $Q$. Ainsi $v=\sum_j L_j(A)v$ décompose tout vecteur en vecteurs des sous-espaces propres.
+
+Réciproquement, le produit des $X-\lambda$ sur les valeurs propres distinctes annule toute matrice diagonalisable. Une matrice réelle telle que $A^2=-I$ peut être diagonalisable sur $\mathbb C$, alors que son spectre réel est vide.
+
+\section*{Trigonalisation}
+Un polynôme caractéristique scindé assure la trigonalisation. Choisir un vecteur propre, le compléter en une base, puis procéder par récurrence sur le bloc de taille $n-1$. Une base triangulaire ne donne pas nécessairement une base de vecteurs propres. Une matrice triangulaire livre les valeurs propres sur sa diagonale.
+
+\section*{Exemple et méthode CNC}
+Si $A^2=3A-2I$, le polynôme $(X-1)(X-2)$ permet de conclure sans déterminant. Les projecteurs sur les deux sous-espaces sont $2I-A$ et $A-I$. Pour $k\ge0$, on obtient directement
+\[ A^k=(2I-A)+2^k(A-I). \]
+En général, utiliser $A^k=PD^kP^{-1}$ seulement après avoir vérifié que $P$ est inversible. En présence d’une racine multiple, calculer le noyau plutôt que d’aligner plusieurs copies du même vecteur.
+
+\section*{Polynôme minimal et information spectrale}
+L’ensemble des polynômes qui annulent $A$ est un idéal de $\mathbb K[X]$, non nul par Cayley–Hamilton. Son générateur unitaire est le polynôme minimal $\mu_A$. Il divise chaque polynôme annulateur, donc $\chi_A$. Pour une valeur propre $\lambda$ et un vecteur propre $v\ne0$, $Q(A)v=Q(\lambda)v$. Toute valeur propre est donc racine de $\mu_A$.
+
+Un bon polynôme annulateur suffit pour obtenir de l’information. Quand $A^2=I$, le polynôme $X^2-1$ donne une diagonalisation sur $\mathbb R$ et $\mathbb C$. La caractéristique permet de compter les multiplicités si elles sont nécessaires.
+
+\section*{Projecteurs spectraux et puissances}
+Si $\lambda_1,\ldots,\lambda_r$ sont les valeurs propres d’une matrice diagonalisable, les polynômes de Lagrange donnent
+\[ P_j=\prod_{k\ne j}\frac{A-\lambda_k I}{\lambda_j-\lambda_k},\qquad
+A^n=\sum_{j=1}^r\lambda_j^nP_j\quad(n\ge1). \]
+Sur $E_{\lambda_j}$, $P_j$ agit comme l’identité. Sur les autres espaces propres, il agit comme zéro. On obtient $\sum_jP_j=I$ et $P_iP_j=0$ pour $i\ne j$. Pour $n=0$, utiliser directement $A^0=I$. Si une valeur propre est nulle, les puissances négatives sont exclues.
+
+\section*{Sous-espaces stables et commutation}
+Si $AB=BA$, alors $B$ préserve chaque espace propre de $A$ : pour $v\in E_\lambda$, $A(Bv)=B(Av)=\lambda Bv$. Si $A$ est diagonalisable à spectre simple, chaque espace propre est une droite. Une matrice qui commute avec $A$ est alors diagonale dans la même base. Avec des valeurs répétées, il reste des blocs de taille supérieure à un.
+
+Pour résoudre $AX=XA$, changer de base une seule fois, résoudre l’équation avec une matrice diagonale ou par blocs, puis revenir à la base initiale si nécessaire.
+
+\section*{Puissances, récurrences et partie nilpotente}
+Pour $u_{n+1}=Au_n$, la solution est $u_n=A^nu_0$. En base propre, chaque coordonnée évolue comme une suite géométrique. Si la matrice est seulement triangulaire, une valeur propre répétée peut faire apparaître un facteur polynomial en $n$. Par exemple, si $A=\lambda I+N$ avec $N^2=0$, alors pour $\lambda\ne0$
+\[ A^n=\lambda^n I+n\lambda^{n-1}N\qquad(n\ge1). \]
+Le binôme est valable ici parce que $\lambda I$ commute avec $N$. Contrôler la formule au premier rang avant de l’utiliser pour une limite.
+
+\section*{Fiche de révision}
+Préciser le corps, calculer ou reconnaître le spectre, obtenir les noyaux, puis compter leurs dimensions. Si un polynôme annulateur simple est déjà donné, exploiter cette information avant de calculer un déterminant. Vérifier $AP=PD$ et l’ordre des colonnes.
+
+\bigskip
+{\footnotesize Adaptation française par Nexora CPGE. Source : Ken Kuttler (Lyryx),
+\href{https://math.libretexts.org/Bookshelves/Linear_Algebra/A_First_Course_in_Linear_Algebra_(Kuttler)/07\%253A_Spectral_Theory/7.02\%253A_Diagonalization}{\textit{A First Course in Linear Algebra}}.
+\href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}.}
+\end{document}

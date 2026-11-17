@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / NEX-SLC-06 / Corrigé}\par
+{\LARGE\bfseries Choisir le plus petit gain conforme au cahier des charges}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Deux inégalités}
+Le transfert est $K/(p+4+K)$ et son pôle est négatif. La constante de temps $1/(4+K)$ impose $K\ge6$. L’écart permanent $1-K/(4+K)=4/(4+K)$ impose $K\ge16$.
+
+\section*{Choix final}
+Le plus petit gain compatible est $16$. Il donne $\tau_f=0{,}050\,\mathrm s$ et un écart de $0{,}20$. La précision est la contrainte active.
+
+
+\end{document}

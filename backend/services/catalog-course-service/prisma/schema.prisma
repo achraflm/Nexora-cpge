@@ -130,6 +130,31 @@ model EducationalResource {
   @@map("educational_resources")
 }
 
+enum ChapterMaterialFormat {
+  LATEX
+  PDF
+}
+
+model ChapterMaterial {
+  id           String                 @id @default(uuid()) @db.Uuid
+  subject      SubjectCode
+  level        StudyLevel
+  chapterTitle String
+  type         ExternalResourceType
+  title        String                 @db.VarChar(200)
+  format       ChapterMaterialFormat
+  status       PublicationStatus      @default(DRAFT)
+  latex        String?
+  pdf          Bytes?
+  fileName     String?                @db.VarChar(200)
+  revision     Int                    @default(1)
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+
+  @@index([status, subject, level, chapterTitle])
+  @@map("chapter_materials")
+}
+
 /// studyLevel SUP | SPE : sert au filtrage, jamais a restreindre l'acces.
 model Chapter {
   id             String     @id @default(uuid()) @db.Uuid
@@ -212,6 +237,7 @@ model Lesson {
   summarySheetUrl      String?
   estimatedDurationMin Int
   orderIndex           Int
+  editorial            Json?
   chapter              Chapter    @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   exercises            Exercise[]
 
@@ -230,6 +256,7 @@ model Exercise {
   solutionLatex   String
   statementPdfUrl String?
   corrPdfUrl      String?
+  editorial       Json?
   lesson          Lesson            @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   attempts        ExerciseAttempt[]
 

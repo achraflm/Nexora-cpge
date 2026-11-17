@@ -47,6 +47,7 @@ import {
 } from '@phosphor-icons/react'
 import { Bold, Italic, Code as CodeIcon, Copy, FolderOpen as LucideFolderOpen, Quote } from 'lucide-react'
 import { ResourceAdmin } from './ResourceAdmin'
+import { AdminChapterMaterials } from './AdminChapterMaterials'
 import { ClassicalLibraryAdmin } from './ClassicalLibraryAdmin'
 import { MathFormula } from './MathFormula'
 import { NexoraLogo } from './NexoraLogo'
@@ -725,9 +726,11 @@ export function AdminBackOffice({
 }) {
   // Navigation tabs: overview | messages | catalog | annales | qcm
   const [activeTab, setActiveTab] = useState<'overview' | 'messages' | 'accounts' | 'catalog' | 'classics' | 'annales' | 'qcm'>('overview')
+  const [catalogView, setCatalogView] = useState<'chapters' | 'resources'>('chapters')
+
   const { notify, feedback } = useUiFeedback()
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
-  const [pendingRemoval, setPendingRemoval] = useState<{ id: string; title: string; kind: 'course' | 'document' } | null>(null)
+  const [pendingRemoval, setPendingRemoval] = useState<{ id: string; title: string } | null>(null)
   const [mobileConversationOpen, setMobileConversationOpen] = useState(false)
   const clearError = (field: string) => setFormErrors((previous) => ({ ...previous, [field]: '' }))
   const validateFields = (fields: Record<string, string>) => {
@@ -740,6 +743,13 @@ export function AdminBackOffice({
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'auto' }) }, [activeTab])
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false)
   const [isAdminMenuOpen, setIsAdminMenuOpen] = useState<boolean>(false)
+
+  function openChapterEditor() {
+    setCatalogView('chapters')
+    setActiveTab('catalog')
+    setMobileMenuOpen(false)
+    requestAnimationFrame(() => document.getElementById('chapter-material-editor')?.scrollIntoView({ block: 'start' }))
+  }
 
   // Module Messages (Boîte de Réception Haute Densité) State
   const [conversations, setConversations] = useState<StudentConversation[]>(INITIAL_STUDENT_CONVERSATIONS)
@@ -897,7 +907,7 @@ export function AdminBackOffice({
 
   const handleDeleteCatalogCourse = (id: string) => {
     const course = catalogCourses.find((item) => item.id === id)
-    if (course) setPendingRemoval({ id, title: course.title, kind: 'course' })
+    if (course) setPendingRemoval({ id, title: course.title })
   }
 
   // 5 Concours Types Selector State
@@ -997,92 +1007,6 @@ export function AdminBackOffice({
     notify('Question ajoutée à la banque de QCM de démonstration.')
   }
 
-  // --------------------------------------------------------------------------
-  // Document Upload Feature (Cours, TD, Concours)
-  // --------------------------------------------------------------------------
-  const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
-  const uploadDialogRef = useRef<HTMLDialogElement>(null)
-  useEffect(() => {
-    const dialog = uploadDialogRef.current
-    if (showUploadModal) dialog?.showModal()
-    return () => dialog?.close()
-  }, [showUploadModal])
-  const [docType, setDocType] = useState<'COURS' | 'TD' | 'CONCOURS'>('COURS')
-  const [docTitle, setDocTitle] = useState<string>('')
-  const [docSubject, setDocSubject] = useState<string>('Mathématiques')
-  const [docLevel, setDocLevel] = useState<string>('Spé (2e année)')
-  const [docStream, setDocStream] = useState<string>('MP')
-  const [docFileName, setDocFileName] = useState<string>('')
-  const [docFileSize, setDocFileSize] = useState<string>('2.4 Mo')
-  const [uploadedDocsList, setUploadedDocsList] = useState<{
-    id: string
-    title: string
-    type: 'COURS' | 'TD' | 'CONCOURS'
-    subject: string
-    level: string
-    stream: string
-    fileName: string
-    fileSize: string
-    date: string
-  }[]>([
-    {
-      id: 'doc-1',
-      title: 'Polycopié de Cours — Espaces Préhilbertiens & Réduction',
-      type: 'COURS',
-      subject: 'Mathématiques',
-      level: 'Spé (2e année)',
-      stream: 'MP / PSI',
-      fileName: 'Cours_Hilbert_Reduction_2026.pdf',
-      fileSize: '3.4 Mo',
-      date: 'Hier à 16:30',
-    },
-    {
-      id: 'doc-2',
-      title: 'TD 04 — Séries entières & Formule de Stirling',
-      type: 'TD',
-      subject: 'Mathématiques',
-      level: 'Spé (2e année)',
-      stream: 'MP',
-      fileName: 'TD04_Series_Stirling.pdf',
-      fileSize: '1.2 Mo',
-      date: '15 Octobre 2026',
-    },
-    {
-      id: 'doc-3',
-      title: 'Épreuve Concours CNC Mathématiques I (Session 2025)',
-      type: 'CONCOURS',
-      subject: 'Mathématiques',
-      level: 'Session 2025',
-      stream: 'MP',
-      fileName: 'CNC_2025_Math1_MP_Officiel.pdf',
-      fileSize: '2.1 Mo',
-      date: '12 Octobre 2026',
-    },
-  ])
-
-  const handleUploadDocumentSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!validateFields({ 'document-title': !docTitle.trim() ? 'Indiquez le titre du document.' : '' })) return
-
-    const newDoc = {
-      id: `doc-${Date.now()}`,
-      title: docTitle.trim(),
-      type: docType,
-      subject: docSubject,
-      level: docLevel,
-      stream: docStream,
-      fileName: docFileName.trim() || `${docType.toLowerCase()}_${docSubject.toLowerCase()}_${Date.now()}.pdf`,
-      fileSize: docFileSize || '1.8 Mo',
-      date: 'À l’instant',
-    }
-
-    setUploadedDocsList([newDoc, ...uploadedDocsList])
-    setDocTitle('')
-    setDocFileName('')
-    setShowUploadModal(false)
-    notify(`« ${newDoc.title} » a été ajouté à la liste de démonstration.`)
-  }
-
   return (
     <div className="learning-shell admin-shell min-h-screen bg-transparent text-[#172033] dark:text-[#eaf2ff] selection:bg-blue-600 selection:text-white transition-colors duration-200">
       {/* ------------------------------------------------------------------ */}
@@ -1160,12 +1084,12 @@ export function AdminBackOffice({
             {/* Quick Document Upload CTA */}
             <button
               type="button"
-              onClick={() => setShowUploadModal(true)}
+              onClick={openChapterEditor}
               className="inline-flex items-center gap-1.5 rounded-lg bg-[#3978F6] px-2.5 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-blue-600 transition cursor-pointer"
-              title="Ajouter un document"
+              title="Ajouter au chapitre"
             >
               <UploadSimple size={14} weight="bold" />
-              <span className="hidden sm:inline">Document</span>
+              <span className="hidden sm:inline">Ajouter au chapitre</span>
             </button>
 
             {/* Quick Switch to Student View */}
@@ -1215,12 +1139,12 @@ export function AdminBackOffice({
                       type="button"
                       onClick={() => {
                         setIsAdminMenuOpen(false)
-                        setShowUploadModal(true)
+                        openChapterEditor()
                       }}
                       className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10 transition cursor-pointer"
                     >
                       <UploadSimple size={14} weight="bold" className="text-[#3978F6]" />
-                      <span>Uploader un document</span>
+                      <span>Ajouter au chapitre</span>
                     </button>
                     {onNavigateToStudentView && (
                       <button
@@ -1428,8 +1352,8 @@ export function AdminBackOffice({
                 { label: 'Questions QCM', val: '512', sub: 'Taux réussite moy. 67%', icon: Sparkle, color: 'text-amber-600 dark:text-amber-400' },
                 {
                   label: 'Documents',
-                  val: `${uploadedDocsList.length + 42}`,
-                  sub: 'Cours, TD & Concours',
+                  val: 'Cours & TD',
+                  sub: 'Contenus des chapitres',
                   icon: FileText,
                   color: 'text-emerald-600 dark:text-emerald-400',
                 },
@@ -1458,7 +1382,13 @@ export function AdminBackOffice({
         {/* TAB 3: CATALOGUE DES COURS & TRAVAUX DIRIGÉS (TD)                */}
         {/* ================================================================ */}
         {activeTab === 'accounts' && <AdminAccounts />}
-        {activeTab === 'catalog' && <ResourceAdmin />}
+        {activeTab === 'catalog' && <div className="space-y-6">
+          <nav aria-label="Catalogue pédagogique" className="flex flex-wrap gap-2">
+            <button type="button" className={catalogView === 'chapters' ? 'ui-button-primary' : 'ui-button-secondary'} aria-pressed={catalogView === 'chapters'} onClick={() => setCatalogView('chapters')}>Chapitres</button>
+            <button type="button" className={catalogView === 'resources' ? 'ui-button-primary' : 'ui-button-secondary'} aria-pressed={catalogView === 'resources'} onClick={() => setCatalogView('resources')}>Bibliothèque de ressources</button>
+          </nav>
+          {catalogView === 'chapters' ? <AdminChapterMaterials /> : <ResourceAdmin />}
+        </div>}
         {activeTab === 'classics' && <ClassicalLibraryAdmin />}
 
         {activeTab === 'annales' && (
@@ -2046,254 +1976,6 @@ export function AdminBackOffice({
       </main>
       )}
 
-      {/* ------------------------------------------------------------------ */}
-      {/* MODAL : UPLOAD DE DOCUMENTS (COURS, TD, CONCOURS)                  */}
-      {/* ------------------------------------------------------------------ */}
-      {showUploadModal && (
-        <dialog ref={uploadDialogRef} className="ui-upload-dialog" aria-labelledby="upload-dialog-title" onCancel={() => setShowUploadModal(false)}>
-          <div className="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-3xl border border-slate-200/80 bg-white p-6 shadow-2xl dark:border-white/10 dark:bg-[#0e192e] dark:text-white overflow-hidden">
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-slate-200 pb-4 dark:border-white/10 shrink-0">
-              <div className="flex items-center gap-2.5">
-                <div className="flex size-10 items-center justify-center rounded-2xl bg-[#3978F6]/15 text-[#3978F6]">
-                  <UploadSimple size={22} weight="bold" />
-                </div>
-                <div>
-                  <h3 id="upload-dialog-title" className="text-base font-bold text-slate-900 dark:text-white">
-                    Ajouter un document
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Spécifiez le type exact (Cours, TD ou Concours) et rattachez vos fichiers.
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                aria-label="Fermer la fenêtre" onClick={() => setShowUploadModal(false)}
-                className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 dark:hover:text-white transition cursor-pointer"
-              >
-                <X size={18} weight="bold" />
-              </button>
-            </div>
-
-            {/* Scrollable Form Content */}
-            <form noValidate onSubmit={handleUploadDocumentSubmit} className="flex-1 overflow-y-auto py-4 space-y-5 scrollbar-thin">
-              {/* Type Selection Tabs */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">
-                  1. Type de Document <span className="text-rose-500">*</span>
-                </label>
-                <div className="grid grid-cols-3 gap-2.5">
-                  {[
-                    {
-                      id: 'COURS' as const,
-                      label: 'Cours & Synthèses',
-                      desc: 'Polycopiés, fiches de synthèse, cours magistraux',
-                      icon: Books,
-                      activeColor: 'border-blue-500 bg-blue-500/10 text-blue-600 dark:text-blue-400',
-                    },
-                    {
-                      id: 'TD' as const,
-                      label: 'Travaux Dirigés (TD)',
-                      desc: 'Feuilles d’exercices, TD encadrés, devoirs',
-                      icon: FileText,
-                      activeColor: 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-                    },
-                    {
-                      id: 'CONCOURS' as const,
-                      label: 'Concours & Annales',
-                      desc: 'Épreuves officielles, corrigés, rapports',
-                      icon: Scroll,
-                      activeColor: 'border-purple-500 bg-purple-500/10 text-purple-600 dark:text-purple-400',
-                    },
-                  ].map((item) => {
-                    const isSelected = docType === item.id
-                    const Icon = item.icon
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => setDocType(item.id)}
-                        className={`flex flex-col items-center justify-center p-3 text-center rounded-2xl border-2 transition cursor-pointer ${
-                          isSelected
-                            ? item.activeColor
-                            : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:border-white/20'
-                        }`}
-                      >
-                        <Icon size={22} weight={isSelected ? 'fill' : 'bold'} className="mb-1.5" />
-                        <span className="text-xs font-bold">{item.label}</span>
-                        <span className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5">
-                          {item.desc}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {/* Document Title */}
-              <div>
-                <label htmlFor="document-title" className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                  Titre officiel du Document <span className="text-rose-500">*</span>
-                </label>
-                <input id="document-title" aria-invalid={!!formErrors['document-title']} aria-describedby={formErrors['document-title'] ? 'document-title-error' : undefined}
-                  type="text"
-                  required
-                  value={docTitle}
-                  onChange={(e) => { setDocTitle(e.target.value); clearError('document-title') }}
-                  placeholder="Ex : TD 05 — Réduction de Jordan et endomorphismes nilpotents"
-                  className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-[#3978F6] focus:outline-none focus:ring-1 focus:ring-[#3978F6] dark:border-white/15 dark:bg-black/30 dark:text-white dark:placeholder-slate-500"
-                />
-                  {formErrors['document-title'] && <p id="document-title-error" className="ui-field-error" role="alert">{formErrors['document-title']}</p>}
-              </div>
-
-              {/* Metadata row: Matière, Niveau, Filière */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div>
-                  <label htmlFor="document-subject" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Matière / Module
-                  </label>
-                  <select id="document-subject"
-                    value={docSubject}
-                    onChange={(e) => setDocSubject(e.target.value)}
-                    className="w-full rounded-xl border border-slate-300 bg-white p-2 text-xs text-slate-800 dark:border-white/15 dark:bg-[#070b14] dark:text-white"
-                  >
-                    <option value="Mathématiques">Mathématiques</option>
-                    <option value="Physique & Chimie">Physique & Chimie</option>
-                    <option value="Sciences Industrielles (SII)">Sciences Industrielles (SII)</option>
-                    <option value="Informatique">Informatique</option>
-                    <option value="Français & Philosophie">Français & Philosophie</option>
-                    <option value="Anglais">Anglais</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="document-level" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Niveau / Session
-                  </label>
-                  <select id="document-level"
-                    value={docLevel}
-                    onChange={(e) => setDocLevel(e.target.value)}
-                    className="w-full rounded-xl border border-slate-300 bg-white p-2 text-xs text-slate-800 dark:border-white/15 dark:bg-[#070b14] dark:text-white"
-                  >
-                    <option value="Spé (2e année)">Spé (2e année)</option>
-                    <option value="Sup (1re année)">Sup (1re année)</option>
-                    <option value="Session Concours 2026">Session Concours 2026</option>
-                    <option value="Session Concours 2025">Session Concours 2025</option>
-                    <option value="Session Concours 2024">Session Concours 2024</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="document-stream" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Filière
-                  </label>
-                  <select id="document-stream"
-                    value={docStream}
-                    onChange={(e) => setDocStream(e.target.value)}
-                    className="w-full rounded-xl border border-slate-300 bg-white p-2 text-xs text-slate-800 dark:border-white/15 dark:bg-[#070b14] dark:text-white"
-                  >
-                    <option value="Toutes filières">Toutes filières</option>
-                    <option value="MP">MP</option>
-                    <option value="PSI">PSI</option>
-                    <option value="PC">PC</option>
-                    <option value="TSI">TSI</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* File Attachment Dropzone */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                  Fichier source (PDF, ZIP, LaTeX)
-                </label>
-                <label className="ui-upload-zone flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 p-6 text-center dark:border-white/15 dark:bg-black/20 cursor-pointer">
-                  <input type="file" accept=".pdf,.zip,.tex" className="sr-only" aria-label="Sélectionner le fichier du document" onChange={(e) => {
-                    const file = e.target.files?.[0]
-                    if (file) { setDocFileName(file.name); setDocFileSize(`${(file.size / 1024 / 1024).toFixed(1)} Mo`) }
-                  }} />
-                  <div className="flex size-12 items-center justify-center rounded-full bg-blue-500/15 text-[#3978F6] mb-2">
-                    <FilePdf size={24} weight="fill" />
-                  </div>
-                  <p className="text-xs font-bold text-slate-800 dark:text-white">
-                    {docFileName ? docFileName : 'Choisir un fichier'}
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    Formats acceptés : PDF officiel, archive .ZIP, scripts LaTeX (.tex)
-                  </p>
-                  {docFileName && (
-                    <span className="mt-2 inline-flex items-center gap-1 rounded-md bg-emerald-500/15 px-2 py-0.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                      <Check size={12} weight="bold" /> Fichier prêt ({docFileSize})
-                    </span>
-                  )}
-                </label>
-              </div>
-
-              {/* Previously Uploaded Documents List */}
-              <div className="border-t border-slate-200 dark:border-white/10 pt-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 block mb-2">
-                  Documents Récemment Ajoutés ({uploadedDocsList.length}) :
-                </span>
-                <div className="max-h-40 overflow-y-auto space-y-2 pr-1 scrollbar-thin">
-                  {uploadedDocsList.map((doc) => (
-                    <div
-                      key={doc.id}
-                      className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-2.5 text-xs dark:border-white/10 dark:bg-white/5"
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <span
-                          className={`rounded-md px-1.5 py-0.5 text-xs font-bold uppercase ${
-                            doc.type === 'COURS'
-                              ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400'
-                              : doc.type === 'TD'
-                              ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
-                              : 'bg-purple-500/15 text-purple-600 dark:text-purple-400'
-                          }`}
-                        >
-                          {doc.type}
-                        </span>
-                        <span className="font-semibold text-slate-900 dark:text-white truncate">
-                          {doc.title}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0 font-mono text-xs text-slate-500 dark:text-slate-400">
-                        <span>{doc.fileSize}</span>
-                        <button
-                          type="button"
-                          onClick={() => setPendingRemoval({ id: doc.id, title: doc.title, kind: 'document' })}
-                          className="text-rose-500 hover:text-rose-700 p-1"
-                          title="Supprimer ce document"
-                        >
-                          <Trash size={13} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Submit Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-white/10">
-                <button
-                  type="button"
-                  onClick={() => setShowUploadModal(false)}
-                  className="rounded-xl border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/10 transition cursor-pointer"
-                >
-                  Annuler
-                </button>
-                <button
-                  type="submit"
-                  className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#3978F6] to-indigo-600 px-5 py-2 text-xs font-bold text-white shadow-md hover:brightness-110 transition cursor-pointer"
-                >
-                  <CheckCircle size={15} weight="bold" />
-                  <span>Ajouter le document</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </dialog>
-      )}
-
       {/* Document Preview Modal */}
       {previewDocModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 animate-in fade-in">
@@ -2559,8 +2241,7 @@ export function AdminBackOffice({
           title={pendingRemoval.title}
           onCancel={() => setPendingRemoval(null)}
           onConfirm={() => {
-            if (pendingRemoval.kind === 'course') setCatalogCourses((items) => items.filter((item) => item.id !== pendingRemoval.id))
-            else setUploadedDocsList((items) => items.filter((item) => item.id !== pendingRemoval.id))
+            setCatalogCourses((items) => items.filter((item) => item.id !== pendingRemoval.id))
             setPendingRemoval(null)
             notify('Le contenu a été retiré de la liste.')
           }}

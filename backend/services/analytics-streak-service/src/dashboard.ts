@@ -1,15 +1,23 @@
 import { prisma } from './db'
 import { daysBetween, localDate } from './streak'
 
-const subjects = { MATH: 'Mathématiques', PHYS: 'Physique', SI: 'Sciences de l’ingénieur', INFO: 'Informatique' }
+const subjects = { MATH: 'Mathématiques', PHYS: 'Physique-Chimie', SI: 'Sciences de l’ingénieur', INFO: 'Informatique', LANG: 'Langues' }
 
-export async function dashboard(userId: string) {
+export async function dashboard(userId: string, requestedYear?: number) {
   const today = localDate(new Date())
-  const start = new Date(`${today.slice(0, 4)}-01-01T00:00:00Z`)
-  const [logs, savedStreak] = await prisma.$transaction([
-    prisma.dailyActivityLog.findMany({ where: { userId, activityDate: { gte: start, lte: new Date(`${today}T00:00:00Z`) } }, orderBy: { activityDate: 'desc' } }),
+  const year = requestedYear ?? Number(today.slice(0, 4))
+  const start = new Date(Date.UTC(year, 0, 1))
+  const end = new Date(Date.UTC(year, 11, 31))
+  const todayDate = new Date(`${today}T00:00:00Z`)
+  const [logs, savedStreak, recentDocuments] = await prisma.$transaction([
+    prisma.dailyActivityLog.findMany({ where: { userId, activityDate: { gte: start, lte: end < todayDate ? end : todayDate } }, orderBy: { activityDate: 'desc' } }),
     prisma.userStreak.findUnique({ where: { userId } }),
-  ])
+    prisma.recentDocument.findMany({
+      where: { userId }, take: 4,
+      orderBy: [{ openedAt: 'desc' }, { section: 'asc' }, { documentId: 'asc' }, { part: 'asc' }],
+      select: { section: true, documentId: true, part: true, title: true, subjectCode: true, openedAt: true },
+    }),
+  ], { isolationLevel: 'RepeatableRead' })
   const totals = { studyMinutes: 0, lessonsRead: 0, exercisesSolved: 0, problemsWritten: 0, qcmCompleted: 0 }
   const bySubject = Object.entries(subjects).map(([code, name]) => ({ code, name, studyMinutes: 0, lessonsRead: 0, exercisesSolved: 0 }))
   const heatmap = new Map<string, number>()
@@ -24,9 +32,10 @@ export async function dashboard(userId: string) {
   }
   const lastActive = savedStreak?.lastActiveDate?.toISOString().slice(0, 10)
   return {
-    today, year: Number(today.slice(0, 4)), totals, subjects: bySubject,
-    streak: { current: lastActive && daysBetween(lastActive, today) <= 1 ? savedStreak!.currentStreak : 0, longest: savedStreak?.longestStreak || 0 },
+    today, year, totals, subjects: bySubject,
+    streak: { current: savedStreak && lastActive && lastActive <= today && daysBetween(lastActive, today) <= 1 ? savedStreak.currentStreak : 0, longest: savedStreak?.longestStreak || 0 },
     heatmap: [...heatmap].map(([date, minutes]) => ({ date, minutes })),
     recent: logs.slice(0, 8).map(log => ({ date: log.activityDate.toISOString().slice(0, 10), subject: subjects[log.subjectCode], minutes: log.studyMinutes, lessons: log.lessonsRead, exercises: log.exercisesSolved })),
+    recentDocuments: recentDocuments.map(({ subjectCode, ...document }) => ({ ...document, subject: subjects[subjectCode] })),
   }
 }

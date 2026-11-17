@@ -1,0 +1,29 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / NEX-LOG-06 / Corrigé}\par
+{\LARGE\bfseries Constituer un montant avec deux types de jetons}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Quatre bases}
+On réalise $18=7+7+4$, $19=7+4+4+4$, $20=5\times4$ et $21=3\times7$. Ces quatre cas couvrent les quatre classes modulo $4$.
+
+\section*{Hérédité forte}
+Pour $n\ge22$, l’entier $n-4$ appartient à $[18,n-1]$. Par l’hypothèse de récurrence forte, il est réalisable. L’ajout d’un jeton de valeur $4$ donne $n$.
+
+\section*{Montant impossible}
+Pour former $17$, on pourrait prendre zéro, un ou deux jetons de valeur $7$. Les restes seraient $17$, $10$ ou $3$, aucun ne pouvant être obtenu uniquement avec des jetons de valeur $4$.
+
+
+\end{document}

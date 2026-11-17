@@ -16,6 +16,21 @@ enum SubjectCode {
   PHYS
   SI
   INFO
+  LANG
+}
+
+enum DocumentSection {
+  cours
+  ressources
+  annales
+  problemes
+}
+
+enum DocumentPart {
+  course
+  td
+  statement
+  correction
 }
 
 model UserStreak {
@@ -42,4 +57,26 @@ model DailyActivityLog {
 
   @@unique([userId, activityDate, subjectCode])
   @@map("daily_activity_logs")
+}
+
+model RecentDocument {
+  userId      String          @db.Uuid
+  section     DocumentSection
+  documentId  String
+  part        DocumentPart
+  title       String
+  subjectCode SubjectCode
+  openedAt    DateTime
+
+  @@id([userId, section, documentId, part])
+  @@index([userId, openedAt(sort: Desc)])
+  @@map("recent_documents")
+}
+
+model ActivityReceipt {
+  userId String @db.Uuid
+  key    String
+
+  @@id([userId, key])
+  @@map("activity_receipts")
 }
