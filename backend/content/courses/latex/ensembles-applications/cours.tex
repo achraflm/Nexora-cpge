@@ -1,0 +1,73 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / Cours}\par
+{\LARGE\bfseries Ensembles et applications}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Éléments, parties et ensemble vide}
+Écrire $x\in E$ signifie que $x$ est un élément de $E$. Écrire $A\subset E$ signifie que tout élément de $A$ appartient à $E$. Le singleton $\{x\}$ est une partie de $E$ si et seulement si $x\in E$. L’ensemble vide $\varnothing$ est une partie de tout ensemble.
+
+L’ensemble $\mathcal P(E)$ rassemble les parties de $E$. Par exemple, pour $E=\{0,1\}$, on a $\mathcal P(E)=\{\varnothing,\{0\},\{1\},E\}$. Un ensemble fini de cardinal $n$ a $2^n$ parties : pour chaque élément, on choisit de l’inclure ou non.
+
+\section*{Décrire un ensemble et établir une égalité}
+On peut lister ses éléments ou écrire $\{x\in E\mid P(x)\}$, où $E$ borne le domaine et $P$ précise le critère. Une égalité d’ensembles se prouve par double inclusion : fixer un élément arbitraire du premier, puis du second. Une chaîne d’équivalences sur l’appartenance prouve simultanément les deux inclusions.
+
+Pour montrer qu’une inclusion est stricte, établir l’inclusion, puis donner un témoin qui appartient au plus grand ensemble seulement.
+
+\section*{Réunion, intersection et différence}
+L’intersection $A\cap B$ retient les éléments communs. La réunion $A\cup B$ retient les éléments d’au moins un des deux ensembles. La différence $A\setminus B$ ne retient que les éléments de $A$ qui n’appartiennent pas à $B$. Si $A\subset E$, son complémentaire relatif à $E$ est $E\setminus A$.
+
+La différence symétrique $A\triangle B=(A\setminus B)\cup(B\setminus A)$ exige exactement une appartenance. Attention à préciser l’ensemble de référence pour les compléments.
+
+\section*{Calcul ensembliste et partitions}
+La distributivité $A\cap(B\cup C)=(A\cap B)\cup(A\cap C)$ s’obtient en traduisant l’appartenance en connecteurs logiques. Les deux lois de De Morgan résultent de la même méthode.
+\[ (A\cup B)^c=A^c\cap B^c,\qquad (A\cap B)^c=A^c\cup B^c. \]
+Une partition de $E$ est une famille de parties non vides, deux à deux disjointes, dont la réunion est $E$. Par exemple, les couples d’entiers dont la somme est paire et ceux dont la somme est impaire forment une partition de $\mathbb Z^2$.
+
+\section*{Produit cartésien et fonctions}
+Le produit $E\times F$ est l’ensemble des couples $(x,y)$ avec $x\in E$ et $y\in F$. L’ordre des coordonnées compte. Une application $f:E\to F$ associe un unique $f(x)\in F$ à chaque $x\in E$. Une formule seule ne fixe ni le départ ni l’arrivée. Changer l’un de ces ensembles peut modifier l’injectivité ou la surjectivité.
+
+Le graphe d’une application est $\{(x,f(x))\mid x\in E\}$. Si plusieurs expressions définissent une fonction selon des cas, vérifier leur compatibilité lorsque les cas se chevauchent.
+
+\section*{Images directes et réciproques}
+Pour $A\subset E$, l’image directe est $f(A)=\{f(x)\mid x\in A\}$. Pour $B\subset F$, l’image réciproque est $f^{-1}(B)=\{x\in E\mid f(x)\in B\}$, y compris lorsque $f$ n’a pas d’application inverse.
+
+L’image réciproque préserve réunions, intersections et compléments. Par exemple,
+\[ x\in f^{-1}(B\cap C)\iff f(x)\in B\land f(x)\in C. \]
+L’image directe préserve les réunions. On a toujours $f(A\cap A')\subset f(A)\cap f(A')$. L’inclusion peut être stricte si deux éléments différents ont la même image, un dans chaque partie.
+
+\section*{Injection, surjection et bijection}
+Une application est injective si $f(a)=f(b)$ entraîne $a=b$. Elle est surjective sur $F$ si tout élément de $F$ a au moins un antécédent dans $E$. Elle est bijective si chaque élément de $F$ a exactement un antécédent. Pour tester les trois propriétés, résoudre $f(x)=y$ en précisant $y\in F$ et en gardant les contraintes sur $x$.
+
+Exemple. $x\mapsto x^2$ sur $\mathbb R$ n’est pas injective et n’atteint que les réels positifs ou nuls. La restriction à $[0,+\infty[$ avec le même ensemble d’arrivée est bijective, d’inverse $y\mapsto\sqrt y$.
+
+\section*{Composition et application réciproque}
+Pour $f:E\to F$ et $g:F\to G$, on définit $(g\circ f)(x)=g(f(x))$. Vérifier le type de chaque sortie avant de composer. La composition est associative. Elle préserve l’injectivité lorsque les deux facteurs sont injectifs, et la surjectivité lorsque les deux facteurs sont surjectifs.
+
+Pour une bijection $f$, l’inverse $f^{-1}:F\to E$ vérifie $f^{-1}\circ f=\operatorname{id}_E$ et $f\circ f^{-1}=\operatorname{id}_F$. L’inverse d’une composition de bijections inverse leur ordre : $(g\circ f)^{-1}=f^{-1}\circ g^{-1}$.
+
+\section*{Cardinaux finis}
+Si $A$ et $B$ sont finis, compter d’abord tous les éléments, puis enlever les éléments comptés deux fois dans le chevauchement.
+\[ |A\cup B|=|A|+|B|-|A\cap B|. \]
+Pour des ensembles finis de même cardinal, injection et surjection sont équivalentes : une injection fournit autant d’images distinctes qu’il y a d’éléments au départ, donc elle couvre l’arrivée. Ce raccourci n’est pas valable avec des ensembles infinis.
+
+\section*{Méthode CNC et erreurs classiques}
+Dans une preuve d’inclusion, prendre un élément, traduire son appartenance et suivre la définition jusqu’au but. Dans un problème sur une application, écrire les ensembles au-dessus des flèches et ne jamais confondre $f(A)$ avec $f^{-1}(A)$. Pour calculer une image, établir la contrainte nécessaire sur $y$, puis construire un antécédent pour montrer qu’elle est suffisante.
+
+\section*{Fiche de révision}
+Une égalité d’ensembles est une équivalence d’appartenance. Pour une fonction, existence d’antécédent signifie surjectivité, unicité au plus signifie injectivité. Les images réciproques respectent les opérations logiques sans exiger de bijection. Les identités de composition doivent être écrites sur leurs domaines respectifs.
+
+
+\end{document}

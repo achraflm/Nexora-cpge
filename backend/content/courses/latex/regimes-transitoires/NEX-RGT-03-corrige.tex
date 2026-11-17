@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / NEX-RGT-03 / Corrigé}\par
+{\LARGE\bfseries Charge depuis une tension non nulle}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Équation et état initial}
+On a $\tau=RC=0{,}47\,\mathrm s$, puis $u_C(t)=6-4e^{-t/\tau}$ en volts. À $0^+$, le courant vaut $(6-2)/R=0{,}40\,\mathrm{mA}$.
+
+\section*{Franchissement}
+La tension atteint $5\,\mathrm V$ quand $e^{-t/\tau}=1/4$, soit $t=0{,}47\ln4\simeq0{,}65\,\mathrm s$. La tension croît et le seuil est inférieur à sa limite, donc l’instant est unique.
+
+
+\end{document}

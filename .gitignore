@@ -3,6 +3,8 @@
 /backend/private-resources/
 /backend/.test-tools/
 /backend/.test-fixtures/
+/.nexora-vision/
+/tmp/
 
 # Dependencies
 node_modules/

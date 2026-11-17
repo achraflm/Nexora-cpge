@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / NEX-RED-05 / Corrigé}\par
+{\LARGE\bfseries Réduire et inverser à l’aide d’un polynôme annulateur}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Spectre et projecteurs}
+Le polynôme annulateur $(X-2)(X+1)$ est scindé à racines simples, donc $A$ est diagonalisable. Les projecteurs sont $(A+I)/3$ sur $E_2$ et $(2I-A)/3$ sur $E_{-1}$. Si une racine n’est pas une valeur propre, le projecteur correspondant est nul.
+
+\section*{Inverse}
+On a $A(A-I)=2I=(A-I)A$. Ainsi $A^{-1}=(A-I)/2$.
+
+
+\end{document}

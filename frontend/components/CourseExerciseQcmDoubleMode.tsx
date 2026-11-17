@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import {
   FilePdf,
   DownloadSimple,
@@ -41,7 +41,13 @@ import {
 import { MathFormula } from './MathFormula'
 import { PdfCourseChapterCard } from './PdfCourseChapterCard'
 import dynamic from 'next/dynamic'
-import { getPdfCourseChapters, type CourseDocument } from '@/lib/pdf-course-chapters'
+import { getPdfCourseChapters, pdfCourseChapters, type CourseDocument } from '@/lib/pdf-course-chapters'
+import { sendStudyActivity, studySubjects, useStudyDocument, type DocumentReference, type StudySubject } from '@/lib/study-activity'
+import { getPublishedCourses, publishedPdf, saveExerciseRating, type PublishedSource } from '@/lib/published-courses'
+import { chapterMaterialPdf, type ChapterMaterial } from '@/lib/chapter-materials'
+import { ChapterMaterials } from './ChapterMaterials'
+import { StudyWorkDeposit } from './StudyWorkDeposit'
+import { CourseLatex, PublishedSourceCredit } from './CourseLatex'
 import { ThemeToggle } from './ThemeToggle'
 import { NexoraLogo } from './NexoraLogo'
 import { Footer } from './Footer'
@@ -49,6 +55,7 @@ import GlassFolder, { type ArtPreset } from '@/components/ui/glass-folder-cards'
 import GlassmorphicFolderCards, {
   type ConcoursId,
   CONCOURS_METADATA_CONFIG,
+  getSubjectFoldersForLevel,
 } from '@/components/ui/glassmorphic-folder-cards'
 import {
   Building2,
@@ -81,6 +88,7 @@ export interface CourseExercise {
     math?: string
   }[]
   evalStatus?: 'mastered' | 'with_help' | 'review'
+  published?: { sourceUrl: string | null; statementPdfUrl: string | null; correctionPdfUrl: string | null }
 }
 
 export interface QcmQuestion {
@@ -91,6 +99,7 @@ export interface QcmQuestion {
   correctOptionId: string
   explanation: string
   explanationMath?: string
+  published?: boolean
 }
 
 export interface CourseSection {
@@ -132,6 +141,15 @@ export interface CourseItem {
   theorySections: CourseSection[]
   exercises: CourseExercise[]
   qcmQuestions: QcmQuestion[]
+  published?: { source: PublishedSource | null; pdfUrl: string | null; legacyId: string | null }
+  chapterMaterials?: ChapterMaterial[]
+}
+
+function hasChapterPart(course: CourseItem, type: ChapterMaterial['type']) {
+  if (course.chapterMaterials?.some(item => item.type === type)) return true
+  return type === 'COURSE'
+    ? course.theorySections.length > 0 || Boolean(course.published?.pdfUrl)
+    : course.exercises.length > 0 || course.qcmQuestions.length > 0
 }
 
 export interface SubjectItem {
@@ -2823,6 +2841,7 @@ export function CourseExerciseQcmDoubleMode({
   initialConcoursId = 'cnc',
   initialSubjectId = 'maths',
   initialCourseId = 'maths-reduc',
+  initialDocument,
 }: {
   onNavigateToDashboard: () => void
   onNavigateToContact: () => void
@@ -2833,13 +2852,62 @@ export function CourseExerciseQcmDoubleMode({
   initialConcoursId?: ConcoursId
   initialSubjectId?: 'maths' | 'physique' | 'si' | 'info'
   initialCourseId?: string
+  initialDocument?: DocumentReference
 }) {
+  const [publishedCourses, setPublishedCourses] = useState<CourseItem[]>([])
+  const [publishedStatus, setPublishedStatus] = useState<'loading' | 'ready' | 'error'>('loading')
+  const [reloadPublished, setReloadPublished] = useState(0)
+  useEffect(() => {
+    if (initialSection === 'annales' || initialSection === 'qcm') return
+    const controller = new AbortController()
+    setPublishedStatus('loading')
+    getPublishedCourses(controller.signal)
+      .then(courses => {
+        if (controller.signal.aborted) return
+        setPublishedCourses(courses)
+        setPublishedStatus('ready')
+      })
+      .catch(() => { if (!controller.signal.aborted) setPublishedStatus('error') })
+    return () => controller.abort()
+  }, [initialSection, reloadPublished])
+  const catalogCourses = useMemo(() => {
+    const replaced = new Set(publishedCourses.map(course => course.published?.legacyId))
+    return [...publishedCourses, ...COURSES_DATABASE.filter(course => !replaced.has(course.id))]
+  }, [publishedCourses])
+  const [exercisePdf, setExercisePdf] = useState<{ exercise: CourseExercise; part: 'statement' | 'correction' } | null>(null)
+  const [selectedChapterPdf, setSelectedChapterPdf] = useState<ChapterMaterial | null>(null)
+  const [pdfUsed, setPdfUsed] = useState<Record<string, boolean>>({})
+  const [savingRating, setSavingRating] = useState<string | null>(null)
+  const [ratingError, setRatingError] = useState<{ exercise: string; message: string } | null>(null)
+  const recentExercise = initialDocument?.section === 'cours'
+    ? initialDocument.documentId.match(/^([\da-f-]{36})\/(statement|correction)$/)
+    : null
+  const recentSupplementId = initialDocument?.section === 'cours' && initialDocument.documentId.startsWith('supplement/')
+    ? initialDocument.documentId.slice('supplement/'.length)
+    : undefined
+  const requestedPublishedCourse = initialDocument?.section === 'cours'
+    ? publishedCourses.find(course => course.id === initialDocument.documentId ||
+      (recentExercise && course.exercises.some(exercise => exercise.id === recentExercise[1])) ||
+      (recentSupplementId && course.chapterMaterials?.some(item => item.id === recentSupplementId && item.format === 'PDF')))
+    : undefined
+  const requestedExercise = requestedPublishedCourse?.exercises.find(exercise => exercise.id === recentExercise?.[1])
+  const requestedSupplement = requestedPublishedCourse?.chapterMaterials?.find(item => item.id === recentSupplementId)
+  const requestedCourse = initialDocument?.section === 'cours' ? COURSES_DATABASE.find(course => course.id === initialDocument.documentId) : undefined
+  const requestedCoursePdf = initialDocument?.section === 'cours' && !requestedCourse
+    ? pdfCourseChapters.map(chapter => initialDocument.part === 'td' ? chapter.td : chapter.course)
+      .find(document => document?.sourceUrl === initialDocument.documentId && document.localPdfUrl)
+    : undefined
+  const requestedExam = initialDocument?.section === 'annales'
+    ? CONCOURS_ANNALES_DATABASE.find(exam => exam.id === initialDocument.documentId && exam.pdfUrl && (initialDocument.part !== 'correction' || exam.corrigeUrl))
+    : undefined
+  const requestedSubject = Object.entries(studySubjects).find(([, code]) => code === requestedCoursePdf?.subject)?.[0] as 'maths' | 'physique' | 'si' | 'info' | undefined
+
   // Active concours state
-  const [selectedConcoursId, setSelectedConcoursId] = useState<ConcoursId>(initialConcoursId)
+  const [selectedConcoursId, setSelectedConcoursId] = useState<ConcoursId>(requestedExam?.concoursId ?? initialConcoursId)
 
   // Level state: 'sup' (1ère Année CPGE) vs 'spe' (2ème Année CPGE)
-  const [selectedLevel, setSelectedLevel] = useState<'sup' | 'spe'>('spe')
-  const [selectedPdfDocument, setSelectedPdfDocument] = useState<CourseDocument | null>(null)
+  const [selectedLevel, setSelectedLevel] = useState<'sup' | 'spe'>(requestedCourse?.level ?? (requestedCoursePdf?.level === 'SUP' ? 'sup' : 'spe'))
+  const [selectedPdfDocument, setSelectedPdfDocument] = useState<CourseDocument | null>(requestedCoursePdf ?? null)
 
   // Flow context: 'cours' (Cours & Exercices de cours) vs 'concours' (Annales et Concours)
   const [currentFlow, setCurrentFlow] = useState<'cours' | 'concours'>(
@@ -2852,12 +2920,14 @@ export function CourseExerciseQcmDoubleMode({
   const [currentPage, setCurrentPage] = useState<
     'concours' | 'concours_detail' | 'niveaux' | 'matieres' | 'courses' | 'cours' | 'td' | 'exam' | 'qcm'
   >(
-    initialSection === 'annales' ? 'concours' : (initialSection === 'qcm' ? 'qcm' : 'niveaux')
+    requestedExam ? 'exam' : requestedCoursePdf ? 'courses' : requestedCourse ? (initialDocument?.part === 'td' ? 'td' : 'cours') :
+      initialSection === 'annales' ? 'concours' : (initialSection === 'qcm' ? 'qcm' : 'niveaux')
   )
   const [examInitialMode, setExamInitialMode] = useState<ExamViewerMode>('normal')
-  const [selectedSessionYear, setSelectedSessionYear] = useState<number | null>(null)
+  const [examInitialPart, setExamInitialPart] = useState<'enonce' | 'corrige'>(requestedExam && initialDocument?.part === 'correction' ? 'corrige' : 'enonce')
+  const [selectedSessionYear, setSelectedSessionYear] = useState<number | null>(requestedExam?.year ?? null)
   const [selectedEpreuveMatiere, setSelectedEpreuveMatiere] = useState<'all' | ConcoursEpreuveFull['matiereId']>('all')
-  const [selectedConcoursExam, setSelectedConcoursExam] = useState<ConcoursEpreuveFull | null>(null)
+  const [selectedConcoursExam, setSelectedConcoursExam] = useState<ConcoursEpreuveFull | null>(requestedExam ?? null)
   const [examSearchFilter, setExamSearchFilter] = useState<string>('')
 
   function toConcoursExamItem(ep: ConcoursEpreuveFull): ConcoursExamItem {
@@ -2887,8 +2957,8 @@ export function CourseExerciseQcmDoubleMode({
     [selectedConcoursExam]
   )
 
-  const [selectedSubjectId, setSelectedSubjectId] = useState<'maths' | 'physique' | 'si' | 'info'>(initialSubjectId)
-  const [selectedCourseId, setSelectedCourseId] = useState<string>(initialCourseId)
+  const [selectedSubjectId, setSelectedSubjectId] = useState<'maths' | 'physique' | 'si' | 'info'>(requestedCourse?.subjectId ?? requestedSubject ?? initialSubjectId)
+  const [selectedCourseId, setSelectedCourseId] = useState<string>(requestedCourse?.id ?? initialCourseId)
   const [selectedExamId, setSelectedExamId] = useState<string>('cnc-2024-math-1')
 
   // Sub-mode inside "cours" page: 'interactive' | 'pdf'
@@ -2924,6 +2994,7 @@ export function CourseExerciseQcmDoubleMode({
   const [subjectQcmTimer, setSubjectQcmTimer] = useState<number>(90)
   const [subjectQcmTimerActive, setSubjectQcmTimerActive] = useState<boolean>(true)
   const [subjectQcmCompleted, setSubjectQcmCompleted] = useState<boolean>(false)
+  const subjectQcmSession = useRef<string | null>(null)
 
   // Timer for QCM session
   useEffect(() => {
@@ -2936,14 +3007,15 @@ export function CourseExerciseQcmDoubleMode({
 
   const subjectQcmQuestions = useMemo(() => {
     if (!activeQcmSubject) return []
-    const matchingCourses = COURSES_DATABASE.filter((c) => c.subjectId === activeQcmSubject)
+    const matchingCourses = catalogCourses.filter((c) => c.subjectId === activeQcmSubject)
     const questions = matchingCourses.flatMap((c) => c.qcmQuestions)
     return questions.length > 0 ? questions : COURSES_DATABASE[0].qcmQuestions
-  }, [activeQcmSubject])
+  }, [activeQcmSubject, catalogCourses])
 
   const currentSubjectActiveQcm = subjectQcmQuestions[subjectQcmIdx] || subjectQcmQuestions[0]
 
   const handleStartQcmSubject = (subjectId: 'maths' | 'physique' | 'si' | 'info') => {
+    subjectQcmSession.current = crypto.randomUUID()
     setActiveQcmSubject(subjectId)
     setSubjectQcmIdx(0)
     setSubjectQcmSelectedOpt(null)
@@ -2975,10 +3047,14 @@ export function CourseExerciseQcmDoubleMode({
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
       setSubjectQcmCompleted(true)
+      if (subjectQcmSession.current && activeQcmSubject) {
+        void sendStudyActivity({ type: 'qcm_completed', eventId: subjectQcmSession.current, subjectCode: studySubjects[activeQcmSubject] })
+      }
     }
   }
 
   const handleResetSubjectQcm = () => {
+    subjectQcmSession.current = crypto.randomUUID()
     setSubjectQcmIdx(0)
     setSubjectQcmSelectedOpt(null)
     setSubjectQcmIsSubmitted(false)
@@ -2993,15 +3069,27 @@ export function CourseExerciseQcmDoubleMode({
   const currentConcoursMeta = CONCOURS_METADATA_CONFIG[selectedConcoursId] || CONCOURS_METADATA_CONFIG.cnc
 
   const currentSubject = SUBJECTS.find((s) => s.id === selectedSubjectId) || SUBJECTS[0]
+  const publishedByTitle = new Map(publishedCourses
+    .filter(course => course.subjectId === selectedSubjectId && course.level === selectedLevel)
+    .map(course => [course.title, course]))
   const pdfChapters = getPdfCourseChapters(selectedSubjectId, selectedLevel)
-  const activeSubjectCourses = COURSES_DATABASE.filter(
+  const activeSubjectCourses = catalogCourses.filter(
     (c) => c.subjectId === selectedSubjectId && (c.level || 'spe') === selectedLevel
   )
 
   const currentCourse =
-    COURSES_DATABASE.find((c) => c.id === selectedCourseId) ||
+    catalogCourses.find((c) => c.id === selectedCourseId) ||
+    (requestedCourse?.id === selectedCourseId ? requestedCourse : undefined) ||
     activeSubjectCourses[0] ||
     COURSES_DATABASE[0]
+  const readingCourse = currentPage === 'cours' && (activeCourseMode === 'interactive' || !currentCourse.published) &&
+    (currentCourse.theorySections.length > 0 || currentCourse.chapterMaterials?.some(item => item.type === 'COURSE' && item.format === 'LATEX'))
+  const readingTd = currentPage === 'td' && !exercisePdf &&
+    (currentCourse.exercises.length > 0 || currentCourse.chapterMaterials?.some(item => item.type === 'TD' && item.format === 'LATEX'))
+  useStudyDocument({
+    section: 'cours', documentId: currentCourse.id, part: currentPage === 'td' ? 'td' : 'course',
+    title: currentCourse.title, subjectCode: studySubjects[currentCourse.subjectId],
+  }, !selectedChapterPdf && Boolean(readingCourse || readingTd))
 
   // Exams for Annales flow
   const subjectExams = CONCOURS_EXAMS_DATABASE.filter(
@@ -3017,6 +3105,7 @@ export function CourseExerciseQcmDoubleMode({
     CONCOURS_EXAMS_DATABASE[0]
 
   useEffect(() => {
+    if (requestedCourse || requestedCoursePdf || requestedExam) return
     if (initialSection === 'annales') {
       setCurrentFlow('concours')
       setCurrentPage('concours')
@@ -3027,12 +3116,28 @@ export function CourseExerciseQcmDoubleMode({
       setCurrentFlow('cours')
       setCurrentPage('qcm')
     }
-  }, [initialSection])
+  }, [initialSection, requestedCourse, requestedCoursePdf, requestedExam])
+
+  const requestedExercisePart = recentExercise?.[2] === 'correction' ? 'correction' : 'statement'
+  useEffect(() => {
+    if (!requestedPublishedCourse) return
+    setSelectedCourseId(requestedPublishedCourse.id)
+    setSelectedSubjectId(requestedPublishedCourse.subjectId)
+    setSelectedLevel(requestedPublishedCourse.level ?? 'spe')
+    const part = requestedSupplement ? (requestedSupplement.type === 'TD' ? 'td' : 'course') : initialDocument?.part
+    setCurrentPage(part === 'td' ? 'td' : 'cours')
+    setActiveCourseMode('interactive')
+    setSelectedChapterPdf(requestedSupplement ?? null)
+    if (requestedExercise) {
+      setExercisePdf({ exercise: requestedExercise, part: requestedExercisePart })
+      setPdfUsed(value => ({ ...value, [requestedExercise.id]: true }))
+    }
+  }, [initialDocument?.part, requestedPublishedCourse, requestedExercise, requestedExercisePart, requestedSupplement])
 
   // Navigation handlers
   const handleSelectLevel = (level: 'sup' | 'spe') => {
     setSelectedLevel(level)
-    const firstCourse = COURSES_DATABASE.find(
+    const firstCourse = catalogCourses.find(
       (c) => c.subjectId === selectedSubjectId && (c.level || 'spe') === level
     )
     if (firstCourse) setSelectedCourseId(firstCourse.id)
@@ -3040,7 +3145,7 @@ export function CourseExerciseQcmDoubleMode({
 
   const handleChooseLevelAndEnterMatieres = (level: 'sup' | 'spe') => {
     setSelectedLevel(level)
-    const firstCourse = COURSES_DATABASE.find(
+    const firstCourse = catalogCourses.find(
       (c) => c.subjectId === selectedSubjectId && (c.level || 'spe') === level
     )
     if (firstCourse) setSelectedCourseId(firstCourse.id)
@@ -3058,7 +3163,7 @@ export function CourseExerciseQcmDoubleMode({
   const handleOpenSubjectCourses = (subjectId: 'maths' | 'physique' | 'si' | 'info') => {
     setSelectedPdfDocument(null)
     setSelectedSubjectId(subjectId)
-    const firstCourse = COURSES_DATABASE.find(
+    const firstCourse = catalogCourses.find(
       (c) => c.subjectId === subjectId && (c.level || 'spe') === selectedLevel
     )
     if (firstCourse) setSelectedCourseId(firstCourse.id)
@@ -3073,11 +3178,19 @@ export function CourseExerciseQcmDoubleMode({
   const handleOpenCoursePart = (courseId: string, part: 'cours' | 'td') => {
     setSelectedCourseId(courseId)
     setCurrentPage(part)
+    setActiveCourseMode('interactive')
+    setExercisePdf(null)
+    setSelectedChapterPdf(null)
     setPdfPage(1)
     setCurrentQcmIdx(0)
     setSelectedOption(null)
     setIsAnswerSubmitted(false)
     setSpacedRepetitionAdded(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function openChapterPdf(item: ChapterMaterial) {
+    setSelectedChapterPdf(item)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -3097,22 +3210,49 @@ export function CourseExerciseQcmDoubleMode({
     }))
   }
 
-  const handleEvaluation = (exoId: string, rating: 'mastered' | 'with_help' | 'review') => {
+  const handleEvaluation = async (exercise: CourseExercise, rating: 'mastered' | 'with_help' | 'review') => {
+    const exoId = exercise.id
+    if (exercise.published) {
+      setSavingRating(exoId)
+      setRatingError(null)
+      try {
+        await saveExerciseRating(exoId, rating, (unlockedHints[exoId] ?? 0) > 0, Boolean(pdfUsed[exoId]))
+      } catch (error) {
+        setRatingError({ exercise: exoId, message: (error as Error).message })
+        return
+      } finally {
+        setSavingRating(null)
+      }
+    }
     setExerciseEvaluations((prev) => ({
       ...prev,
       [exoId]: rating,
     }))
+    if (rating !== 'review') void sendStudyActivity({ type: 'exercise_solved', itemId: `${currentCourse.id}:${exoId}`, subjectCode: studySubjects[currentCourse.subjectId] })
   }
 
+  function openExercisePdf(exercise: CourseExercise, part: 'statement' | 'correction') {
+    setExercisePdf({ exercise, part })
+    setPdfUsed(value => ({ ...value, [exercise.id]: true }))
+    window.scrollTo({ top: 0, behavior: 'instant' })
+  }
+  const exercisePdfUrl = exercisePdf?.part === 'statement'
+    ? exercisePdf.exercise.published?.statementPdfUrl
+    : exercisePdf?.exercise.published?.correctionPdfUrl
+  const exercisePdfTitle = exercisePdf && `${exercisePdf.exercise.title} · ${exercisePdf.part === 'statement' ? 'Énoncé' : 'Corrigé'}`
+
   // QCM Selection & Verification
-  const currentQcmList = currentCourse.qcmQuestions.length > 0 ? currentCourse.qcmQuestions : COURSES_DATABASE[0].qcmQuestions
+  const currentQcmList = currentCourse.published || currentCourse.qcmQuestions.length > 0 ? currentCourse.qcmQuestions : COURSES_DATABASE[0].qcmQuestions
   const activeQcm = currentQcmList[currentQcmIdx % currentQcmList.length]
 
   const handleSelectOption = (optId: string) => {
-    if (isAnswerSubmitted) return
+    if (isAnswerSubmitted || !activeQcm) return
     setSelectedOption(optId)
     setIsAnswerSubmitted(true)
     setIsTimerRunning(false)
+    if (currentQcmIdx % currentQcmList.length === currentQcmList.length - 1) {
+      void sendStudyActivity({ type: 'qcm_completed', eventId: crypto.randomUUID(), subjectCode: studySubjects[currentCourse.subjectId] })
+    }
     if (optId === activeQcm.correctOptionId) {
       setMasteryScore((prev) => Math.min(100, prev + 6))
     } else {
@@ -3126,11 +3266,23 @@ export function CourseExerciseQcmDoubleMode({
     setSpacedRepetitionAdded(false)
     setQcmTimerSeconds(105)
     setIsTimerRunning(true)
-    setCurrentQcmIdx((prev) => (prev + 1) % currentQcmList.length)
+    if (currentQcmList.length) setCurrentQcmIdx((prev) => (prev + 1) % currentQcmList.length)
   }
 
   return (
     <div className="learning-shell study-shell min-h-screen bg-transparent text-[#172033] dark:text-[#eaf2ff]">
+      {initialDocument?.section === 'cours' && publishedStatus === 'loading' && !requestedCourse && !requestedCoursePdf && (
+        <p role="status" className="mx-auto max-w-[1440px] px-5 pt-5">Ouverture du document…</p>
+      )}
+      {initialDocument && !requestedCourse && !requestedCoursePdf && !requestedExam && !requestedPublishedCourse &&
+        (initialDocument.section === 'annales' || publishedStatus === 'ready') && (
+        <p role="status" className="mx-auto max-w-[1440px] px-5 pt-5">Ce document n’est plus disponible dans le catalogue.</p>
+      )}
+      {initialSection === 'cours' && publishedStatus === 'error' && (
+        <p role="alert" className="mx-auto max-w-[1440px] px-5 pt-5">
+          Les cours publiés sont momentanément indisponibles. <button className="underline" onClick={() => setReloadPublished(value => value + 1)}>Réessayer</button>
+        </p>
+      )}
       
 
       {/* Standalone Header if needed */}
@@ -3171,19 +3323,21 @@ export function CourseExerciseQcmDoubleMode({
               </div>
 
               {/* Quick switch to Cours & TD */}
-              <button
-                type="button"
-                onClick={() => {
-                  setCurrentFlow('cours')
-                  setCurrentPage('niveaux')
-                  window.scrollTo({ top: 0, behavior: 'smooth' })
-                }}
-                className="flex items-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-xs font-bold text-[#2866dc] transition hover:bg-blue-500/20 dark:border-blue-400/30 dark:bg-blue-400/10 dark:text-[#8db5ff]"
-              >
-                <BookOpen size={15} weight="bold" />
-                <span>Accéder aux Cours & TD (SUP & SPÉ)</span>
-                <ArrowRight size={13} weight="bold" />
-              </button>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCurrentFlow('cours')
+                    setCurrentPage('niveaux')
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }}
+                  className="flex items-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-xs font-bold text-[#2866dc] transition hover:bg-blue-500/20 dark:border-blue-400/30 dark:bg-blue-400/10 dark:text-[#8db5ff]"
+                >
+                  <BookOpen size={15} weight="bold" />
+                  <span>Accéder aux Cours & TD (SUP & SPÉ)</span>
+                  <ArrowRight size={13} weight="bold" />
+                </button>
+              </div>
             </div>
 
             {/* Portal Title & Hero Intro */}
@@ -3329,7 +3483,7 @@ export function CourseExerciseQcmDoubleMode({
               </div>
 
               {/* Quick Switcher Between the 5 Concours */}
-              <div className="flex items-center gap-1.5 overflow-x-auto rounded-2xl border border-slate-200 bg-slate-100 p-1 text-xs dark:border-white/10 dark:bg-[#101f3c]">
+              <div className="flex max-w-full items-center gap-1.5 overflow-x-auto rounded-2xl border border-slate-200 bg-slate-100 p-1 text-xs dark:border-white/10 dark:bg-[#101f3c]">
                 {CONCOURS_LIST.map((c) => {
                   const isActive = c.id === selectedConcoursId
                   return (
@@ -3797,6 +3951,7 @@ export function CourseExerciseQcmDoubleMode({
                                   onClick={() => {
                                     setSelectedConcoursExam(ep)
                                     setExamInitialMode('normal')
+                                    setExamInitialPart('enonce')
                                     setCurrentPage('exam')
                                     window.scrollTo({ top: 0, behavior: 'smooth' })
                                   }}
@@ -3813,6 +3968,7 @@ export function CourseExerciseQcmDoubleMode({
                                   onClick={() => {
                                     setSelectedConcoursExam(ep)
                                     setExamInitialMode('concours')
+                                    setExamInitialPart('enonce')
                                     setCurrentPage('exam')
                                     window.scrollTo({ top: 0, behavior: 'smooth' })
                                   }}
@@ -4136,7 +4292,7 @@ export function CourseExerciseQcmDoubleMode({
               Matières du Programme — Niveau {selectedLevel === 'sup' ? 'SUP (1ère Année)' : 'SPÉ (2ème Année)'}
             </h2>
             <p className="mt-2 text-sm sm:text-base text-[#71809A] dark:text-[#91a9c8] max-w-2xl">
-              Filières {selectedLevel === 'sup' ? 'MPSI • PCSI • PTSI • TSI 1' : 'MP • PSI • PC • TSI 2'} — Chaque matière est organisée en <strong>cours théoriques</strong> (théorèmes, formules LaTeX et fiches) et en <strong>séances de TD</strong> (exercices d’annales résolus et QCM).
+              Programme marocain {selectedLevel === 'sup' ? 'MPSI' : 'MP'}. Sélectionnez une matière pour voir les chapitres et les cours et TD disponibles.
             </p>
           </div>
 
@@ -4144,6 +4300,13 @@ export function CourseExerciseQcmDoubleMode({
           <GlassmorphicFolderCards
             level={selectedLevel}
             onSelectSubject={handleOpenSubjectCourses}
+            subjects={getSubjectFoldersForLevel(selectedLevel).map(subject => {
+              const count = publishedCourses.filter(course => course.subjectId === subject.id && course.level === selectedLevel).length
+              return {
+                ...subject,
+                chaptersCountText: count > 0 ? `${count} chapitre${count > 1 ? 's' : ''} avec cours et TD` : 'Chapitres du programme',
+              }
+            })}
           />
         </main>
       )}
@@ -4152,7 +4315,11 @@ export function CourseExerciseQcmDoubleMode({
       {/* PAGE 2 : LISTE DES CHAPITRES DE COURS PAR MATIÈRE                      */}
       {/* ====================================================================== */}
       {currentPage === 'courses' && selectedPdfDocument && (
-        <DeferredCoursePdfReader key={selectedPdfDocument.sourceUrl} document={selectedPdfDocument} onBack={() => setSelectedPdfDocument(null)} onReport={onReport && (() => onReport({
+        <DeferredCoursePdfReader key={selectedPdfDocument.sourceUrl} document={selectedPdfDocument}
+          tools={selectedPdfDocument.type === 'TD' ? <StudyWorkDeposit kind="td" resourceId={selectedPdfDocument.sourceUrl} title={selectedPdfDocument.title} /> : undefined} studyDocument={{
+          section: 'cours', documentId: selectedPdfDocument.sourceUrl, part: selectedPdfDocument.type === 'TD' ? 'td' : 'course',
+          title: selectedPdfDocument.title, subjectCode: selectedPdfDocument.subject as StudySubject,
+        }} onBack={() => setSelectedPdfDocument(null)} onReport={onReport && (() => onReport({
           ref: selectedPdfDocument.sourceUrl,
           title: selectedPdfDocument.title,
         }))} />
@@ -4182,9 +4349,9 @@ export function CourseExerciseQcmDoubleMode({
               </nav>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-full bg-[#3978F6]/15 px-3 py-1 text-xs font-bold text-[#2866dc] dark:bg-[#3978F6]/30 dark:text-[#9cc0ff]">
-                {activeSubjectCourses.length + pdfChapters.length} chapitres
+                {pdfChapters.length} chapitres
               </span>
             </div>
           </div>
@@ -4199,14 +4366,18 @@ export function CourseExerciseQcmDoubleMode({
           </div>
 
           {/* GRID OF COURSES CHAPTERS */}
+          {publishedStatus === 'loading' && <p role="status" className="mb-4 text-sm text-slate-500">Chargement des cours publiés…</p>}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
-            {pdfChapters.map(chapter => (
-              <PdfCourseChapterCard key={chapter.id} chapter={chapter} onOpen={document => {
+            {pdfChapters.map(chapter => {
+              const c = publishedByTitle.get(chapter.course.title)
+              const openExistingPdf = (document: CourseDocument) => {
                 setSelectedPdfDocument(document)
                 window.scrollTo({ top: 0, behavior: 'smooth' })
-              }} />
-            ))}
-            {activeSubjectCourses.map((c) => (
+              }
+              if (!c) return <PdfCourseChapterCard key={chapter.id} chapter={chapter} onOpen={openExistingPdf} />
+              const hasCourse = hasChapterPart(c, 'COURSE')
+              const hasTd = hasChapterPart(c, 'TD')
+              return (
               <div
                 key={c.id}
                 className="glowing-card rounded-3xl p-6 shadow-xl border border-slate-200/90 dark:border-white/10 flex flex-col justify-between"
@@ -4216,7 +4387,7 @@ export function CourseExerciseQcmDoubleMode({
                     <span className="rounded-md bg-[#3978F6]/15 px-2.5 py-1 text-xs font-bold text-[#2866dc] dark:bg-[#3978F6]/30 dark:text-[#9cc0ff]">
                       Chapitre {c.chapterNumber} • {c.stream}
                     </span>
-                    <div className="flex items-center gap-0.5">
+                    {c.difficultyStars > 0 && <div className="flex items-center gap-0.5">
                       {Array.from({ length: 4 }).map((_, s) => (
                         <Star
                           key={s}
@@ -4225,29 +4396,30 @@ export function CourseExerciseQcmDoubleMode({
                           className={s < c.difficultyStars ? 'text-amber-400' : 'text-slate-300 dark:text-slate-600'}
                         />
                       ))}
-                    </div>
+                    </div>}
                   </div>
 
                   <h2 className="mt-3 text-lg font-bold text-[#172033] dark:text-white leading-snug">
                     {c.title}
                   </h2>
-                  <p className="mt-1 text-xs text-[#71809A] dark:text-[#91a9c8]">
+                  {c.subTitle && <p className="mt-1 text-xs text-[#71809A] dark:text-[#91a9c8]">
                     {c.subTitle}
-                  </p>
+                  </p>}
 
-                  <p className="mt-3 text-xs leading-relaxed text-slate-700 dark:text-slate-300">
+                  {c.summary && <p className="mt-3 text-xs leading-relaxed text-slate-700 dark:text-slate-300">
                     {c.summary}
-                  </p>
+                  </p>}
 
                   <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-                    <span className="flex items-center gap-1 font-semibold">
+                    {c.durationEstimate && <span className="flex items-center gap-1 font-semibold">
                       <Clock size={14} weight="bold" />
                       <span>{c.durationEstimate}</span>
-                    </span>
-                    <span className="flex items-center gap-1 font-semibold">
+                    </span>}
+                    {c.exercises.length > 0 && <span className="flex items-center gap-1 font-semibold">
                       <CheckSquare size={14} weight="bold" />
-                      <span>{c.exercises.length} exercices d’annales</span>
-                    </span>
+                      <span>{c.exercises.length} exercices corrigés</span>
+                    </span>}
+                    {!!c.chapterMaterials?.length && <span>{c.chapterMaterials.length} {c.chapterMaterials.length === 1 ? 'contenu ajouté' : 'contenus ajoutés'}</span>}
                   </div>
                 </div>
 
@@ -4255,24 +4427,27 @@ export function CourseExerciseQcmDoubleMode({
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 border-t border-slate-200/80 pt-4 dark:border-white/10">
                   <button
                     type="button"
-                    onClick={() => handleOpenCoursePart(c.id, 'cours')}
-                    className="flex items-center justify-center gap-2 rounded-xl border border-[#3978F6]/40 bg-[#3978F6]/10 px-4 py-3 text-xs font-bold text-[#2866dc] transition hover:bg-[#3978F6] hover:text-white dark:text-[#8db5ff]"
+                    disabled={!hasCourse && !chapter.course.localPdfUrl}
+                    onClick={() => hasCourse ? handleOpenCoursePart(c.id, 'cours') : openExistingPdf(chapter.course)}
+                    className="flex items-center justify-center gap-2 rounded-xl border border-[#3978F6]/40 bg-[#3978F6]/10 px-4 py-3 text-xs font-bold text-[#2866dc] transition hover:bg-[#3978F6] hover:text-white disabled:cursor-not-allowed disabled:opacity-50 dark:text-[#8db5ff]"
                   >
                     <LucideBookOpen size={20} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
-                    <span>Ouvrir Partie Cours</span>
+                    <span>{hasCourse || chapter.course.localPdfUrl ? 'Ouvrir Partie Cours' : 'Cours · À ajouter'}</span>
                   </button>
 
                   <button
                     type="button"
-                    onClick={() => handleOpenCoursePart(c.id, 'td')}
-                    className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#3978F6] to-[#2563eb] px-4 py-3 text-xs font-bold text-white shadow-md transition hover:brightness-110 active:scale-95"
+                    disabled={!hasTd && !chapter.td?.localPdfUrl}
+                    onClick={() => hasTd ? handleOpenCoursePart(c.id, 'td') : chapter.td && openExistingPdf(chapter.td)}
+                    className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#3978F6] to-[#2563eb] px-4 py-3 text-xs font-bold text-white shadow-md transition hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <NotebookPen size={20} strokeWidth={1.8} className="shrink-0" aria-hidden="true" />
-                    <span>Ouvrir Partie TD</span>
+                    <span>{hasTd || chapter.td?.localPdfUrl ? 'Ouvrir Partie TD' : 'TD · À ajouter'}</span>
                   </button>
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
         </main>
       )}
@@ -4280,7 +4455,21 @@ export function CourseExerciseQcmDoubleMode({
       {/* ====================================================================== */}
       {/* PAGE 3 : PARTIE COURS (DEDICATED FULL-PAGE COURSE THEORY & PDF)         */}
       {/* ====================================================================== */}
-      {currentPage === 'cours' && (
+      {selectedChapterPdf && (currentPage === 'cours' || currentPage === 'td') && (
+        <DeferredCoursePdfReader
+          key={selectedChapterPdf.id}
+          document={chapterMaterialPdf(selectedChapterPdf)}
+          tools={selectedChapterPdf.type === 'TD' ? <StudyWorkDeposit kind="td" resourceId={'supplement/' + selectedChapterPdf.id} title={selectedChapterPdf.title} /> : undefined}
+          onBack={() => setSelectedChapterPdf(null)}
+          backLabel="Retour au chapitre"
+          studyDocument={{
+            section: 'cours', part: selectedChapterPdf.type === 'TD' ? 'td' : 'course',
+            documentId: 'supplement/' + selectedChapterPdf.id, title: selectedChapterPdf.title,
+            subjectCode: selectedChapterPdf.subject,
+          }}
+        />
+      )}
+      {currentPage === 'cours' && !selectedChapterPdf && (
         <main className="relative mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8 animate-in fade-in duration-300">
           {/* Top Navigation Bar of the Course Page */}
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200/80 pb-4 dark:border-white/10">
@@ -4312,7 +4501,7 @@ export function CourseExerciseQcmDoubleMode({
             </div>
 
             {/* Switch to TD Button */}
-            <div className="flex items-center gap-2">
+            {hasChapterPart(currentCourse, 'TD') && <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => handleOpenCoursePart(currentCourse.id, 'td')}
@@ -4321,7 +4510,7 @@ export function CourseExerciseQcmDoubleMode({
                 <span>Aller à la Partie TD</span>
                 <ArrowRight size={14} weight="bold" />
               </button>
-            </div>
+            </div>}
           </div>
 
           {/* Course Title Header */}
@@ -4336,7 +4525,7 @@ export function CourseExerciseQcmDoubleMode({
             </div>
 
             {/* Sub-mode switcher inside Cours: Fiche Interactive vs Planche PDF */}
-            <div className="flex items-center rounded-2xl border border-slate-200 bg-slate-100 p-1 text-xs dark:border-white/10 dark:bg-[#101f3c]">
+            {(!currentCourse.published || currentCourse.published.pdfUrl) && <div className="flex items-center rounded-2xl border border-slate-200 bg-slate-100 p-1 text-xs dark:border-white/10 dark:bg-[#101f3c]">
               <button
                 type="button"
                 onClick={() => setActiveCourseMode('interactive')}
@@ -4360,16 +4549,16 @@ export function CourseExerciseQcmDoubleMode({
                 }`}
               >
                 <FilePdf size={14} weight="bold" />
-                <span>Planche PDF Officielle</span>
+                <span>{currentCourse.published ? 'Support PDF' : 'Planche PDF Officielle'}</span>
               </button>
-            </div>
+            </div>}
           </div>
 
           {/* Interactive Course Mode */}
           {activeCourseMode === 'interactive' && (
             <div className="space-y-6">
               {/* Objectives */}
-              <div className="glowing-card rounded-2xl p-5 shadow-lg border border-[#3978F6]/25">
+              {currentCourse.summary && <div className="glowing-card rounded-2xl p-5 shadow-lg border border-[#3978F6]/25">
                 <div className="flex items-center gap-2.5">
                   <div className="flex size-8 items-center justify-center rounded-xl bg-[#3978F6]/15 text-[#3978F6]">
                     <GraduationCap size={18} weight="fill" />
@@ -4386,7 +4575,8 @@ export function CourseExerciseQcmDoubleMode({
                 <p className="mt-3 text-xs sm:text-[13px] leading-relaxed text-slate-700 dark:text-slate-200">
                   {currentCourse.summary}
                 </p>
-              </div>
+                {currentCourse.published?.source && <PublishedSourceCredit source={currentCourse.published.source} />}
+              </div>}
 
               {/* Course Theory Sections */}
               {currentCourse.theorySections.map((sec, secIdx) => (
@@ -4394,9 +4584,11 @@ export function CourseExerciseQcmDoubleMode({
                   <h2 className="border-l-4 border-[#3978F6] pl-3 text-sm sm:text-base font-bold text-[#172033] dark:text-white">
                     {sec.title}
                   </h2>
-                  <p className="text-xs sm:text-[13px] leading-relaxed text-justify text-slate-700 dark:text-slate-300">
-                    {sec.content}
-                  </p>
+                  {currentCourse.published ? (
+                    <CourseLatex value={sec.content} className="text-sm leading-relaxed text-slate-700 dark:text-slate-300" />
+                  ) : (
+                    <p className="text-xs sm:text-[13px] leading-relaxed text-justify text-slate-700 dark:text-slate-300">{sec.content}</p>
+                  )}
 
                   {sec.mathFormula && (
                     <div className="my-3 rounded-xl border border-slate-200/90 bg-white/80 p-3 dark:border-white/10 dark:bg-white/5">
@@ -4448,14 +4640,18 @@ export function CourseExerciseQcmDoubleMode({
                 </article>
               ))}
 
+              <ChapterMaterials entries={currentCourse.chapterMaterials} type="COURSE" onOpenPdf={openChapterPdf} />
+
               {/* Bottom Call to Action: Go to TD Page */}
-              <div className="rounded-2xl bg-gradient-to-r from-[#101b33] via-[#16274a] to-[#101b33] p-6 text-white shadow-xl border border-[#3978F6]/30 flex flex-wrap items-center justify-between gap-4">
+              {currentCourse.exercises.length > 0 && <div className="rounded-2xl bg-gradient-to-r from-[#101b33] via-[#16274a] to-[#101b33] p-6 text-white shadow-xl border border-[#3978F6]/30 flex flex-wrap items-center justify-between gap-4">
                 <div>
                   <h3 className="text-base font-bold">
                     Prêt pour les Travaux Dirigés&nbsp;?
                   </h3>
                   <p className="mt-0.5 text-xs text-slate-300">
-                    Ouvrez la page dédiée aux TD pour vous entraîner sur les {currentCourse.exercises.length} exercices d’annales CNC avec les pochettes 3D.
+                    {currentCourse.published
+                      ? `Entraînez-vous avec ${currentCourse.exercises.length} exercices corrigés.`
+                      : `Ouvrez la page dédiée aux TD pour vous entraîner sur les ${currentCourse.exercises.length} exercices d’annales CNC avec les pochettes 3D.`}
                   </p>
                 </div>
                 <button
@@ -4467,12 +4663,21 @@ export function CourseExerciseQcmDoubleMode({
                   <span>Ouvrir la Page des TD</span>
                   <ArrowRight size={14} weight="bold" />
                 </button>
-              </div>
+              </div>}
             </div>
           )}
 
           {/* PDF Mode (Planche de Cours) */}
-          {activeCourseMode === 'pdf' && (
+          {activeCourseMode === 'pdf' && currentCourse.published?.pdfUrl && (
+            <DeferredCoursePdfReader
+              key={currentCourse.id}
+              document={publishedPdf(currentCourse, currentCourse.title, currentCourse.published.pdfUrl, 'COURSE')}
+              onBack={() => setActiveCourseMode('interactive')}
+              backLabel="Retour au cours interactif"
+              studyDocument={{ section: 'cours', part: 'course', documentId: currentCourse.id, title: currentCourse.title, subjectCode: studySubjects[currentCourse.subjectId] }}
+            />
+          )}
+          {activeCourseMode === 'pdf' && !currentCourse.published && (
             <div className="space-y-4">
               <div className="glass-container flex flex-wrap items-center justify-between gap-3 rounded-xl p-3 shadow-md">
                 <div className="flex items-center gap-2 text-xs">
@@ -4551,7 +4756,20 @@ export function CourseExerciseQcmDoubleMode({
       {/* ====================================================================== */}
       {/* PAGE 4 : PARTIE TD (DEDICATED FULL-PAGE TD WITH 3D GLASS FOLDERS)      */}
       {/* ====================================================================== */}
-      {currentPage === 'td' && (
+      {currentPage === 'td' && !selectedChapterPdf && exercisePdf && exercisePdfUrl && exercisePdfTitle && (
+        <DeferredCoursePdfReader
+          key={exercisePdfUrl}
+          document={publishedPdf(currentCourse, exercisePdfTitle, exercisePdfUrl, 'TD')}
+          tools={<StudyWorkDeposit kind="td" resourceId={'chapter/' + currentCourse.id} title={currentCourse.title.replace(/^Chapitre \d+ — /, '')} />}
+          onBack={() => { setExercisePdf(null); requestAnimationFrame(() => document.getElementById(exercisePdf.exercise.id)?.scrollIntoView()) }}
+          backLabel="Retour à l’exercice"
+          studyDocument={{
+            section: 'cours', part: 'td',
+            documentId: exercisePdf.exercise.id + '/' + exercisePdf.part, title: exercisePdfTitle, subjectCode: studySubjects[currentCourse.subjectId],
+          }}
+        />
+      )}
+      {currentPage === 'td' && !selectedChapterPdf && (!exercisePdf || !exercisePdfUrl) && (
         <main className="relative mx-auto max-w-[1600px] px-4 py-8 sm:px-6 lg:px-8 animate-in fade-in duration-300">
           {/* Top Navigation Bar of the TD Page */}
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200/80 pb-4 dark:border-white/10">
@@ -4585,37 +4803,56 @@ export function CourseExerciseQcmDoubleMode({
             </div>
 
             {/* Switch to Cours Button */}
-            <button
-              type="button"
-              onClick={() => handleOpenCoursePart(currentCourse.id, 'cours')}
-              className="flex items-center gap-2 rounded-xl border border-[#3978F6]/40 bg-[#3978F6]/10 px-4 py-2 text-xs font-bold text-[#2866dc] transition hover:bg-[#3978F6] hover:text-white dark:text-[#8db5ff]"
-            >
-              <BookOpen size={14} weight="bold" />
-              <span>Consulter la Partie Cours</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+              <StudyWorkDeposit key={currentCourse.id} kind="td" resourceId={'chapter/' + currentCourse.id} title={currentCourse.title.replace(/^Chapitre \d+ — /, '')} />
+              {hasChapterPart(currentCourse, 'COURSE') && (
+                <button
+                  type="button"
+                  onClick={() => handleOpenCoursePart(currentCourse.id, 'cours')}
+                  className="flex items-center gap-2 rounded-xl border border-[#3978F6]/40 bg-[#3978F6]/10 px-4 py-2 text-xs font-bold text-[#2866dc] transition hover:bg-[#3978F6] hover:text-white dark:text-[#8db5ff]"
+                >
+                  <BookOpen size={14} weight="bold" />
+                  <span>Consulter la Partie Cours</span>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* TD Header Title */}
           <div className="mb-6">
             <span className="rounded-md border border-[#3978F6]/30 bg-[#3978F6]/10 px-2.5 py-0.5 text-xs font-bold text-[#2866dc] dark:text-[#8db5ff]">
-              Travaux Dirigés Officiels • {currentCourse.stream}
+              {currentCourse.published ? 'Travaux dirigés' : 'Travaux Dirigés Officiels'} • {currentCourse.stream}
             </span>
             <h1 className="mt-1 text-xl sm:text-3xl font-bold text-[#172033] dark:text-white">
               TD — {currentCourse.title.replace(/^Chapitre \d+ — /, '')}
             </h1>
-            <p className="mt-1 text-xs sm:text-sm text-[#71809A] dark:text-[#91a9c8]">
-              Planches d’exercices d’annales CNC avec indications méthodologiques, corrigés pas à pas et évaluation adaptative.
-            </p>
+            {currentCourse.exercises.length > 0 && <p className="mt-1 text-xs sm:text-sm text-[#71809A] dark:text-[#91a9c8]">
+              {currentCourse.published
+                ? `${currentCourse.exercises.length} exercices avec indications progressives, corrigés détaillés et auto-évaluation.`
+                : 'Planches d’exercices d’annales CNC avec indications méthodologiques, corrigés pas à pas et évaluation adaptative.'}
+            </p>}
           </div>
 
+          {currentCourse.published?.source && <div className="mb-5">
+            <PublishedSourceCredit source={currentCourse.published.source}>
+              <ul className="mt-2 list-disc space-y-1 pl-5">
+                {currentCourse.exercises.map(exercise => exercise.published?.sourceUrl && (
+                  <li key={exercise.id}>{exercise.title} · <a className="underline" href={exercise.published.sourceUrl} target="_blank" rel="noopener noreferrer">{exercise.source}</a></li>
+                ))}
+              </ul>
+            </PublishedSourceCredit>
+          </div>}
+          {currentCourse.chapterMaterials?.some(item => item.type === 'TD') && <div className="mb-6">
+            <ChapterMaterials entries={currentCourse.chapterMaterials} type="TD" onOpenPdf={openChapterPdf} />
+          </div>}
           {/* TD Grid: Exercises Column (left) + Adaptive QCM (right) */}
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.65fr_1fr]">
+          {(currentCourse.exercises.length > 0 || activeQcm) && <div className={activeQcm ? 'grid grid-cols-1 gap-6 lg:grid-cols-[1.65fr_1fr]' : 'space-y-6'}>
             {/* Exercises List */}
             <div className="space-y-6">
               {currentCourse.exercises.map((exo) => {
                 const hintCount = unlockedHints[exo.id] || 0
                 const isSolOpen = revealedSolutions[exo.id] || false
-                const currentEval = exerciseEvaluations[exo.id]
+                const currentEval = exerciseEvaluations[exo.id] ?? exo.evalStatus
 
                 return (
                   <article
@@ -4629,9 +4866,7 @@ export function CourseExerciseQcmDoubleMode({
                         <span className="rounded-md bg-[#3978F6]/15 px-2 py-0.5 font-mono text-xs font-bold text-[#2866dc] dark:bg-[#3978F6]/30 dark:text-[#9cc0ff]">
                           {exo.refCode}
                         </span>
-                        <span className="text-xs font-bold text-[#172033] dark:text-[#eaf2ff]">
-                          {exo.source}
-                        </span>
+                        {!exo.published && <span className="text-xs font-bold text-[#172033] dark:text-[#eaf2ff]">{exo.source}</span>}
                       </div>
 
                       <div className="flex items-center gap-3">
@@ -4660,10 +4895,15 @@ export function CourseExerciseQcmDoubleMode({
                     <h3 className="mt-3 text-sm font-bold text-[#172033] dark:text-white">
                       {exo.title}
                     </h3>
+                    {exo.published && <div className="mt-2 flex flex-wrap gap-2">
+                      {exo.published.statementPdfUrl && <button type="button" className="ui-button-secondary" onClick={() => openExercisePdf(exo, 'statement')}>Énoncé PDF</button>}
+                      {exo.published.correctionPdfUrl && <button type="button" className="ui-button-secondary" onClick={() => openExercisePdf(exo, 'correction')}>Corrigé PDF</button>}
+                      {!exo.published.correctionPdfUrl && <span className="text-sm">Corrigé PDF indisponible.</span>}
+                    </div>}
 
                     {/* Statement with KaTeX */}
                     <div className="mt-2.5 rounded-xl border border-slate-200/80 bg-white/70 p-4 text-xs sm:text-[13px] leading-relaxed dark:border-white/10 dark:bg-white/5">
-                      <p className="font-medium">{exo.statement}</p>
+                      {exo.published ? <CourseLatex value={exo.statement} className="font-medium" /> : <p className="font-medium">{exo.statement}</p>}
                       {exo.statementMath && exo.statementMath.length > 0 && (
                         <div className="my-2 space-y-1.5 text-center">
                           {exo.statementMath.map((m, mIdx) => (
@@ -4708,7 +4948,7 @@ export function CourseExerciseQcmDoubleMode({
                                 <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">
                                   {hIdx + 1}
                                 </span>
-                                <p className="leading-snug">{hint}</p>
+                                {exo.published ? <CourseLatex value={hint} className="leading-snug" /> : <p className="leading-snug">{hint}</p>}
                               </div>
                             ))}
                           </div>
@@ -4742,7 +4982,9 @@ export function CourseExerciseQcmDoubleMode({
                                 <p className="font-bold text-emerald-800 dark:text-emerald-300">
                                   {step.stepTitle}
                                 </p>
-                                <p className="mt-1 text-slate-800 dark:text-slate-200">{step.content}</p>
+                                {exo.published
+                                  ? <CourseLatex value={step.content} className="mt-1 text-sm text-slate-800 dark:text-slate-200" />
+                                  : <p className="mt-1 text-slate-800 dark:text-slate-200">{step.content}</p>}
                                 {step.math && <MathFormula math={step.math} block />}
                               </div>
                             ))}
@@ -4760,7 +5002,9 @@ export function CourseExerciseQcmDoubleMode({
                       <div className="flex items-center gap-2">
                         <button
                           type="button"
-                          onClick={() => handleEvaluation(exo.id, 'mastered')}
+                          disabled={Boolean(savingRating)}
+                          aria-pressed={currentEval === 'mastered'}
+                          onClick={() => void handleEvaluation(exo, 'mastered')}
                           className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition ${
                             currentEval === 'mastered'
                               ? 'bg-emerald-600 text-white shadow-sm'
@@ -4773,7 +5017,9 @@ export function CourseExerciseQcmDoubleMode({
 
                         <button
                           type="button"
-                          onClick={() => handleEvaluation(exo.id, 'with_help')}
+                          disabled={Boolean(savingRating)}
+                          aria-pressed={currentEval === 'with_help'}
+                          onClick={() => void handleEvaluation(exo, 'with_help')}
                           className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition ${
                             currentEval === 'with_help'
                               ? 'bg-amber-500 text-white shadow-sm'
@@ -4786,7 +5032,9 @@ export function CourseExerciseQcmDoubleMode({
 
                         <button
                           type="button"
-                          onClick={() => handleEvaluation(exo.id, 'review')}
+                          disabled={Boolean(savingRating)}
+                          aria-pressed={currentEval === 'review'}
+                          onClick={() => void handleEvaluation(exo, 'review')}
                           className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition ${
                             currentEval === 'review'
                               ? 'bg-rose-600 text-white shadow-sm'
@@ -4798,13 +5046,14 @@ export function CourseExerciseQcmDoubleMode({
                         </button>
                       </div>
                     </div>
+                    {ratingError?.exercise === exo.id && <p className="mt-2 text-sm text-red-600 dark:text-red-400" role="alert">{ratingError.message}</p>}
                   </article>
                 )
               })}
             </div>
 
             {/* QCM Flash Adaptatif (Projet 15) */}
-            <aside id="qcm-section" className="space-y-5">
+            {activeQcm && <aside id="qcm-section" className="space-y-5">
               <div className="glowing-card sticky top-24 rounded-2xl p-5 shadow-xl">
                 <div className="flex items-center justify-between border-b border-slate-200/80 pb-3.5 dark:border-white/10">
                   <div className="flex items-center gap-2">
@@ -4854,9 +5103,9 @@ export function CourseExerciseQcmDoubleMode({
 
                 {/* Question */}
                 <div className="mt-5 rounded-xl border border-slate-200/80 bg-white/80 p-4 text-xs dark:border-white/10 dark:bg-white/5">
-                  <p className="font-semibold text-[#172033] dark:text-white leading-relaxed">
-                    {activeQcm.questionText}
-                  </p>
+                  {activeQcm.published
+                    ? <CourseLatex className="font-semibold leading-relaxed" value={activeQcm.questionText} />
+                    : <p className="font-semibold text-[#172033] dark:text-white leading-relaxed">{activeQcm.questionText}</p>}
                   {activeQcm.questionMath && (
                     <div className="my-2">
                       <MathFormula math={activeQcm.questionMath} block />
@@ -4895,7 +5144,7 @@ export function CourseExerciseQcmDoubleMode({
                           {opt.label}
                         </span>
                         <div className="flex-1 overflow-x-auto text-xs">
-                          <MathFormula math={opt.math} />
+                          {activeQcm.published ? <CourseLatex value={opt.math} /> : <MathFormula math={opt.math} />}
                         </div>
                       </button>
                     )
@@ -4905,12 +5154,12 @@ export function CourseExerciseQcmDoubleMode({
                 {/* Explication */}
                 {isAnswerSubmitted && (
                   <div className="mt-4 rounded-xl border border-emerald-500/40 bg-emerald-500/10 p-3.5 text-xs text-emerald-950 dark:text-emerald-200">
-                    <p className="font-bold">{activeQcm.explanation}</p>
+                    {activeQcm.published ? <CourseLatex className="font-bold" value={activeQcm.explanation} /> : <p className="font-bold">{activeQcm.explanation}</p>}
                   </div>
                 )}
               </div>
-            </aside>
-          </div>
+            </aside>}
+          </div>}
         </main>
       )}
 
@@ -5277,6 +5526,7 @@ export function CourseExerciseQcmDoubleMode({
           <ConcoursPdfExamViewer
             exam={selectedConcoursExamItem ?? currentExam}
             initialMode={examInitialMode}
+            initialDocument={examInitialPart}
             onReport={onReport && (() => {
               const exam = selectedConcoursExamItem ?? currentExam
               onReport({ ref: exam.id, title: exam.title })

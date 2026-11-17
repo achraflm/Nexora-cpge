@@ -8,29 +8,29 @@ interface ActivityCellData {
   date: string
   dayName: string
   level: number
-  sessions: number
+  active: boolean
   duration: string
-  subject?: string
 }
 
 export function ActivityBar({activity=[],today=new Date().toISOString().slice(0,10),streak=0}:{activity?:{date:string;minutes:number}[];today?:string;streak?:number}) {
   const [hoveredCell, setHoveredCell] = useState<ActivityCellData | null>(null)
 
-  const WEEKS=53
  const dayLabels=['L','','M','','V','','D']
  const names=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche']
  const year=Number(today.slice(0,4)), start=new Date(Date.UTC(year,0,1))
  start.setUTCDate(start.getUTCDate()-((start.getUTCDay()+6)%7))
+ const weeks=Math.ceil((Date.UTC(year+1,0,1)-start.getTime())/(7*86400000))
  const lookup=new Map(activity.map(d=>[d.date,d.minutes]))
  const monthMilestones:Record<number,string>={}
  let month=-1
- const weeksData:ActivityCellData[][]=Array.from({length:WEEKS},(_,w)=>Array.from({length:7},(_,d)=>{
+ const weeksData:ActivityCellData[][]=Array.from({length:weeks},(_,w)=>Array.from({length:7},(_,d)=>{
  const date=new Date(start);date.setUTCDate(start.getUTCDate()+w*7+d)
  const key=date.toISOString().slice(0,10), minutes=date.getUTCFullYear()===year && key<=today ? lookup.get(key)||0 : 0
+ const active=key<=today && date.getUTCFullYear()===year && lookup.has(key)
  if(date.getUTCFullYear()===year && month!==date.getUTCMonth()){monthMilestones[w]=date.toLocaleDateString('fr-FR',{month:'short',timeZone:'UTC'});month=date.getUTCMonth()}
- return {date:key,dayName:names[d],level:minutes===0?0:minutes<45?1:minutes<90?2:minutes<150?3:4,sessions:minutes>0?1:0,duration:`${minutes} min`}
+ return {date:key,dayName:names[d],level:!active?0:minutes<45?1:minutes<90?2:minutes<150?3:4,active,duration:minutes ? `${minutes} min` : 'Moins d’une minute chronométrée'}
  }))
- const activeDays=activity.filter(d=>d.minutes>0).length
+ const activeDays=activity.length
  const elapsed=Math.max(1,Math.floor((Date.parse(today)-Date.UTC(year,0,1))/86400000)+1)
   return (
     <section
@@ -73,7 +73,7 @@ export function ActivityBar({activity=[],today=new Date().toISOString().slice(0,
         <div className="inline-flex flex-col">
           {/* Months labels row: aligned with the week columns */}
           <div className="mb-1 flex pl-4 sm:pl-5 gap-[2.5px] sm:gap-[3px] text-[8.5px] font-semibold text-[#71809A] dark:text-[#91a9c8]">
-            {Array.from({ length: WEEKS }).map((_, wIdx) => (
+            {Array.from({ length: weeks }).map((_, wIdx) => (
               <div
                 key={wIdx}
                 className="relative h-3 w-[11px] sm:w-[11.5px] lg:w-[12px] shrink-0"
@@ -112,8 +112,9 @@ export function ActivityBar({activity=[],today=new Date().toISOString().slice(0,
                       onMouseEnter={() => setHoveredCell(cell)}
                       onMouseLeave={() => setHoveredCell(null)}
                       onClick={() => setHoveredCell(cell)}
+                      onFocus={() => setHoveredCell(cell)}
                       className={`activity-cell activity-${cell.level} relative cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#3978F6]`}
-                      aria-label={`${cell.dayName} ${cell.date} : niveau ${cell.level}, ${cell.sessions} sessions`}
+                      aria-label={`${cell.dayName} ${cell.date} · ${cell.active ? cell.duration : 'Aucune activité'}`}
                     />
                   ))}
                 </div>
@@ -132,17 +133,8 @@ export function ActivityBar({activity=[],today=new Date().toISOString().slice(0,
               <span className="font-bold text-[#172033] dark:text-white">
                 {hoveredCell.dayName} {hoveredCell.date} :
               </span>
-              {hoveredCell.sessions > 0 ? (
-                <>
-                  <span className="font-semibold text-[#2866dc] dark:text-[#74a5ff]">
-                    {hoveredCell.sessions} session{hoveredCell.sessions > 1 ? 's' : ''} ({hoveredCell.duration})
-                  </span>
-                  {hoveredCell.subject && (
-                    <span className="rounded bg-white/80 px-1.5 py-0.2 text-xs font-medium shadow-xs dark:bg-[#1a2d4f] dark:text-[#cbd5e1]">
-                      {hoveredCell.subject}
-                    </span>
-                  )}
-                </>
+              {hoveredCell.active ? (
+                <span className="font-semibold text-[#2866dc] dark:text-[#74a5ff]">{hoveredCell.duration}</span>
               ) : (
                 <span className="italic text-[#94a3b8]">Repos</span>
               )}
@@ -150,7 +142,7 @@ export function ActivityBar({activity=[],today=new Date().toISOString().slice(0,
           ) : (
             <div className="flex items-center gap-1.5 text-[#71809A] dark:text-[#91a9c8]">
               <Award className="size-3.5 text-amber-500" strokeWidth={1.75} />
-              <span>Survolez un jour pour afficher la durée et les sessions.</span>
+              <span>Sélectionnez un jour pour afficher la durée de révision.</span>
             </div>
           )}
         </div>

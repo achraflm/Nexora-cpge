@@ -96,3 +96,12 @@ export const cpgeProgramme = {
     ],
   },
 } satisfies Record<string, Record<'sup' | 'spe', string[]>>
+
+export const programmeSubjects = { MATH: 'maths', PHYS: 'physique', SI: 'si', INFO: 'info' } as const
+export const programmeSubjectLabels = {
+  MATH: 'Mathématiques', PHYS: 'Physique-Chimie', SI: 'Sciences industrielles', INFO: 'Informatique',
+} as const
+
+export function programmeChapters(subject: keyof typeof programmeSubjects, level: 'SUP' | 'SPE') {
+  return cpgeProgramme[programmeSubjects[subject]][level === 'SUP' ? 'sup' : 'spe']
+}

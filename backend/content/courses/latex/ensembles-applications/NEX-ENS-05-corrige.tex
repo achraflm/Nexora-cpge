@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / NEX-ENS-05 / Corrigé}\par
+{\LARGE\bfseries Ce qu’une composition injective impose}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Injection}
+Si $f(a)=f(b)$, les images composées coïncident, donc $a=b$. En revanche, prendre $E=\{0\}$, $F=\{0,1\}$, $G=\{0\}$, avec $f(0)=0$ et $g$ constante. La composition est injective mais $g$ ne l’est pas.
+
+\section*{Surjection}
+Pour chaque $z\in G$, un antécédent par la composition produit $f(x)\in F$ tel que $g(f(x))=z$. Donc $g$ est surjective. Le contre-exemple précédent a aussi une composition surjective, alors que $f$ ne couvre pas $F$.
+
+
+\end{document}

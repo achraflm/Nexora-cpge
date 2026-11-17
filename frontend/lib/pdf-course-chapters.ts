@@ -18,6 +18,9 @@ const tdPairs: Record<string, string> = {
 }
 const slug = (url: string) => new URL(url).pathname.split('/').filter(Boolean).at(-1)!
 const subjects = { maths: 'MATH', physique: 'PHYS', si: 'SI', info: 'INFO' } as const
+const programmeTitles: Record<string, string> = {
+  'reduction-dendomorphismes': 'Réduction des endomorphismes',
+}
 
 export const pdfCourseChapters: PdfCourseChapter[] = resources.filter(resource => resource.type === 'COURSE').map(course => ({
   id: `pdf-${course.subject}-${course.level}-${slug(course.sourceUrl)}`,
@@ -30,8 +33,11 @@ export function getPdfCourseChapters(subjectId: keyof typeof subjects, level: 's
   const normalize = (title: string) => title.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '')
   const remaining = new Set(existing)
   const chapters: PdfCourseChapter[] = cpgeProgramme[subjectId][level].map((title, index) => {
-    const match = existing.find(chapter => normalize(chapter.course.title) === normalize(title))
-    if (match) { remaining.delete(match); return match }
+    const match = existing.find(chapter => normalize(programmeTitles[slug(chapter.course.sourceUrl)] ?? chapter.course.title) === normalize(title))
+    if (match) {
+      remaining.delete(match)
+      return { ...match, course: { ...match.course, title, orderIndex: index + 1 } }
+    }
     const course: CourseDocument = {
       subject: subjects[subjectId], level: level.toUpperCase(), type: 'COURSE',
       title, category: 'Programme ' + (level === 'sup' ? 'MPSI' : 'MP'),
@@ -43,5 +49,5 @@ export function getPdfCourseChapters(subjectId: keyof typeof subjects, level: 's
       td: { ...course, title: `TD — ${title}`, type: 'TD' },
     }
   })
-  return [...chapters, ...remaining]
+  return [...chapters, ...[...remaining].filter(chapter => chapter.course.localPdfUrl || chapter.td?.localPdfUrl)]
 }

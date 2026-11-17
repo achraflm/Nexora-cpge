@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / NEX-LOG-03 / Corrigé}\par
+{\LARGE\bfseries Un reste qui interdit une divisibilité}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Contraposée}
+Si $5$ divise $n$, alors $n^2-1\equiv-1\pmod5$, donc cette expression n’est pas divisible par $5$. C’est la contraposée recherchée.
+
+\section*{Réciproque}
+Elle affirmerait que tout entier non divisible par $5$ vérifie $5\mid(n^2-1)$. Pour $n=2$, on a $n^2-1=3$. La réciproque est fausse.
+
+
+\end{document}

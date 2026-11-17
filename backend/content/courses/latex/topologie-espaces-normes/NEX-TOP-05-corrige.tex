@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / NEX-TOP-05 / Corrigé}\par
+{\LARGE\bfseries Un minimum sur une droite non bornée}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Restriction à un compact}
+On a $f(3,0)=1$. Le sous-ensemble $K=D\cap\{f\le1\}$ est fermé par continuité des deux fonctions qui le définissent. Il est borné, car $|x-2|\le1$ et $|y|\le1/\sqrt3$. Il est donc compact et non vide. Le minimum de $f$ sur $K$ existe et vaut au plus $1$. Comme $f>1$ sur $D\setminus K$, ce minimum vaut aussi sur $D$.
+
+\section*{Calcul et unicité}
+Avec $x=3-2y$, on obtient $f=1-4y+7y^2=7(y-2/7)^2+3/7$. Le minimum est $3/7$, uniquement pour $y=2/7$ et $x=17/7$.
+
+
+\end{document}

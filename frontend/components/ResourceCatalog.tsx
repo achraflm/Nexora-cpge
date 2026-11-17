@@ -3,15 +3,28 @@ import { useEffect,useState } from 'react'
 import { BookOpen,NotebookPen,Search,FileText,ArrowRight } from 'lucide-react'
 import { RESOURCE_SUBJECTS,resourceRequest,type EducationalResource } from '@/lib/educational-resources'
 import dynamic from 'next/dynamic'
+import type { DocumentReference } from '@/lib/study-activity'
 
 const ResourceReader = dynamic(() => import('./ResourceReader').then(m => m.ResourceReader), {
   loading: () => <p role="status" className="px-5 py-8">Ouverture du document…</p>,
 })
 
-export function ResourceCatalog({ onReport }: { onReport?: (reference: { ref: string; title: string }) => void }) {
+export function ResourceCatalog({ onReport, initialDocument }: { onReport?: (reference: { ref: string; title: string }) => void; initialDocument?: DocumentReference }) {
   const [track,setTrack]=useState(''),[subject,setSubject]=useState(''),[type,setType]=useState(''),[q,setQ]=useState(''),[sort,setSort]=useState('desc')
   const [items,setItems]=useState<EducationalResource[]>([]),[loading,setLoading]=useState(true),[error,setError]=useState(''),[selected,setSelected]=useState<EducationalResource|null>(null),[retry,setRetry]=useState(0)
   const [search, setSearch] = useState('')
+  const requestedId = initialDocument?.section === 'ressources' ? initialDocument.documentId : undefined
+  const [opening,setOpening] = useState(Boolean(requestedId))
+  const [openError,setOpenError] = useState('')
+  useEffect(() => {
+    if (!requestedId) return
+    const controller = new AbortController()
+    resourceRequest(`/${encodeURIComponent(requestedId)}`, { signal: controller.signal })
+      .then(resource => { if (!controller.signal.aborted) setSelected(resource) })
+      .catch(error => { if (!controller.signal.aborted) setOpenError(error.message) })
+      .finally(() => { if (!controller.signal.aborted) setOpening(false) })
+    return () => controller.abort()
+  }, [requestedId])
   useEffect(() => {
     const timer = setTimeout(() => setSearch(q.trim()), 150)
     return () => clearTimeout(timer)
@@ -33,8 +46,10 @@ export function ResourceCatalog({ onReport }: { onReport?: (reference: { ref: st
     return () => controller.abort()
   }, [track, subject, type, search, sort, retry])
   if(selected)return <ResourceReader resource={selected} onBack={()=>setSelected(null)} onReport={onReport && (() => onReport({ ref: 'RES-' + selected.id, title: selected.title }))}/>
+  if(opening)return <p role="status" className="px-5 py-8">Ouverture du document…</p>
   return <section className="mx-auto max-w-[1440px] px-5 py-8 lg:px-8">
     <p className="ui-eyebrow">Bibliothèque pédagogique</p><h1 className="mt-2 text-3xl font-bold">Cours & travaux dirigés</h1><p className="ui-page-description">Les documents publiés par vos enseignants, à consulter directement ici.</p>
+    {openError && <p role="alert" className="my-4">{openError}</p>}
     <div className="glowing-card my-6 grid gap-4 rounded-2xl p-5 md:grid-cols-3 xl:grid-cols-5">
       <label className="text-sm">Filière / année<select aria-label="Filière / année" className="mt-2 w-full rounded-lg border bg-white p-2 dark:bg-slate-900" value={track} onChange={e=>setTrack(e.target.value)}><option value="">Tous les niveaux</option><option value="MPSI">MPSI · SUP</option><option value="MP">MP · SPE</option></select></label>
       <label className="text-sm">Matière<select aria-label="Matière" className="mt-2 w-full rounded-lg border bg-white p-2 dark:bg-slate-900" value={subject} onChange={e=>setSubject(e.target.value)}><option value="">Toutes les matières</option>{Object.entries(RESOURCE_SUBJECTS).map(([code,name])=><option key={code} value={code}>{name}</option>)}</select></label>

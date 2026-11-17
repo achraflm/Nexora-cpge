@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / NEX-TOP-04 / Corrigé}\par
+{\LARGE\bfseries Une majoration matricielle atteinte}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Majoration uniforme}
+Avec $M=\max(|x|,|y|,|z|)$, chaque coordonnée de $u(x,y,z)$ est en module au plus $6M$, par l’inégalité triangulaire. Ainsi $\|u\|_{\mathrm{op}}\le6$.
+
+\section*{Égalité et continuité}
+Le vecteur $(1,-1,1)$ est de norme $1$ et son image vaut $(6,-4)$. On a donc $\|u\|_{\mathrm{op}}=6$. Par linéarité, $\|u(v)-u(w)\|_\infty\le6\|v-w\|_\infty$. Le même vecteur, comparé au vecteur nul, montre que cette constante est optimale.
+
+
+\end{document}

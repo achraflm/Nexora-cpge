@@ -23,6 +23,7 @@ import { StudioSidebar, type SearchResult, type SearchState } from "./StudioSide
 import { ExamDock, StudyToolbar, type StudioDocument, type ToolbarActions, type ToolbarState } from "./StudioToolbar"
 import { readLastPosition, saveLastPosition, useBookmarks, useReadingPreferences } from "./useReadingPreferences"
 import { useVisiblePages } from "./useVisiblePages"
+import { useStudyDocument, type StudyDocument } from "@/lib/study-activity"
 
 export type { StudioDocument } from "./StudioToolbar"
 export type { StudioMode } from "./modes"
@@ -40,6 +41,7 @@ export interface DocumentStudioProps {
   rememberPosition?: boolean
   presentation?: "problems"
   pageRequest?: { page: number }
+  studyDocument?: StudyDocument
   className?: string
 }
 
@@ -65,6 +67,7 @@ export function DocumentStudio({
   rememberPosition = false,
   presentation,
   pageRequest,
+  studyDocument,
   className = "",
 }: DocumentStudioProps) {
   const config = useMemo(() => presentation === "problems"
@@ -79,12 +82,14 @@ export function DocumentStudio({
   // ------------------------------------------------------------------------
   const [doc, setDoc] = useState<PDFDocumentProxy | null>(null)
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading")
+  const [loadedUrl, setLoadedUrl] = useState<string | null>(null)
   const [progress, setProgress] = useState<number | null>(null)
   const [errorMsg, setErrorMsg] = useState("")
   const [reloadToken, setReloadToken] = useState(0)
   const [sizes, setSizes] = useState<PageSize[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const numPages = doc?.numPages ?? 0
+  useStudyDocument(studyDocument, status === 'ready' && loadedUrl === url && !concealed)
 
   /** Position de lecture : page en haut de l'écran + fraction déjà défilée */
   const anchorRef = useRef<{ page: number; ratio: number }>({ page: 1, ratio: 0 })
@@ -116,6 +121,7 @@ export function DocumentStudio({
         setSizes(Array.from({ length: pdf.numPages }, () => base))
         setCurrentPage(startPage)
         setDoc(pdf)
+        setLoadedUrl(url)
         setStatus("ready")
         // Dimensions réelles de chaque page en arrière-plan (formats mixtes)
         const all: PageSize[] = [base]

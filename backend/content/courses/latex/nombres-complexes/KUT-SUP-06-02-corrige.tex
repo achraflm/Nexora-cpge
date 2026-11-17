@@ -1,0 +1,34 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / KUT-SUP-06-02 / Corrigé}\par
+{\LARGE\bfseries Factoriser à partir des racines cubiques}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Module et arguments}
+Le module est la solution positive de $r^3=27$, donc $r=3$. Les angles $\theta$ vérifient $3\theta\in2\pi\mathbb Z$. On prend $0$, $2\pi/3$ et $4\pi/3$ modulo $2\pi$.
+
+\section*{Coordonnées et interprétation}
+Les trois points ont le même module et sont espacés angulairement de $2\pi/3$. Ils forment un triangle équilatéral centré à l’origine.
+\[ \left\{3,\ -\frac32+i\frac{3\sqrt3}{2},\ -\frac32-i\frac{3\sqrt3}{2}\right\}. \]
+
+\section*{Factorisations}
+Sur $\mathbb C$, prendre le produit des trois facteurs $X-w_k$ associés aux racines. Sur $\mathbb R$, regrouper les deux facteurs conjugués. La somme de ces racines vaut $-3$ et leur produit vaut $9$.
+\[ X^3-27=(X-3)(X^2+3X+9). \]
+
+\bigskip
+{\footnotesize Adaptation française par Nexora CPGE. Source : Ken Kuttler (Lyryx),
+\href{https://math.libretexts.org/Bookshelves/Linear_Algebra/A_First_Course_in_Linear_Algebra_(Kuttler)/06:_Complex_Numbers/6.03:_Roots_of_Complex_Numbers}{\textit{A First Course in Linear Algebra}}, § 6.3, exemple 2.
+\href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}.}
+\end{document}

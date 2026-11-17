@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / NEX-RED-03 / Corrigé}\par
+{\LARGE\bfseries Une matrice triangulaire sans base propre}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Dimensions}
+On a $\chi_A=(X-4)^2(X+1)$. Dans $\ker(A-4I)$, la seconde et la troisième coordonnées sont nulles. Dans $\ker(A+I)$, seules les troisièmes coordonnées sont libres. On obtient deux droites propres, insuffisantes en dimension trois.
+
+\section*{Polynôme minimal}
+Le premier bloc exige le facteur $(X-4)^2$ et le dernier bloc exige $X+1$. Ces facteurs sont premiers entre eux. Leur produit, qui annule les deux blocs, est le polynôme minimal.
+
+
+\end{document}

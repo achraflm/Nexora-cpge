@@ -16,6 +16,12 @@ Les comptes suivants sont fictifs et réservés au développement local.
 
 Depuis backend, démarrer PostgreSQL avec `docker compose up -d postgres`, puis exécuter `npm run db:generate`, `npm run db:push`, `npm run db:seed:demo` et `npm run dev`. Le fichier `.env` reprend `.env.example` avec deux secrets aléatoires distincts pour JWT_ACCESS_SECRET et INTERNAL_SECRET.
 
+Sur une installation existante, arrêter le service d’analytique, puis lancer depuis `backend` `npm run db:generate -w analytics-streak-service` et `npm run db:push -w analytics-streak-service` avant de le redémarrer. L’historique des quatre derniers documents commence à la première consultation enregistrée après cette mise à jour.
+
+Pour charger les chapitres publiés de Cours & TD, lancer `npm run courses:import` dans `backend` après la mise à jour du schéma. Les sources, licences et commandes de recompilation sont dans le [rapport Cours & TD](rapport-cours-td-prototype.md).
+
+Pour activer l’édition des chapitres sur une installation existante, arrêter le service catalogue, lancer `npm run db:push -w catalog-course-service` depuis `backend`, puis redémarrer le service. Dans **Administration → Cours & TD → Chapitres**, sélectionner le niveau, la matière, le chapitre et la partie Cours ou TD. Le LaTeX est lu dans la partie choisie. Les PDF importés sont stockés dans PostgreSQL et apparaissent dans **Documents supplémentaires** après publication. L’import des cours de référence et l’édition administrative utilisent des données distinctes.
+
 Depuis frontend, exécuter `npm run dev`. Ouvrir http://localhost:3000/login. La configuration facultative du frontend est décrite dans `.env.example`. APP_ORIGIN doit correspondre exactement à l’origine du navigateur.
 
 Le seed crée sept comptes, quatre matières, huit chapitres, leçons, exercices et QCM, quatre ouvrages et trente jours de données d’activité fictives avec des jours de repos. Les identifiants sont stables. Les relances conservent les enregistrements existants. Les coefficients de matières sont des valeurs de test égales à un. Le seed refuse NODE_ENV=production.
@@ -27,6 +33,18 @@ Sur une base existante, appliquer le script SQL additif [account-management.sql]
 - Dans **Administration → Comptes**, créer, rechercher, consulter et modifier les comptes étudiants ou administrateurs. Le rôle est fixé à la création. Un administrateur peut désactiver et réactiver un compte. Au moins un administrateur doit rester actif.
 - Dans **Paramètres**, les modifications de profil, de photo, de badge, d’année et de préférences sont enregistrées dans PostgreSQL. Le changement de mot de passe vérifie le mot de passe actuel et demande une nouvelle connexion.
 - Dans **Paramètres → Sécurité & Mot de passe**, un étudiant peut désactiver son compte. Ses données restent liées au même identifiant. La désactivation révoque les sessions et bloque aussi les jetons d’accès déjà délivrés. Après réactivation, une nouvelle connexion est nécessaire.
+
+## Transcription d’images en LaTeX
+
+**Déposer mon travail** s’affiche dans un TD, un problème ou un sujet de concours ouvert. En mode concours, l’action se trouve dans la fenêtre de remise de copie. L’étudiant peut utiliser la caméra ou importer un fichier JPEG, PNG ou WebP de 15 Mo au plus. Nexora redimensionne l’image pour la transcription et conserve le fichier sélectionné lors du dépôt. L’étudiant peut corriger le LaTeX après l’enregistrement de la photo.
+
+L’enregistrement de la photo crée une pochette personnelle au nom du TD, du problème ou du sujet dans **Mes pochettes**. Le lien **Consulter la pochette** est disponible dès l’enregistrement de la photo. La photo reste visible tant que la transcription est à vérifier. Après validation du rendu, la pochette affiche la copie mise en page avec sa source `.tex` et permet de l’imprimer ou de l’enregistrer en PDF.
+
+Dans une fiche ouverte d’une pochette de révision, **Documents de la fiche** propose **Importer un PDF**, **Prendre une photo** et **Importer une image**. Les documents importés dans ces fiches et les fiches elles-mêmes sont enregistrés dans le navigateur utilisé. La saisie manuelle en LaTeX et son aperçu sont disponibles dans la fiche et dans les copies déposées.
+
+Sur une installation existante, arrêter le service de remise de copies, lancer `npm run db:push -w exam-submission-service` depuis `backend`, puis relancer le service.
+
+Pour activer la transcription automatique, retourner sa propre fonction dans `getVisionProvider()` ([vision-provider.ts](../frontend/lib/vision-provider.ts)). Elle reçoit les octets d’une image JPEG, ses dimensions et un signal d’annulation. Elle renvoie `{ latex, status }`, avec `ok` pour un résultat complet, `partial` ou `limited` lorsqu’une vérification est nécessaire et `unreadable` lorsque le document est illisible. Nexora prépare l’image à 2 560 pixels maximum sur son côté le plus long et peut relire par zones. Les identifiants éventuels du modèle restent côté serveur.
 
 ## Fonctionnement et protections
 

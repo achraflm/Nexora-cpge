@@ -1,0 +1,32 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / WKB-SPE-SI-02 / Corrigé}\par
+{\LARGE\bfseries Réponse impulsionnelle et réponse indicielle}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Entrée impulsionnelle}
+La transformée de l’impulsion unitaire est $1$. Donc $Y_{\mathrm{imp}}(p)=H(p)$.
+
+\section*{Entrée indicielle}
+La transformée de l’échelon unitaire est $1/p$. Par conséquent $Y_{\mathrm{ech}}(p)=H(p)/p$.
+
+\section*{Lien dans le domaine temporel}
+Pour une réponse impulsionnelle ordinaire, la réponse à l’échelon est sa primitive causale, $y_{\mathrm{ech}}(t)=\int_0^t y_{\mathrm{imp}}(\sigma)\,d\sigma$. La formule $H(p)/p$ concerne la transformée de la réponse et reste valable même si la réponse impulsionnelle porte une contribution instantanée.
+
+\bigskip
+{\footnotesize Adaptation française par Nexora CPGE. Source : Contributeurs de Wikibooks,
+\href{https://en.wikibooks.org/wiki/Control_Systems/Transfer_Functions\#Using_the_Transfer_Function}{\textit{Control Systems}}, Transfer Functions, exemples Impulse Response et Step Response.
+\href{https://creativecommons.org/licenses/by-sa/4.0/}{CC BY-SA 4.0}.}
+\end{document}

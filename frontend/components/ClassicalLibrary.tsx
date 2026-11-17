@@ -6,15 +6,17 @@ import { GraduationCap, Atom, Flask, Gear, TerminalWindow } from '@phosphor-icon
 import { CLASSIC_SUBJECTS, CORRECTION_LABELS, DIFFICULTIES, PROBLEM_TYPES, PROGRESS_LABELS, classicRequest, emptyProgress, type ClassicProblem, type ClassicProgress, type ClassicSource } from '@/lib/classical-library'
 import { DocumentStudio } from './document-studio'
 import { MathFormula } from './MathFormula'
+import { StudyWorkDeposit } from './StudyWorkDeposit'
+import type { DocumentReference } from '@/lib/study-activity'
 
 const control='rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm dark:border-white/15 dark:bg-slate-900'
 function SourceDetails({source}:{source:ClassicSource}) {
   return <details className="text-xs text-slate-500 dark:text-slate-400"><summary className="cursor-pointer">Crédits du document</summary><p className="mt-2">{source.author || source.institution || source.sourceName} · {source.license}</p></details>
 }
-function ProblemDetail({problem,onBack,onReport}:{problem:ClassicProblem;onBack:()=>void;onReport?:()=>void}) {
+function ProblemDetail({problem,onBack,onReport,initialPart='statement'}:{problem:ClassicProblem;onBack:()=>void;onReport?:()=>void;initialPart?:'statement'|'correction'}) {
   const [progress,setProgress]=useState<ClassicProgress>(problem.progress || emptyProgress)
   const [notes,setNotes]=useState(progress.notes),[busy,setBusy]=useState(false),[message,setMessage]=useState(''),[error,setError]=useState('')
-  const [mode,setMode]=useState<'statement'|'correction'>('statement'),[page,setPage]=useState(1),[bookmarkNote,setBookmarkNote]=useState(''),[pageRequest,setPageRequest]=useState({ page: 1 })
+  const [mode,setMode]=useState(initialPart),[page,setPage]=useState(1),[bookmarkNote,setBookmarkNote]=useState(''),[pageRequest,setPageRequest]=useState({ page: 1 })
   useEffect(()=>{window.scrollTo({top:0,behavior:'instant'})},[problem.id])
   const source=mode==='statement'?problem.metadata.statement:problem.metadata.correction
   const viewerUrl=source?.access==='LOCAL'?`/api/classical-problems/${problem.id}/document/${mode}`:null
@@ -23,7 +25,10 @@ function ProblemDetail({problem,onBack,onReport}:{problem:ClassicProblem;onBack:
     try{setProgress(await classicRequest(`/${problem.id}/progress`,'PUT',patch));setMessage('Enregistré.')}catch(e){setError((e as Error).message)}finally{setBusy(false)}
   }
   return <section className="mx-auto max-w-7xl space-y-5 p-4 sm:p-8">
-    <button className="ui-button-secondary" onClick={onBack}><ArrowLeft size={16}/> Bibliothèque</button>
+    <div className="flex flex-wrap gap-3">
+      <button className="ui-button-secondary" onClick={onBack}><ArrowLeft size={16}/> Bibliothèque</button>
+      <StudyWorkDeposit key={problem.id} kind="probleme" resourceId={problem.id} title={problem.title} />
+    </div>
     <div className="glowing-card space-y-4 rounded-2xl p-4 sm:p-6"><p className="text-sm text-blue-500">{CLASSIC_SUBJECTS[problem.subject.code]} · {problem.level==='SUP'?'Sup':'Spé'} · {problem.chapterLabel}</p><h1 className="text-2xl font-bold">{problem.title}</h1><details><summary className="cursor-pointer text-sm">À propos de ce problème</summary><p className="mt-3">{problem.metadata.description}</p><p className="text-sm">{PROBLEM_TYPES[problem.problemType]} · {DIFFICULTIES[problem.difficulty]} · environ {problem.metadata.estimatedMinutes} min</p><p className="text-sm">Prérequis : {problem.metadata.prerequisites.join(', ') || 'Non renseignés'}</p></details>
 
     </div>
@@ -40,6 +45,7 @@ function ProblemDetail({problem,onBack,onReport}:{problem:ClassicProblem;onBack:
               activeDocumentId={mode}
               pageRequest={pageRequest}
               onPageChange={setPage}
+              studyDocument={{ section: 'problemes', documentId: problem.id, part: mode, title: problem.title, subjectCode: problem.subject.code === 'CHEM' ? 'PHYS' : problem.subject.code }}
             />
           </div>
         ) : <p className="text-sm text-slate-500">Le document sera disponible ici dès que son import sera terminé.</p>}
@@ -118,18 +124,34 @@ const problemFormulas: Readonly<Partial<Record<string, string>>> = {
   'Fonction gamma d’Euler': String.raw`\Gamma(x)=\int_0^{+\infty}t^{x-1}e^{-t}\,\mathrm{d}t`,
 }
 
-export function ClassicalLibrary({onBackToDashboard,onReport}:{onBackToDashboard?:()=>void;onReport?:(item:{ref:string;title:string})=>void}) {
+export function ClassicalLibrary({onBackToDashboard,onReport,initialDocument}:{onBackToDashboard?:()=>void;onReport?:(item:{ref:string;title:string})=>void;initialDocument?:DocumentReference}) {
   const [all,setAll]=useState<ClassicProblem[]>([]),[selected,setSelected]=useState<ClassicProblem|null>(null),[loading,setLoading]=useState(true),[error,setError]=useState(''),[reload,setReload]=useState(0)
   const [subject,setSubject]=useState<keyof typeof CLASSIC_SUBJECTS|null>(null)
+  const [requested,setRequested]=useState(initialDocument?.section === 'problemes' ? initialDocument : undefined)
+  const [part,setPart]=useState<'statement'|'correction'>('statement')
+  const [unavailable,setUnavailable]=useState(false)
   useEffect(()=>{const abort=new AbortController();setLoading(true);setError('');classicRequest('','GET',undefined,abort.signal).then(data=>setAll(data.problems)).catch(e=>{if(e.name!=='AbortError')setError(e.message)}).finally(()=>{if(!abort.signal.aborted)setLoading(false)});return()=>abort.abort()},[reload])
+  useEffect(()=>{
+    if (loading || error || !requested) return
+    const problem = all.find(item => item.id === requested.documentId && item.state === 'PUBLISHED' && item.metadata.statement.access === 'LOCAL' && item.metadata.statement.resourceId)
+    if (problem && (requested.part === 'statement' || problem.correctionAvailable)) {
+      setSubject(problem.subject.code)
+      setSelected(problem)
+      setPart(requested.part === 'correction' ? 'correction' : 'statement')
+    } else setUnavailable(true)
+    setRequested(undefined)
+  },[all,error,loading,requested])
   function chooseSubject(value:typeof subject){setSubject(value);window.scrollTo({top:0,behavior:'instant'})}
-  if(selected)return <ProblemDetail key={selected.id} problem={selected} onBack={()=>{setSelected(null);setReload(x=>x+1)}} onReport={onReport?()=>onReport({ref:`CLASSIC-${selected.id}`,title:selected.title}):undefined}/>
+  if(selected)return <ProblemDetail key={selected.id} problem={selected} initialPart={part} onBack={()=>{setSelected(null);setPart('statement');setReload(x=>x+1)}} onReport={onReport?()=>onReport({ref:`CLASSIC-${selected.id}`,title:selected.title}):undefined}/>
   const available=all.filter(p=>p.state==='PUBLISHED' && p.metadata.statement.access==='LOCAL' && p.metadata.statement.resourceId)
   const problems=available.filter(p=>p.subject.code===subject)
   return <main className="mx-auto max-w-7xl space-y-7 p-4 text-slate-900 sm:p-8 dark:text-slate-100">
-    {subject?<button className="ui-button-secondary" onClick={()=>chooseSubject(null)}><ArrowLeft size={16}/> Toutes les matières</button>:onBackToDashboard && <button className="ui-button-secondary" onClick={onBackToDashboard}><ArrowLeft size={16}/> Tableau de bord</button>}
+    <div className="flex flex-wrap gap-3">
+      {subject?<button className="ui-button-secondary" onClick={()=>chooseSubject(null)}><ArrowLeft size={16}/> Toutes les matières</button>:onBackToDashboard && <button className="ui-button-secondary" onClick={onBackToDashboard}><ArrowLeft size={16}/> Tableau de bord</button>}
+    </div>
     <header><p className="mb-2 text-sm font-semibold text-blue-500">APPRENDRE · COMPRENDRE · APPROFONDIR</p><h1 className="text-3xl font-bold sm:text-4xl">{subject?`Problèmes de ${CLASSIC_SUBJECTS[subject].toLocaleLowerCase()}`:'Bibliothèque de problèmes classiques'}</h1><p className="mt-3 max-w-3xl text-slate-500 dark:text-slate-400">{subject?'Choisissez un problème pour lire son énoncé directement ici.':'Choisissez une matière pour découvrir ses problèmes.'}</p></header>
     {loading && <p role="status">Chargement des problèmes…</p>}
+    {unavailable && <p role="status">Ce document n’est plus disponible dans la bibliothèque.</p>}
     {error && <div role="alert" className="rounded-xl border border-red-500 p-4">{error} <button className="underline" onClick={()=>setReload(x=>x+1)}>Réessayer</button></div>}
     {!subject && <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">{(Object.keys(CLASSIC_SUBJECTS) as (keyof typeof CLASSIC_SUBJECTS)[]).map(key=>{
       const {icon:Icon,color,background}=subjectPresentation[key]

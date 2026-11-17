@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / NEX-LOG-05 / Corrigé}\par
+{\LARGE\bfseries Une suite entière toujours multiple de sept}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Récurrence}
+Au rang zéro, $u_0=0$. Si $u_n=7k$, alors $u_{n+1}=8u_n+7=7(8k+1)$. La propriété est héréditaire.
+
+\section*{Somme géométrique}
+Pour $n\ge1$, $8^n-1=7(1+8+\cdots+8^{n-1})$. Le second facteur est entier. Le rang zéro se vérifie directement.
+
+
+\end{document}

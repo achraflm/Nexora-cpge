@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MP / NEX-IND-05 / Corrigé}\par
+{\LARGE\bfseries Courant transitoire dans une bobine secondaire}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Équation de la boucle}
+L’équation s’écrit $L\dot i_2+Ri_2=-M\dot i_1=-0{,}20\,\mathrm V$. La constante de temps est $0{,}040\,\mathrm s$.
+
+\section*{Solution}
+La limite pour une rampe prolongée est $-0{,}20/3\,\mathrm A$. Ainsi $i_2(t)=-(0{,}20/3)(1-e^{-t/0{,}040})\,\mathrm A$. À $80\,\mathrm{ms}$, le résultat vaut environ $-0{,}0576\,\mathrm A$.
+
+
+\end{document}

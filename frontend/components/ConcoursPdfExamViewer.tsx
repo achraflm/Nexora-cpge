@@ -32,6 +32,8 @@ import {
 } from "lucide-react"
 import { MathFormula } from "@/components/MathFormula"
 import { DocumentStudio, type StudioDocument } from "@/components/document-studio"
+import { StudyWorkDeposit } from "@/components/StudyWorkDeposit"
+import { sendStudyActivity, studySubjects } from "@/lib/study-activity"
 
 // ============================================================================
 // TYPES & DATA
@@ -112,7 +114,7 @@ const EXAM_QUESTIONS: ExamQuestionCheck[] = [
 export interface ConcoursExamItem {
   id: string
   concoursId: string
-  subjectId: string
+  subjectId: keyof typeof studySubjects
   year: number
   session: string
   stream: string
@@ -135,6 +137,7 @@ export interface ConcoursPdfExamViewerProps {
   onBack?: () => void
   onReport?: () => void
   initialMode?: ExamViewerMode
+  initialDocument?: 'enonce' | 'corrige'
   candidateName?: string
   tableNumber?: string
   className?: string
@@ -145,6 +148,7 @@ export function ConcoursPdfExamViewer({
   onBack,
   onReport,
   initialMode = "normal",
+  initialDocument = "enonce",
   candidateName = "Achraf Lemrani",
   tableNumber = "2024-MP-0428",
   className = "",
@@ -192,7 +196,7 @@ export function ConcoursPdfExamViewer({
     hasRealPdf ? exam?.questions ?? [] : exam?.questions || EXAM_QUESTIONS
   )
   // Document affiché lorsque de vrais PDF sont disponibles
-  const [activeDoc, setActiveDoc] = useState<"enonce" | "corrige">("enonce")
+  const [activeDoc, setActiveDoc] = useState<"enonce" | "corrige">(initialMode === 'normal' && exam?.corrigeUrl ? initialDocument : 'enonce')
   const [isChecklistOpen, setIsChecklistOpen] = useState<boolean>(false)
 
   // Restrictions & Security tracking
@@ -281,6 +285,8 @@ export function ConcoursPdfExamViewer({
     // Cliquer dans le lecteur PDF (iframe) déclenche un "blur" de la fenêtre : ce n'est pas une sortie d'épreuve
     const handleWindowBlur = () => {
       setTimeout(() => {
+        // A camera prompt or the file picker can temporarily take focus during submission.
+        if (showSubmitModal && !document.hidden && containerRef.current?.querySelector('dialog[data-study-work][open]')) return
         if (document.activeElement?.tagName === "IFRAME" && !document.hidden) return
         handleFocusLoss()
       }, 0)
@@ -293,7 +299,7 @@ export function ConcoursPdfExamViewer({
       window.removeEventListener("blur", handleWindowBlur)
       document.removeEventListener("visibilitychange", handleVisibilityChange)
     }
-  }, [viewerMode, examPhase])
+  }, [viewerMode, examPhase, showSubmitModal])
 
   // --------------------------------------------------------------------------
   // FULLSCREEN TOGGLE
@@ -371,6 +377,7 @@ export function ConcoursPdfExamViewer({
     setExamPhase("submitted")
     setShowSubmitModal(false)
     setShowSoluceUnlocked(true)
+    if (exam) void sendStudyActivity({ type: 'copy_submitted', itemId: exam.id, subjectCode: studySubjects[exam.subjectId] })
   }
 
   const toggleQuestionDone = (id: string) => {
@@ -405,7 +412,7 @@ export function ConcoursPdfExamViewer({
             : "border-slate-200/90 bg-white/90 text-[#172033] shadow-xs dark:border-white/10 dark:bg-[#0b1426]/90 dark:text-white"
         }`}
       >
-        <div className="mx-auto flex h-16 max-w-[1700px] items-center justify-between gap-3 px-3 sm:px-6">
+        <div className={`mx-auto flex h-16 max-w-[1700px] items-center justify-between gap-3 px-3 sm:px-6 ${viewerMode === "normal" ? "max-sm:h-auto max-sm:flex-wrap max-sm:py-2" : ""}`}>
           {/* Left: Back & Title */}
           <div className="flex min-w-0 items-center gap-3">
             {onReport && viewerMode === "normal" && <button type="button" onClick={onReport} className="ui-button-secondary shrink-0">Signaler une erreur</button>}
@@ -519,7 +526,8 @@ export function ConcoursPdfExamViewer({
           )}
 
           {/* Right: Actions and Mode Switcher */}
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <div className={`flex shrink-0 items-center gap-2 sm:gap-3 ${viewerMode === "normal" ? "max-sm:w-full max-sm:justify-end" : ""}`}>
+            {viewerMode === "normal" && exam && <StudyWorkDeposit key={exam.id} kind="concours" resourceId={exam.id} title={exam.title} />}
             {viewerMode === "normal" ? (
               <button
                 type="button"
@@ -700,6 +708,10 @@ export function ConcoursPdfExamViewer({
               title={activeMeta.subject}
               onPageChange={handleStudioPage}
               rememberPosition={viewerMode === "normal"}
+              studyDocument={exam ? {
+                section: 'annales', documentId: exam.id, part: activeDoc === 'corrige' && !corrigeLocked ? 'correction' : 'statement',
+                title: exam.title, subjectCode: studySubjects[exam.subjectId],
+              } : undefined}
               concealed={
                 viewerMode === "concours" && examPhase === "prep" ? (
                   <div className="max-w-sm text-center">
@@ -1291,7 +1303,7 @@ export function ConcoursPdfExamViewer({
               initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.92, opacity: 0 }}
-              className="w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-white/15 dark:bg-[#0c1628]"
+              className="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-white/15 dark:bg-[#0c1628]"
             >
               <div className="flex items-center gap-3 border-b border-slate-100 pb-4 dark:border-white/10">
                 <div className="flex size-11 items-center justify-center rounded-2xl bg-rose-500/15 text-rose-600">
@@ -1358,7 +1370,10 @@ export function ConcoursPdfExamViewer({
                 En confirmant la remise de votre copie, l'épreuve sera scellée. Le <strong>corrigé officiel détaillé</strong> et le barème prévisionnel seront immédiatement déverrouillés.
               </p>
 
-              <div className="flex items-center justify-end gap-3">
+              {exam && <div className="mb-4">
+                <StudyWorkDeposit key={exam.id} kind="concours" resourceId={exam.id} title={exam.title} />
+              </div>}
+              <div className="flex flex-wrap items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setShowSubmitModal(false)}

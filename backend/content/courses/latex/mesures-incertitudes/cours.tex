@@ -1,0 +1,73 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\definecolor{nexorablue}{HTML}{2459B5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\familydefault}{\sfdefault}
+\begin{document}
+
+{\small\bfseries\color{nexorablue} NEXORA CPGE}\par
+{\small MPSI / Cours}\par
+{\LARGE\bfseries Mesures et incertitudes}\par
+\vspace{0.25em}\hrule\vspace{0.6em}
+
+\section*{Mesurande, protocole et unités}
+Le mesurande est la grandeur que l’expérience cherche à déterminer. Avant la mesure, spécifier le dispositif, les conditions expérimentales et le modèle utilisé. « Longueur » peut désigner la distance entre deux repères ou la longueur d’une pièce à une température fixée. Les unités interviennent dès le tableau de données.
+
+Noter la résolution, le calibre et les éventuelles corrections de zéro. Une erreur est l’écart à une valeur de référence connue. Une incertitude est une caractérisation de la dispersion des valeurs plausibles. Corriger un biais connu avant de chiffrer la dispersion restante.
+
+\section*{Incertitude-type et précision}
+L’incertitude-type $u(x)$ s’exprime dans la même unité que $x$ et joue le rôle d’un écart-type. L’incertitude relative $u(x)/|x|$ est sans dimension si $x\ne0$. Deux instruments de résolution identique peuvent avoir des incertitudes différentes à cause de l’étalonnage ou du protocole.
+
+Un résultat s’écrit avec une estimation, son incertitude, une unité et éventuellement un facteur d’élargissement explicitement annoncé.
+
+\section*{Évaluation de type A}
+Pour $N\ge2$ mesures indépendantes et réalisées dans des conditions stables, calculer la moyenne et l’écart-type expérimental. Si le résultat retenu est la moyenne, sa contribution de type A vaut
+\[ \bar x=\frac1N\sum_{i=1}^N x_i,\qquad
+s=\sqrt{\frac{\sum_i(x_i-\bar x)^2}{N-1}},\qquad
+u_A(\bar x)=\frac{s}{\sqrt N}. \]
+Le dénominateur de la variance expérimentale vaut $N-1$ parce qu’on a déjà déterminé la moyenne à partir des mêmes observations. Relever une dérive dans les données avant d’appliquer aveuglément la formule. Une mesure unique n’a pas cette estimation de dispersion.
+
+\section*{Évaluation de type B}
+Utiliser un certificat, une tolérance ou une information instrumentale. Si seule une borne symétrique $[-a,a]$ est connue et qu’on modélise toutes les valeurs de cet intervalle comme équiprobables, l’incertitude-type vaut $a/\sqrt3$. Pour un affichage de pas $q$ arrondi au pas le plus proche, la demi-largeur vaut $q/2$, donc $u=q/\sqrt{12}$.
+
+Exemple. Un pas de $0{,}1\,\mathrm{mm}$ correspond sous ce modèle à $u\simeq0{,}029\,\mathrm{mm}$. Lire les notes du fabricant : une tolérance peut déjà englober la résolution.
+
+\section*{Combinaison de contributions}
+Lorsque plusieurs contributions à la même grandeur sont indépendantes, additionner leurs variances, puis prendre la racine carrée. Une contribution commune à toutes les répétitions, comme un décalage d’étalonnage, ne se divise pas par $\sqrt N$. Augmenter le nombre de mesures diminue la contribution d’échantillonnage et ne corrige pas le décalage.
+
+\section*{Propagation par linéarisation}
+Pour $y=f(x_1,\ldots,x_p)$, la formule au premier ordre repose sur une variation locale linéaire. Pour des entrées indépendantes,
+\[ u(y)^2\simeq\sum_{j=1}^{p}\left(\frac{\partial f}{\partial x_j}\right)^2 u(x_j)^2. \]
+Pour une somme ou une différence, les variances s’ajoutent dans les deux cas si les entrées sont indépendantes. Pour un produit $ab$ ou un quotient $a/b$, le carré de l’incertitude relative est la somme des carrés relatifs, pour des entrées non nulles. Un dénominateur proche de zéro peut invalider l’approximation linéaire.
+
+\section*{Corrélations et simulation}
+Pour $y=a-b$, la variance devient $u(a)^2+u(b)^2-2\operatorname{cov}(a,b)$. Quand le même décalage additif figure dans les deux mesures, il s’élimine exactement dans la différence. Décrire chaque source une seule fois.
+
+Pour une simulation, spécifier les distributions d’entrée puis générer des jeux cohérents de valeurs. À chaque tirage, évaluer la relation du modèle. L’écart-type des résultats estime l’incertitude de sortie. Si une entrée est commune à deux mesures, réutiliser le même tirage au lieu d’en tirer deux indépendamment.
+
+\section*{Comparer deux résultats}
+Pour $x_1$ et $x_2$ indépendants, calculer
+\[ z=\frac{|x_1-x_2|}{\sqrt{u(x_1)^2+u(x_2)^2}}. \]
+Adopter le seuil donné par l’énoncé. Lorsqu’un seuil de $2$ est retenu, un écart inférieur au seuil est jugé compatible selon ce critère. Cela ne prouve pas l’égalité. Pour une référence dont l’incertitude est négligeable, le dénominateur se réduit à l’incertitude de la mesure.
+
+\section*{Régression et résidus}
+Si le modèle prédit $y=ax+b$, représenter les données et calculer une droite ajustée. Sans pondération, la pente s’obtient par
+\[ a=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sum_i(x_i-\bar x)^2},\qquad b=\bar y-a\bar x. \]
+Les résidus $r_i=y_i-(ax_i+b)$ permettent de juger l’accord du modèle : une courbure systématique suggère que la droite ne capture pas le phénomène. Préciser l’unité de la pente et justifier le choix d’une droite passant ou non par l’origine.
+
+\section*{Présenter un résultat et rédiger au CNC}
+Conserver les valeurs intermédiaires sans arrondi prématuré. En fin de calcul, arrondir l’incertitude à un ou deux chiffres significatifs selon la convention retenue, puis arrondir le résultat au même rang décimal. Par exemple, $2{,}0368\,\mathrm V$ avec $u=0{,}0123\,\mathrm V$ devient $(2{,}037\pm0{,}012)\,\mathrm V$ avec deux chiffres pour l’incertitude.
+
+Dans un bilan, écrire successivement la formule du mesurande, les contributions, les hypothèses d’indépendance et la conclusion. Identifier la contribution dominante avant de proposer une amélioration du protocole.
+
+\section*{Fiche de révision}
+Type A pour les répétitions, type B pour les informations instrumentales. Passer par les variances pour combiner des contributions indépendantes. Comparer avec un écart normalisé en annonçant le seuil. Pour une droite, vérifier les résidus, les unités et les domaines d’extrapolation. Terminer par une écriture cohérente avec l’incertitude.
+
+
+\end{document}

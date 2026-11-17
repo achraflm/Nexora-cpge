@@ -85,3 +85,32 @@ model WrittenSubmission {
   @@index([userId])
   @@map("written_submissions")
 }
+
+enum StudyWorkKind {
+  td
+  concours
+  probleme
+}
+
+enum StudyWorkTranscriptionStatus {
+  ok
+  partial
+  limited
+}
+
+/// Copie personnelle associée à un TD ou à une annale du catalogue.
+model StudyWork {
+  userId     String        @db.Uuid
+  kind       StudyWorkKind
+  resourceId String        @db.VarChar(500)
+  title      String?       @db.VarChar(240)
+  latex      String        @db.Text
+  transcriptionStatus StudyWorkTranscriptionStatus?
+  photo      Bytes?
+  photoType  String?       @db.VarChar(16)
+  updatedAt  DateTime      @updatedAt
+
+  @@id([userId, kind, resourceId])
+  @@index([userId, updatedAt(sort: Desc)])
+  @@map("study_work")
+}

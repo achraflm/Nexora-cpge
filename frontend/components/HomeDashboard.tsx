@@ -5,6 +5,7 @@ import { ActivityBar } from './ActivityBar'
 import { CpgeBadge } from './CpgeBadge'
 import { StreakBadge } from './ui/streak-badge'
 import type { UserProfile } from '@/lib/auth'
+import type { RecentDocument } from '@/lib/study-activity'
 export interface DashboardData {
   today: string
   year: number
@@ -12,8 +13,11 @@ export interface DashboardData {
   subjects: { code: string; name: string; studyMinutes: number; lessonsRead: number; exercisesSolved: number }[]
   streak: { current: number; longest: number }
   heatmap: { date: string; minutes: number }[]
-  recent: { date: string; subject: string; minutes: number; lessons: number; exercises: number }[]
+  recentDocuments: RecentDocument[]
 }
+
+const recentDate = new Intl.DateTimeFormat('fr-FR', { timeZone: 'Africa/Casablanca', day: 'numeric', month: 'short', year: 'numeric' })
+const documentLabels = { course: 'Cours', td: 'Travaux dirigés', statement: 'Énoncé', correction: 'Corrigé' }
 
 function SectionHeading({ title, action, onAction }: { title: string; action?: string; onAction?: () => void }) {
   return (
@@ -75,6 +79,12 @@ function RevisionChart({data}:{data:DashboardData|null}) {
               <dd className="whitespace-nowrap font-bold tabular-nums">{duration(axis.minutes)}</dd>
             </div>
           ))}
+          {data?.subjects.filter(subject => subject.code === 'LANG' && subject.studyMinutes > 0).map(subject => (
+            <div key={subject.code} className="flex justify-between gap-2">
+              <dt className="text-slate-500 dark:text-slate-400">{subject.name}</dt>
+              <dd className="whitespace-nowrap font-bold tabular-nums">{duration(subject.studyMinutes)}</dd>
+            </div>
+          ))}
         </dl>
         <p className="text-[11px] text-slate-500 dark:text-slate-400">Même échelle sur les quatre axes · 0 à {maximum/60} h</p>
       </div>
@@ -94,9 +104,15 @@ function StatCard({ icon: Icon, label, value }: { icon: React.ComponentType<{ cl
   )
 }
 
-export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:DashboardData|null; onNavigate:(tab:'cours'|'annales'|'problemes'|'qcm')=>void}) {
+export function HomeDashboard({ user, data, onNavigate, onOpenDocument, onRetry }: {
+  user: UserProfile
+  data: DashboardData | null
+  onNavigate: (tab: 'cours' | 'annales' | 'problemes' | 'qcm') => void
+  onOpenDocument: (document: RecentDocument) => void
+  onRetry: () => void
+}) {
  const progress=Math.min(100,Math.round((data?.totals.lessonsRead || 0)/40*100))
- const recentActivities=(data?.recent || []).slice(0, 4).map(d=>({subject:d.subject,title:d.date,type:`${d.lessons} leçons · ${d.exercises} exercices · ${d.minutes} min`,status:'Enregistré',tone:'green'}))
+ const recentDocuments = data?.recentDocuments ?? []
  const goals=[
  {id:'lessons',title:'Approfondir les cours',detail:`${data?.totals.lessonsRead || 0} leçons sur 40`,progress,icon:Layers3},
  {id:'regularity',title:'Objectif régularité',detail:`${data?.streak.current || 0} jours sur 20`,progress:Math.min(100,(data?.streak.current || 0)*5),icon:CalendarCheck},
@@ -109,7 +125,7 @@ export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:Da
               <div>
                 <p className="ui-eyebrow">Mon espace étudiant</p>
                 <h1 className="text-[26px] sm:text-[32px] text-[#101b33] dark:text-[#eaf2ff]">
-                  Bonjour {user?.name?.split(' ')[0] || 'Achraf'}.
+                  Bonjour {user.firstName || user.name.split(' ')[0]}.
                 </h1>
                 <p className="ui-page-description">Un cours à approfondir, un exercice à travailler. À vous de choisir.</p>
               </div>
@@ -122,7 +138,7 @@ export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:Da
             </div>
 
             {/* Glowing divider under header */}
-            <div className="glowing-divider mb-6" />{!data && <p role="alert">Statistiques indisponibles. <button onClick={() => window.location.reload()}>Réessayer</button></p>}{user.email.endsWith("@example.test") && <p className="mb-4 text-sm text-blue-500">Compte de démonstration · activités fictives.</p>}
+            <div className="glowing-divider mb-6" />{!data && <p role="alert">Statistiques indisponibles. <button className="underline" onClick={onRetry}>Réessayer</button></p>}{user.email.endsWith("@example.test") && <p className="mb-4 text-sm text-blue-500">Compte de démonstration · activités fictives.</p>}
 
             {/* Top Row: Profile Card, Radar Chart, Achievements with Glowing Edges */}
             <div className="student-overview grid grid-cols-1 gap-6 xl:grid-cols-[1.1fr_1.45fr_1fr]">
@@ -141,7 +157,7 @@ export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:Da
                 <div className="profile-card-content relative">
                   <p className="text-xs font-medium text-[#aab8d0]">Ma progression</p>
                   <h2 className="mt-1 flex flex-wrap items-center gap-2 text-xl font-bold">{user.name} <CpgeBadge badge={user.badge} userId={user.id} /></h2>
-                  <p className="mt-0.5 text-xs text-[#aab8d0]">CPGE · {user?.stream || 'MP'} · {user?.year || '2e année Spé'}</p>
+                  <p className="mt-0.5 text-xs text-[#aab8d0]">{['CPGE', user.stream, user.year].filter(Boolean).join(' · ')}</p>
 
                   <div className="mt-4 flex items-center gap-4">
                     <div className="relative flex size-[64px] shrink-0 items-center justify-center rounded-full border border-[#729bf2] text-xs font-bold shadow-none">
@@ -205,7 +221,7 @@ export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:Da
               {/* Revision History Table */}
               <section className="recent-study-card glowing-card rounded-2xl p-5 shadow-lg backdrop-blur-md bg-white/80 dark:bg-slate-900/75 border border-slate-200/60 dark:border-white/10">
                 <SectionHeading
-                  title="Dernières activités"
+                  title="Derniers documents consultés"
                   action="Voir les cours"
                   onAction={() => onNavigate('cours')}
                 />
@@ -214,38 +230,29 @@ export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:Da
                     <thead>
                       <tr className="border-b border-[#e4eaf3] text-xs font-bold uppercase tracking-wider text-[#71809A] dark:border-[#1b3152] dark:text-[#91a9c8]">
                         <th className="pb-3 font-semibold">Matière</th>
-                        <th className="pb-3 font-semibold">Leçon / Activité</th>
-                        <th className="pb-3 font-semibold">Statut</th>
+                        <th className="pb-3 font-semibold">Document</th>
+                        <th className="pb-3 font-semibold">Consulté le</th>
                         <th className="pb-3 text-right font-semibold">Action</th>
                       </tr>
                     </thead>
-                    <tbody>{!recentActivities.length && <tr><td colSpan={4} className="py-5">Vos prochaines activités apparaîtront ici.</td></tr>}
-                      {recentActivities.map((activity) => (
-                        <tr key={activity.title} className="border-b border-[#f0f3f8] last:border-0 dark:border-[#13233c]">
+                    <tbody>{!recentDocuments.length && <tr><td colSpan={4} className="py-5">{data ? 'Les documents que vous ouvrez apparaîtront ici.' : 'Historique indisponible.'}</td></tr>}
+                      {recentDocuments.map((document) => (
+                        <tr key={JSON.stringify([document.section, document.documentId, document.part])} className="border-b border-[#f0f3f8] last:border-0 dark:border-[#13233c]">
                           <td data-label="Matière" className="py-3 text-xs font-semibold text-[#172033] dark:text-[#eaf2ff]">
-                            {activity.subject}
+                            {document.subject}
                           </td>
                           <td data-label="Contenu" className="py-3">
-                            <p className="text-xs font-semibold text-[#172033] dark:text-[#eaf2ff]">{activity.title}</p>
-                            <p className="mt-0.5 text-xs text-[#71809A] dark:text-[#91a9c8]">{activity.type}</p>
+                            <p className="text-xs font-semibold text-[#172033] dark:text-[#eaf2ff]">{document.title}</p>
+                            <p className="mt-0.5 text-xs text-[#71809A] dark:text-[#91a9c8]">{documentLabels[document.part]}</p>
                           </td>
-                          <td data-label="État" className="py-3">
-                            <span
-                              className={`inline-flex rounded-md px-2 py-1 text-xs font-bold ${
-                                activity.tone === 'green'
-                                  ? 'bg-[#e8f7f1] text-[#16825f] shadow-none dark:bg-[#064e3b]/30 dark:text-[#34d399]'
-                                  : activity.tone === 'amber'
-                                  ? 'bg-[#fff5e2] text-[#a36d1b] shadow-none dark:bg-[#78350f]/30 dark:text-[#fbbf24]'
-                                  : 'bg-[#eaf1ff] text-[#2866dc] shadow-none dark:bg-[#1e3a8a]/30 dark:text-[#93c5fd]'
-                              }`}
-                            >
-                              {activity.status}
-                            </span>
+                          <td data-label="Consulté le" className="py-3 text-xs text-[#71809A] dark:text-[#91a9c8]">
+                            <time dateTime={document.openedAt}>{recentDate.format(new Date(document.openedAt))}</time>
                           </td>
                           <td data-label="Action" className="py-3 text-right">
                             <button
                               type="button"
-                              onClick={() => onNavigate('cours')}
+                              onClick={() => onOpenDocument(document)}
+                              aria-label={`Ouvrir ${document.title} (${documentLabels[document.part]})`}
                               className="inline-flex items-center gap-1 rounded-lg border border-[#3978F6]/30 bg-[#edf4ff] px-2.5 py-1 text-xs font-bold text-[#3978F6] shadow-none transition hover:bg-[#3978F6] hover:text-white hover:shadow-none dark:border-white/10 dark:bg-[#102342] dark:text-[#8db5ff]"
                             >
                               <span>Ouvrir</span>
@@ -263,8 +270,8 @@ export function HomeDashboard({user,data,onNavigate}: {user:UserProfile; data:Da
               <section className="glowing-card rounded-2xl p-5 shadow-lg backdrop-blur-md bg-white/80 dark:bg-slate-900/75 border border-slate-200/60 dark:border-white/10">
                 <SectionHeading title="Cette année" />
                 <div className="mt-5 grid grid-cols-2 gap-y-5">
-                  <StatCard icon={Clock} label="Heures de révision" value={`${Math.floor((data?.totals.studyMinutes || 0)/60)}h`} />
-                  <StatCard icon={PenTool} label="Copies rédigées" value={String(data?.totals.problemsWritten || 0)} />
+                  <StatCard icon={Clock} label="Temps de révision" value={`${Math.floor((data?.totals.studyMinutes || 0)/60)} h ${(data?.totals.studyMinutes || 0)%60} min`} />
+                  <StatCard icon={PenTool} label="Copies rendues" value={String(data?.totals.problemsWritten || 0)} />
                   <StatCard icon={Sparkles} label="QCM complétés" value={String(data?.totals.qcmCompleted || 0)} />
                   <StatCard icon={CheckCircle2} label="Exercices validés" value={String(data?.totals.exercisesSolved || 0)} />
                 </div>

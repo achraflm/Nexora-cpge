@@ -5,6 +5,8 @@ import { resourceFilters } from './external-resources'
 import { educationalResources } from './educational-resources'
 import { recoverConversions } from './resource-converter'
 import { classicalProblems } from './classical-problems'
+import { publishedCourses } from './published-courses'
+import { chapterMaterials } from './chapter-materials'
 
 /**
  * catalog-course-service (CDC 3.1 - service 2) — Sprint 2.
@@ -15,6 +17,7 @@ const router = Router()
 const todo = notImplemented('Sprint 2')
 router.use('/catalog/educational-resources', educationalResources)
 router.use('/catalog/classical-problems', classicalProblems)
+router.use('/catalog/chapter-materials', chapterMaterials)
 
 // Consultation (tout etudiant connecte ; aucune restriction Sup/Spe).
 router.get('/catalog/resources', async (req, res) => {
@@ -26,12 +29,11 @@ router.get('/catalog/resources', async (req, res) => {
   res.json({ resources, total: resources.length })
 })
 router.get('/catalog/subjects', todo)
-router.get('/catalog/chapters', todo) // ?subject=MATH&level=SUP|SPE&filiere=MP
+router.use('/catalog', publishedCourses)
 router.get('/catalog/chapters/:id', todo)
 router.get('/catalog/lessons/:id', todo)
 router.get('/catalog/lessons/:id/exercises', todo) // ?mode=PDF|BIBMATH
 router.get('/catalog/exercises/:id', todo)
-router.post('/catalog/exercises/:id/attempts', todo) // auto-evaluation -> evenement analytics
 router.get('/catalog/books', todo) // ?subject&filiere&level
 router.get('/catalog/books/:id', todo)
 
